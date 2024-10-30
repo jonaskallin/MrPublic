@@ -1,0 +1,26 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="fuse.team" id="fix-manage-metrics-info-function" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+        <createProcedure><![CDATA[
+            create or replace function manage_metrics_info(prevcount int, nextcount int) returns void as $$
+
+            declare currpartname text;
+            declare actualpartname text;
+
+            begin
+                select generate_partitions('metrics_info', prevcount, nextcount) into currpartname;
+                select tablename into actualpartname from pg_indexes where indexname = 'idx_metrics_info_data_digest_timestamp';
+
+                if not found or actualpartname <> currpartname then
+                    drop index if exists idx_metrics_info_data_digest_timestamp;
+                    execute 'CREATE INDEX idx_metrics_info_data_digest_timestamp ON ' || currpartname || '(data_digest, timestamp, expiration_timestamp);';
+                end if;
+            end;
+            $$ language plpgsql strict;
+        ]]></createProcedure>
+    </changeSet>
+
+</databaseChangeLog>

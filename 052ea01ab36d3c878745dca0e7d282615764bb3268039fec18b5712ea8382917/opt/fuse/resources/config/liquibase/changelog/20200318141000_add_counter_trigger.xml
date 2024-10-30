@@ -1,0 +1,76 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="fuse.team" id="add-counter-trigger" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+        <createTable tableName="row_count">
+            <column name="name"  type="varchar(64)">
+                <constraints primaryKey="true" primaryKeyName="row_count_PK" />
+            </column>
+            <column name="value" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <sql>
+            INSERT INTO row_count (name, value) VALUES
+            ('EVENT_WARNING', (select count(*) from event where severity='WARNING')),
+            ('EVENT_INFO', (select count(*) from event where severity='INFO')),
+            ('EVENT_ERROR', (select count(*) from event where severity='ERROR')),
+            ('JOB_EXECUTION_NOT_STARTED', (select count(*) from job_execution where status='NOT_STARTED')),
+            ('JOB_EXECUTION_STARTED', (select count(*) from job_execution where status='STARTED')),
+            ('JOB_EXECUTION_FINISHED', (select count(*) from job_execution where status='FINISHED')),
+            ('JOB_EXECUTION_FAILED', (select count(*) from job_execution where status='FAILED')),
+            ('JOB_EXECUTION_CANCELED', (select count(*) from job_execution where status='CANCELED')),
+            ('JOB_EXECUTION_ERROR', (select count(*) from job_execution where status='ERROR')),
+            ('JOB_EXECUTION_SKIPPED', (select count(*) from job_execution where status='SKIPPED')),
+            ('JOB_EXECUTION_UNKNOWN', (select count(*) from job_execution where status='UNKNOWN'));
+        </sql>
+        <createProcedure>
+            BEGIN;
+                CREATE OR REPLACE FUNCTION adjust_event_count()
+                RETURNS TRIGGER AS
+                $$
+                    DECLARE
+                    BEGIN
+                    IF TG_OP = 'INSERT' THEN
+                        EXECUTE 'UPDATE row_count set value = (value + 1) where name = UPPER(CONCAT(''' || TG_TABLE_NAME || ''', ''_'', ''' || NEW.severity ||'''))';
+                        RETURN NEW;
+                    ELSIF TG_OP = 'DELETE' THEN
+                        EXECUTE 'UPDATE row_count set value = (value - 1) where name = UPPER(CONCAT(''' || TG_TABLE_NAME || ''', ''_'', ''' || OLD.severity || '''))';
+                        RETURN OLD;
+                    END IF;
+                    END;
+                $$
+                LANGUAGE 'plpgsql';
+
+                CREATE OR REPLACE FUNCTION adjust_job_execution_count()
+                RETURNS TRIGGER AS
+                $$
+                    DECLARE
+                    BEGIN
+                        IF TG_OP = 'INSERT' THEN
+                            EXECUTE 'UPDATE row_count set value = (value + 1) where name = UPPER(CONCAT(''' || TG_TABLE_NAME || ''', ''_'', ''' || NEW.status ||'''))';
+                            RETURN NEW;
+                        ELSIF TG_OP = 'DELETE' THEN
+                            EXECUTE 'UPDATE row_count set value = (value - 1) where name = UPPER(CONCAT(''' || TG_TABLE_NAME || ''', ''_'', ''' || OLD.status || '''))';
+                            RETURN OLD;
+                        ELSIF TG_OP = 'UPDATE' THEN
+                            EXECUTE 'UPDATE row_count set value = (value - 1) where name = UPPER(CONCAT(''' || TG_TABLE_NAME || ''', ''_'', ''' || OLD.status || '''))';
+                            EXECUTE 'UPDATE row_count set value = (value + 1) where name = UPPER(CONCAT(''' || TG_TABLE_NAME || ''', ''_'', ''' || NEW.status || '''))';
+                            RETURN NEW;
+                        END IF;
+                    END;
+                $$
+                LANGUAGE 'plpgsql';
+
+                CREATE TRIGGER row_event_count BEFORE INSERT OR DELETE ON event
+                    FOR EACH ROW EXECUTE PROCEDURE adjust_event_count();
+
+                CREATE TRIGGER row_job_execution_count BEFORE INSERT OR DELETE OR UPDATE ON job_execution
+                    FOR EACH ROW EXECUTE PROCEDURE adjust_job_execution_count();
+            COMMIT;
+        </createProcedure>
+    </changeSet>
+
+</databaseChangeLog>

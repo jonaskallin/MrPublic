@@ -1,0 +1,14 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="fuse.team" id="update-stale-metric-config-disable-email" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+        <sql>
+            UPDATE fuse_config
+            SET value = '{"threshold":0, "enabled":true, "sendMail": false}'
+            WHERE component='FUSE_ALERTS' AND type='stale_metric.warning';
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

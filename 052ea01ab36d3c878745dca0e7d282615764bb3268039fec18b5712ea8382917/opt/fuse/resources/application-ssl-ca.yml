@@ -1,0 +1,15 @@
+spring:
+  ssl:
+    bundle:
+      pem:
+        fuse:
+          truststore:
+            certificate: ./docker/ssl/ca.pem
+          keystore:
+            certificate: ./docker/ssl/fuse-ca-signed.pem
+            private-key: ./docker/ssl/private.key
+            private-key-password: changeit
+
+server:
+  ssl:
+    bundle: fuse

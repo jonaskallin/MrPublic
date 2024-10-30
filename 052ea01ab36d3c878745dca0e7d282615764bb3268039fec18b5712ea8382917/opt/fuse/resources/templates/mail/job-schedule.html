@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta http-equiv="Content-Type" content="text/html charset=UTF-8" />
+  <style>
+      @import url('https://fonts.googleapis.com/css?family=Montserrat');
+    </style>
+  <style>
+      /* Remove space around the email design. */
+     html,
+     body {
+         margin: 0 auto !important;
+         padding: 0 !important;
+         height: 100% !important;
+         width: 100% !important;
+     }
+     /* Stop Outlook resizing small text. */
+     * {
+       -ms-text-size-adjust: 100%;
+     }
+     /* Stop Outlook from adding extra spacing to tables. */
+     table,
+     td {
+       mso-table-lspace: 0pt !important;
+       mso-table-rspace: 0pt !important;
+     }
+     /* Use a better rendering method when resizing images in Outlook IE. */
+     img {
+       -ms-interpolation-mode:bicubic;
+     }
+      a {color: #bebf11;}
+      .message h1 a {color: white;}
+      h4 {color: #ffffff; margin-top: 10px; margin-bottom: 3px;}
+      .details p {margin-top: 0; margin-bottom: 10px;}
+      .details td {border-bottom: 2px solid #212234;}
+      .details tr:last-child td {border-bottom: 0;}
+      .multiple-details th {border-bottom: 2px solid #212234; padding: 0 5px 12px 5px;}
+      .multiple-details tbody tr td {padding-left: 5px; padding-right: 5px;}
+      .multiple-details tbody tr:first-child td {border-bottom: 0;}
+      .multiple-details tbody tr:last-child td {border-bottom: 2px solid #212234;}
+      .multiple-details tbody:nth-child(even) {background-color: #1e1e2f;}
+      .multiple-details .details td {border-bottom: 0px;}
+    </style>
+</head>
+<body width="100%" style="margin: 0; padding: 0 !important; mso-line-height-rule: exactly; background: #1e1e2f;font-family: 'Montserrat', Arial;">
+<div style="width:100%; background: #1e1e2f;font-family: 'Montserrat', Arial; text-align: center;">
+
+  <table style="width:100%;">
+  <tr style="width:100%;">
+  <td width="700">
+
+  <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="width:100%;max-width:700px;padding: 50px;text-align: center;margin: auto; background: #1e1e2f; font-family: 'Montserrat', Arial;">
+    <tbody style="width:100%;">
+    <tr style="width:100%;">
+      <td style="width:100%;">
+        <div class="logo" style="margin-bottom: 1.5em;">
+          <a th:href="${fuseUrl}" target="_blank" style="text-decoration: none;">
+            <img src="https://www.vilt-group.com/public/signature/fuse/logo.png" width="100px" style="width: 100px;" alt="fuse management central">
+          </a>
+        </div>
+        <!-- COLORS FOR BORDER error - #ed4f38 | warning - #f9e912 | success - #8cc63f -->
+        <table style="width: 100%; background: #26293d;
+                      -webkit-border-radius: 20px; -moz-border-radius: 20px; border-radius: 20px;
+                      padding: 3.5em 1.5em; text-align: center;
+                      font-size: 12px; color: #bdbdbd;">
+          <tbody style="width:100%;">
+          <tr style="width: 100%;">
+            <td style="width: 100%;">
+              <div class="message" style="margin-bottom: 35px;">
+                <img th:unless="${isMaintenanceWindow}" th:src="${'https://www.vilt-group.com/public/signature/fuse/scheduled_operations.png'}" width="80px" style="margin: 0 auto; width: 80px;" alt="Operation">
+                <img th:if="${isMaintenanceWindow}" th:src="${'https://www.vilt-group.com/public/signature/fuse/maintenance_windows.png'}" width="80px" style="margin: 0 auto; width: 80px;" alt="Maintenance Window">
+                <h1 style="font-size: 1.5em;margin-bottom: 35px; margin-top: 35px;font-family: 'Montserrat', Arial;" th:unless="${isMaintenanceWindow}">
+                  Scheduled Operation <span th:text="${actionType}"></span> - <span th:text="${jobName}"></span>
+                </h1>
+                <h1 style="font-size: 1.5em;margin-bottom: 35px; margin-top: 35px;font-family: 'Montserrat', Arial;" th:if="${isMaintenanceWindow}">
+                  Scheduled Maintenance Window <span th:text="${actionType}"></span> - <span th:text="${windowName}"></span>
+                </h1>
+              </div>
+            </td>
+          </tr>
+          <tr style="width: 100%;">
+            <td style="width: 100%;">
+              <table class="details" style="text-align: left; width: 100%;">
+                <tbody style="width: 100%;">
+                  <tr style="width: 100%;" th:if="${isMaintenanceWindow}">
+                    <td style="width:100%;border-bottom: 2px solid #212234;">
+                      <div style="width: 100%; float:left;" th:with="scheduleEditorUrl = ${fuseUrl + '/#/maintenance-windows?id=' + jobId}">
+                        <h4 style="color: #ffffff; margin-top: 10px; margin-bottom: 3px;font-family: 'Montserrat', Arial;">Name</h4>
+                        <a th:href="${scheduleEditorUrl}" style="color: #bebf11;">
+                          <p style="margin-top: 0; margin-bottom: 10px;font-family: 'Montserrat', Arial;" th:text="${windowName}"></p>
+                        </a>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr style="width: 100%;" th:unless="${isMaintenanceWindow}">
+                    <td style="width:100%;border-bottom: 2px solid #212234;">
+                      <div style="width: 100%; float:left;" th:with="scheduleEditorUrl = ${fuseUrl + '/#/scheduled-operations?tab=scheduled&id=' + jobId}">
+                        <h4 style="color: #ffffff; margin-top: 10px; margin-bottom: 3px;font-family: 'Montserrat', Arial;">Operation ID</h4>
+                        <a th:href="${scheduleEditorUrl}" style="color: #bebf11;">
+                          <p style="margin-top: 0; margin-bottom: 10px;font-family: 'Montserrat', Arial;" th:text="${jobId}"></p>
+                        </a>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr style="width: 100%;" th:if="${isMaintenanceWindow && description != ''}">
+                    <td style="width:100%;border-bottom: 2px solid #212234;">
+                      <div style="width: 100%; float:left;">
+                        <h4 style="color: #ffffff; margin-top: 10px; margin-bottom: 3px;font-family: 'Montserrat', Arial;">Description</h4>
+                        <p style="margin-top: 0; margin-bottom: 10px; color: #bdbdbd;font-family: 'Montserrat', Arial;" th:text="${description}"></p>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr style="width: 100%;">
+                    <td style="width:100%;border-bottom: 2px solid #212234;">
+                      <div style="width: 50%; float:left;">
+                        <h4 style="color: #ffffff; margin-top: 10px; margin-bottom: 3px;font-family: 'Montserrat', Arial;">Creator</h4>
+                        <p style="margin-top: 0; margin-bottom: 10px; color: #bdbdbd;font-family: 'Montserrat', Arial;" th:text="${username}"></p>
+                      </div>
+                      <div style="width: 50%; float:left;">
+                        <h4 style="color: #ffffff; margin-top: 10px; margin-bottom: 3px;font-family: 'Montserrat', Arial;">Creation date</h4>
+                        <p style="margin-top: 0; margin-bottom: 10px; color: #bdbdbd;font-family: 'Montserrat', Arial;" th:text="${T(io.vilt.fuse.utils.ExtensionsKt).instantToIntegrationChannelsTimezoneDateFormat(now, timeZone)}"></p>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr style="width: 100%;" th:if="${scheduleType}">
+                    <td style="width:100%;border-bottom: 2px solid #212234;">
+                      <div style="width: 50%; float:left;">
+                        <h4 style="color: #ffffff; margin-top: 10px; margin-bottom: 3px;font-family: 'Montserrat', Arial;">Schedule Type</h4>
+                        <p style="margin-top: 0; margin-bottom: 10px; color: #bdbdbd;font-family: 'Montserrat', Arial;" th:if="${scheduleType == 'SINGLE'}">Single</p>
+                        <p style="margin-top: 0; margin-bottom: 10px; color: #bdbdbd;font-family: 'Montserrat', Arial;" th:if="${scheduleType == 'RECURRING'}">Recurring</p>
+                      </div>
+                      <div style="width: 50%; float:left;">
+                        <h4 style="color: #ffffff; margin-top: 10px; margin-bottom: 3px;font-family: 'Montserrat', Arial;">Rolling</h4>
+                        <p style="margin-top: 0; margin-bottom: 10px; color: #bdbdbd;font-family: 'Montserrat', Arial;" th:if="${rolling == true}">Yes</p>
+                        <p style="margin-top: 0; margin-bottom: 10px; color: #bdbdbd;font-family: 'Montserrat', Arial;" th:unless="${rolling == true}">No</p>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr style="width: 100%;" th:if="${nextFireTime}">
+                    <td style="width:100%;border-bottom: 2px solid #212234;">
+                      <div style="width: 100%; float:left;">
+                        <h4 style="color: #ffffff; margin-top: 10px; margin-bottom: 3px;font-family: 'Montserrat', Arial;">Next Execution</h4>
+                        <p style="margin-top: 0; margin-bottom: 10px; color: #bdbdbd;font-family: 'Montserrat', Arial;" th:text="${T(io.vilt.fuse.utils.ExtensionsKt).instantToIntegrationChannelsTimezoneDateFormat(nextFireTime, timeZone)}"></p>
+                        <h4 style="color: #ffffff; margin-top: 10px; margin-bottom: 3px;font-family: 'Montserrat', Arial;" th:if="${scheduleType == 'RECURRING'}">Current Scheduling</h4>
+                        <p style="margin-top: 0; margin-bottom: 10px; color: #bdbdbd;font-family: 'Montserrat', Arial;" th:if="${scheduleType == 'RECURRING'}" th:text="${humanizedCron}"></p>
+                        <h4 style="color: #ffffff; margin-top: 10px; margin-bottom: 3px;font-family: 'Montserrat', Arial;" th:if="${isMaintenanceWindow}">Duration</h4>
+                        <p style="margin-top: 0; margin-bottom: 10px; color: #bdbdbd;font-family: 'Montserrat', Arial;" th:if="${isMaintenanceWindow}" th:text="${
+                          T(org.apache.commons.lang3.time.DurationFormatUtils).formatDurationWords(
+                            duration,
+                            true,
+                            true
+                          )
+                        }"></p>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <!-- Operations -->
+                  <tr style="width: 100%;" th:unless="${isMaintenanceWindow}">
+                    <td>
+                      <div>
+                        <table style="width:100%;text-align:left;border-collapse: collapse;margin-top:15px;" class="multiple-details">
+                          <tr style="width: 100%;">
+                            <td th:if="${rolling == true}" style="width: 5%;border-bottom: 2px solid #212234; padding: 0 5px 12px 5px;font-family: 'Montserrat', Arial;">
+                              <h4 style="color: #ffffff; margin-top: 0px; margin-bottom: 0px; font-family: 'Montserrat', Arial;">#</h4>
+                            </td>
+                            <td th:styleappend="${rolling == true ? 'width: 75%;' : 'width: 100%;'}" style="border-bottom: 2px solid #212234; padding: 0 5px 12px 5px;font-family: 'Montserrat', Arial;">
+                              <h4 style="color: #ffffff; margin-top: 0px; margin-bottom: 0px; font-family: 'Montserrat', Arial;">Operations</h4>
+                            </td>
+                            <td th:if="${rolling == true}" style="width:20%;border-bottom: 2px solid #212234; padding: 0 5px 12px 5px;font-family: 'Montserrat', Arial;">
+                              <h4 style="text-align:right; color: #ffffff; margin-top: 0px; margin-bottom: 0px; font-family: 'Montserrat', Arial;">Allowed to fail</h4>
+                            </td>
+                          </tr>
+                        </table>
+                        <table th:each="operation,iterStat: ${operations}" style="width:100%;" th:styleappend="${iterStat.odd ? 'background-color: #1e1e2f;' : ''} " class="multiple-details">
+                          <tr style="width:100%;">
+                            <td th:if="${rolling == true}" style="width: 5%;text-align:left; padding-left: 5px; padding-right: 5px;" th:styleappend="${iterStat.odd ? 'background-color: #1e1e2f;' : ''} ">
+                              <p style="color: #bdbdbd;font-family: 'Montserrat', Arial;" th:text="${iterStat.index + 1}">#1</p>
+                            </td>
+                            <td style="text-align:left; padding-left: 5px; padding-right: 5px;"
+                              th:style="${rolling == true ? 'width: 75%;' : 'width: 100%;'} "
+                              th:styleappend="${iterStat.odd ? 'background-color: #1e1e2f;' : ''} ">
+                              <p style="color: #bdbdbd;font-family: 'Montserrat', Arial;" th:text="${operation.jobName}">System Restart</p>
+                            </td>
+                            <td th:if="${rolling == true}" style="width: 20%;text-align:right; padding-left: 5px; padding-right: 5px;" th:styleappend="${iterStat.odd ? 'background-color: #1e1e2f;' : ''} ">
+                              <p style="color: #bdbdbd;font-family: 'Montserrat', Arial;" th:if="${operation.allowedToFail == true}">Yes</p>
+                              <p style="color: #bdbdbd;font-family: 'Montserrat', Arial;" th:unless="${operation.allowedToFail == true}">No</p>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td colspan="3" style="text-align: left; padding-right: 5px;border-bottom: 0px;"
+                              th:style="${rolling == true ? 'padding-left: 35px;' : 'padding-left: 5px;'} "
+                              th:styleappend="${iterStat.odd ? 'background-color: #1e1e2f;' : ''} ">
+                              <div th:if="${#lists.size(operation.environments) > 0}">
+                                <p style="margin-bottom: 10px; margin-top: 0; font-weight: bold; color: #ffffff; font-family: 'Montserrat', Arial;">Environments:</p>
+                                <div>
+                                  <span style="margin-bottom: 5px; display: inline-block;" th:each="entry: ${operation.environments}" th:with="
+                                    environmentUrl = ${fuseUrl + '/#/environments/' + entry.id + '/detail'}
+                                  ">
+                                    <img src="https://www.vilt-group.com/public/signature/fuse/environment.png" style="width: 20px; margin-top: -5px; position: relative; top: 5px;"/>
+                                    <a style="color: #bebf11;" th:href="${environmentUrl}" th:text="${entry.name}">PROD</a>
+                                  </span>
+                                </div>
+                              </div>
+                              <div th:if="${#lists.size(operation.systems) > 0}">
+                                <p style="margin-bottom: 10px; margin-top: 0; font-weight: bold; color: #ffffff; font-family: 'Montserrat', Arial;">Systems:</p>
+                                <p style="margin-top: 0; margin-bottom: 10px; color: #bdbdbd;font-family: 'Montserrat', Arial;" th:each="entry: ${operation.systems}" th:with="
+                                    systemUrl = ${fuseUrl + '/#/systems/' + entry.id + '/detail'},
+                                    environmentUrl = ${fuseUrl + '/#/environments/' + entry.environment.id + '/detail'}
+                                  ">
+                                  <img th:if="${entry.environment != null}" src="https://www.vilt-group.com/public/signature/fuse/environment.png" width="20px" style="width: 20px; margin-top: -5px; position: relative; top: 5px;"/>
+                                  <a style="color: #bebf11;" th:if="${entry.environment != null}" th:href="${environmentUrl}" th:text="${entry.environment.name}">PROD</a>
+                                  <img src="https://www.vilt-group.com/public/signature/fuse/system.png" width="20px" style="width: 20px; margin-top: -5px; position: relative; top: 5px;"/>
+                                  <a style="color: #bebf11;" th:href="${systemUrl}" th:text="${entry.name}"></a>
+                                </p>
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </div>
+                    </td>
+                  </tr>
+
+
+                  <tr style="width: 100%;" th:if="${isMaintenanceWindow && #lists.size(environments) > 0}">
+                    <td style="width:100%;">
+                      <div style="width: 100%; float:left;">
+                        <h4 style="color: #ffffff; margin-top: 10px; margin-bottom: 3px;font-family: 'Montserrat', Arial;">Applied To</h4>
+                        <p style="margin-top: 0; margin-bottom: 10px; color: #bdbdbd;font-family: 'Montserrat', Arial;" th:each="entry: ${systems}" th:with="
+                          systemUrl = ${fuseUrl + '/#/systems/' + entry.id + '/detail'},
+                          environmentUrl = ${fuseUrl + '/#/environments/' + entry.environment.id + '/detail'}
+                        ">
+                          <img th:if="${entry.environment != null}" src="https://www.vilt-group.com/public/signature/fuse/environment.png" width="20px" style="width: 20px; margin-top: -5px; position: relative; top: 5px;"/>
+                          <a style="color: #bebf11;" th:if="${entry.environment != null}" th:href="${environmentUrl}" th:text="${entry.environment.name}">PROD</a>
+                          <img src="https://www.vilt-group.com/public/signature/fuse/system.png" width="20px" style="width: 20px; margin-top: -5px; position: relative; top: 5px;"/>
+                          <a style="color: #bebf11;" th:href="${systemUrl}" th:text="${entry.name}"></a>
+                        </p>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <tr style="width: 100%;" th:if="${#lists.size(environments) > 0}">
+                    <td style="width:100%;">
+                      <table style="text-align: left; width: 100%;">
+                        <tbody style="width: 100%;">
+                          <tr style="width: 100%;" th:unless="${#lists.isEmpty(environments)}">
+                            <td style="width: 100%;border-bottom: 2px solid #212234;">
+                              <h4 style="color: #ffffff;margin-top: 10px;margin-bottom: 3px;font-family: 'Montserrat', Arial;">
+                                Environments
+                              </h4>
+                              <span style="margin-bottom: 5px; display: inline-block;" th:each="entry: ${environments}" th:with="
+                                    environmentUrl = ${fuseUrl + '/#/environments/' + entry.id + '/detail'}
+                                  ">
+                                    <img src="https://www.vilt-group.com/public/signature/fuse/environment.png" style="width: 20px; margin-top: -5px; position: relative; top: 5px;"/>
+                                    <a style="color: #bebf11;" th:href="${environmentUrl}" th:text="${entry.name}">PROD</a>
+                                  </span>
+                            </td>
+                          </tr>
+                          <tr style="width: 100%;" th:unless="${#lists.isEmpty(systems)}">
+                            <td style="width: 100%;border-bottom: 2px solid #212234;">
+                              <h4 style="color: #ffffff;margin-top: 10px;margin-bottom: 3px;font-family: 'Montserrat', Arial;">
+                                Systems
+                              </h4>
+                              <span style="margin-bottom: 5px; display: inline-block;" th:each="entry: ${systems}" th:with="
+                                    systemUrl = ${fuseUrl + '/#/systems/' + entry.id + '/detail'}
+                                  ">
+                                    <img src="https://www.vilt-group.com/public/signature/fuse/system.png" style="width: 20px; margin-top: -5px; position: relative; top: 5px;"/>
+                                    <a style="color: #bebf11;" th:href="${systemUrl}" th:text="${entry.name}">otcs-docker</a>
+                                  </span>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  </td>
+  </tr>
+  </table>
+
+</div>
+</body>
+</html>

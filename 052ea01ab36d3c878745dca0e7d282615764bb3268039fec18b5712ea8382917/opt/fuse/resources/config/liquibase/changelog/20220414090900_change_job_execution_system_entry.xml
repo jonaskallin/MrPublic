@@ -1,0 +1,68 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="fuse.team" id="change-job-execution-system-entry" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+
+        <dropUniqueConstraint tableName="job_execution_system_entry" constraintName="unique_job_execution_entry_id_system_id" />
+        <dropNotNullConstraint tableName="job_execution_system_entry" columnName="system_id" />
+        <dropForeignKeyConstraint baseTableName="job_execution_system_entry" constraintName="job_execution_system_entry_system_FX" />
+        <renameTable oldTableName="job_execution_system_entry" newTableName="job_execution_entry"/>
+
+        <createTable tableName="job_execution_entry_system">
+            <column name="id" type="uuid">
+                <constraints nullable="false"/>
+            </column>
+            <column name="job_execution_entry_id" type="uuid">
+                <constraints nullable="false"/>
+            </column>
+            <column name="system_id" type="uuid">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="job_execution_entry_system"
+                                 baseColumnNames="job_execution_entry_id"
+                                 constraintName="job_execution_entry_system_entry_FX"
+                                 referencedTableName="job_execution_entry"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="job_execution_entry_system"
+                                 baseColumnNames="system_id"
+                                 constraintName="job_execution_entry_system_system_FX"
+                                 referencedTableName="system"
+                                 referencedColumnNames="id"/>
+
+        <createTable tableName="job_execution_entry_environment">
+            <column name="id" type="uuid">
+                <constraints nullable="false"/>
+            </column>
+            <column name="job_execution_entry_id" type="uuid">
+                <constraints nullable="false"/>
+            </column>
+            <column name="environment_id" type="uuid">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="job_execution_entry_environment"
+                                 baseColumnNames="job_execution_entry_id"
+                                 constraintName="job_execution_entry_environment_entry_FX"
+                                 referencedTableName="job_execution_entry"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="job_execution_entry_environment"
+                                 baseColumnNames="environment_id"
+                                 constraintName="job_execution_entry_system_environment_FX"
+                                 referencedTableName="environment"
+                                 referencedColumnNames="id"/>
+
+        <sql>
+            insert into job_execution_entry_system (id, job_execution_entry_id, system_id)
+            select uuid_generate_v4(), id, system_id from job_execution_entry
+        </sql>
+
+        <dropColumn tableName="job_execution_entry" columnName="system_id" />
+        <addColumn tableName="job_execution_entry">
+            <column name="file_data" type="blob" />
+            <column name="file_type" type="varchar(50)" />
+        </addColumn>
+
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,43 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="fuse.team" id="add-check-timestamp-constraint-metrics-info" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+        <sql>
+            ALTER TABLE metrics_info
+            ADD CONSTRAINT check_metrics_info_expiration_timestamp CHECK (expiration_timestamp > timestamp);
+        </sql>
+    </changeSet>
+
+    <changeSet author="fuse.team" id="update-or-delete-metrics-info" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+        <createProcedure>
+            CREATE OR REPLACE PROCEDURE updateExpirationTimestampOrDelete(text, uuid, text, date, timestamp)
+            LANGUAGE plpgsql
+            AS $$
+                BEGIN
+                    UPDATE metrics_info
+                    SET
+                        expiration_timestamp = $5
+                    WHERE
+                        system_type = $1 and
+                        system_id = $2 and
+                        metrics_type = $3 and
+                        partition = $4 and
+                        $5 >= timestamp and
+                        expiration_timestamp > $5;
+                    EXCEPTION WHEN integrity_constraint_violation THEN
+                        DELETE from metrics_info
+                        WHERE
+                            system_type = $1 and
+                            system_id = $2 and
+                            metrics_type = $3 and
+                            partition = $4 and
+                            $5 >= timestamp  and
+                            expiration_timestamp > $5;
+                END;
+            $$;
+        </createProcedure>
+    </changeSet>
+
+</databaseChangeLog>

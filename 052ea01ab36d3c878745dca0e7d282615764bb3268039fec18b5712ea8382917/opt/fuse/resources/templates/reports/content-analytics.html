@@ -1,0 +1,23 @@
+<div th:fragment="content-analytics (indexN, charts)">
+  <h5>[[${indexN}]] | Content Analytics</h5>
+  <p>
+    This chapter provides a detailed view of document growth and content usage trends across the various storage providers.
+  </p>
+
+  <h5>[[${indexN}]].1 | Storage Growth</h5>
+  <p>
+    The chart below illustrates the storage usage over time, categorized by storage provider.
+  </p>
+
+
+  <img th:src="@{'data:image/jpeg;base64,'+${charts.getCharts().get('Storage Growth')}}" class="chart" alt=""/>
+
+  <h5>[[${indexN}]].2 | Document Growth</h5>
+  <p>
+    The chart below illustrates the growth of documents and their versions over time, categorized by storage provider.
+  </p>
+
+
+  <img th:src="@{'data:image/jpeg;base64,'+${charts.getCharts().get('Document Growth')}}" class="chart" alt=""/>
+
+</div>

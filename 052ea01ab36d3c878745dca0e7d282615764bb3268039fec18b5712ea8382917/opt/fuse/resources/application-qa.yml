@@ -1,0 +1,50 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://fuse-database:5432/postgres
+    username: postgres
+    password: liberty09!
+    hikari:
+      maximum-pool-size: 30
+  mail:
+    host: mail
+    port: 1025
+prometheus:
+  base-uri: http://fuse-prometheus:9090
+
+alertmanager:
+  base-uri: http://fuse-alertmanager:9093
+
+license:
+  otcs-path:
+    - file:./license/otcs-key.license
+    - classpath:license/otcs-key.license
+  otac-path:
+    - file:./license/otac-key.license
+    - classpath:license/otac-key.license
+
+logging:
+  level:
+    root: INFO
+    "io.vilt.fuse": INFO
+    "org.springframework.web": INFO
+    "liquibase": WARN
+    "org.apache.catalina": WARN
+    "org.hibernate": WARN
+    "org.hibernate.engine.jdbc.spi.SqlExceptionHelper": OFF
+    "org.quartz": WARN
+    "org.springframework": WARN
+    "com.vladmihalcea.hibernate.type": WARN
+    "com.zaxxer.hikari": WARN
+
+service-now:
+  roles:
+    - admin
+    - itil_admin
+    - itil
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

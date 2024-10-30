@@ -1,0 +1,71 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="fuse.team" id="fix-generate-partitions-function" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+        <createProcedure><![CDATA[
+            create or replace function fix_partitions(tablename text) returns void as $$
+
+            declare p record;
+
+            begin
+                -- delete partitions that are no longer needed
+                for p in
+                    -- parse date from partition table name
+                    select to_date(substring(i.inhrelid::regclass::text from '\_(\d{4}\_\d{2}\_\d{2})'), 'YYYY_MM_DD') as partitiondate
+                    from pg_class c
+                    join pg_inherits i on i.inhrelid = c.oid
+                    where i.inhparent = tablename::regclass and c.relpersistence = 'u'
+                loop
+                    execute 'alter table ' || tablename || '_' || to_char(p.partitiondate, 'YYYY_MM_DD') || ' set logged';
+                end loop;
+
+            end;
+            $$ language plpgsql strict;
+        ]]></createProcedure>
+
+        <sql>
+            select fix_partitions('metrics_info');
+            select fix_partitions('event');
+            drop function fix_partitions;
+        </sql>
+
+        <createProcedure><![CDATA[
+            create or replace function generate_partitions(tablename text, prevcount int, nextcount int) returns text as $$
+
+            declare startdate date := current_date - make_interval(days := prevcount);
+            declare enddate date := current_date + make_interval(days := nextcount);
+            declare p record;
+
+            begin
+                -- delete partitions that are no longer needed
+                for p in
+                    -- parse date from partition table name
+                    select to_date(substring(i.inhrelid::regclass::text from '\_(\d{4}\_\d{2}\_\d{2})'), 'YYYY_MM_DD') as partitiondate
+                    from pg_inherits i
+                    where i.inhparent = tablename::regclass
+                loop
+                    if p.partitiondate < startdate or p.partitiondate > enddate then
+                        execute 'drop table ' || tablename || '_' || to_char(p.partitiondate, 'YYYY_MM_DD');
+                    end if;
+                end loop;
+
+                -- create all necessary partitions
+                loop
+                    execute 'create table if not exists ' || tablename || '_' || to_char(startdate, 'YYYY_MM_DD')
+                        || ' partition of ' || tablename || ' for values from (''' || to_char(startdate, 'YYYY-MM-DD') || ''')'
+                        || ' to (''' || to_char(startdate + make_interval(days := 1), 'YYYY-MM-DD') || ''')';
+
+                    startdate := startdate + make_interval(days := 1);
+                    exit when startdate = enddate;
+                end loop;
+
+                -- return current partition name
+                return tablename || '_' || to_char(current_date, 'YYYY_MM_DD');
+            end;
+            $$ language plpgsql strict;
+        ]]></createProcedure>
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,14 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="fuse.team" id="add-fuse-client-otcs-sp-test-binary-alerts" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+        <insert tableName="fuse_config">
+            <column name="component" value="FUSE_ALERTS"/>
+            <column name="type" value="fuse_client_otcs_sp_test_binary.error"/>
+            <column name="value" value='{"enabled": true, "sendMail": true, "threshold": 1, "sendServiceNow": true, "forSeconds":30}'/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

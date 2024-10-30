@@ -1,0 +1,17 @@
+spring:
+  ssl:
+    bundle:
+      jks:
+        fuse:
+          keystore:
+            location: ./docker/ssl/fuse-self-signed.jks
+            password: changeit
+            type: PKCS12
+
+server:
+  ssl:
+    bundle: fuse
+
+http-client:
+  ssl:
+    trust-self-signed: true

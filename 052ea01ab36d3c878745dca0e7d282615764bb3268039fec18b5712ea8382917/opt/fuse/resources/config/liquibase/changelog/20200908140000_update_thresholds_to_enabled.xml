@@ -1,0 +1,24 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="fuse.team" id="update-thresholds-to-enabled" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+        <createProcedure>
+            DO $$
+                DECLARE
+                    r fuse_config%ROWTYPE;
+                BEGIN
+                    FOR r IN
+                        SELECT * FROM fuse_config
+                    LOOP
+                        UPDATE fuse_config
+                        SET value = CONCAT(RTRIM(r.value, '}'), ', "enabled": true }')
+                        WHERE component = 'FUSE_ALERTS' AND type = r.type;
+                    END LOOP;
+                END;
+            $$;
+        </createProcedure>
+    </changeSet>
+
+</databaseChangeLog>

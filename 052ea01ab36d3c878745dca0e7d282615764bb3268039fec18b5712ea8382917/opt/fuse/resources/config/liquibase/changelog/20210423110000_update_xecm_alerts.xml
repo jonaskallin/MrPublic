@@ -1,0 +1,22 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="fuse.team" id="update-xecm-alerts" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+
+        <sql>
+            UPDATE fuse_config
+            SET value = '{"threshold": 0, "forSeconds": 300, "enabled": true , "sendMail": true }'
+            WHERE component = 'FUSE_ALERTS' and type IN ('extendedecm_system_status.error', 'extendedecm_system_auth_status.error', 'extendedecm_job_status.error');
+
+            UPDATE fuse_config
+            SET value = '{"threshold": 1, "forSeconds": 300, "enabled": true , "sendMail": true }'
+            WHERE component = 'FUSE_ALERTS' and type = 'extendedecm_job_error_items.warning';
+
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>
+
+

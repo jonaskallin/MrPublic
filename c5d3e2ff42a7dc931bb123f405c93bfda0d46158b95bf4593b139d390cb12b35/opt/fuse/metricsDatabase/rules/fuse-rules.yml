@@ -1,0 +1,82 @@
+groups:
+  - name: fuse-performance-rules
+    interval: 1m
+    rules:
+      - record: system_env:otcs_thread_queue_depth_in:avg_perf
+        expr: |
+          1 - clamp_max(avg by (systemId, envId) (avg_over_time(otcs_thread_queue_depth_in[1m])) / 2, 1)
+          or avg by (systemId, envId) (otcs_heartbeat_up)
+      - record: system_env:otcs_thread_execution_time:avg_perf
+        expr: |
+          1 - clamp_min(clamp_max((avg by (systemId, envId) (rate(otcs_thread_execution_time_total[1m])) - 0.6) / (5 - 0.6), 1), 0)
+          or avg by (systemId, envId) (otcs_heartbeat_up)
+      - record: system_env:otcs_thread_execution_time:le1_perf
+        expr: |
+          clamp_max(
+            sum by (systemId, envId) (sum_over_time(system_env:otcs_thread_request_execution_time:le1_count[1m])) /
+            (sum by (systemId, envId) (sum_over_time(system_env:otcs_thread_request_execution_time:count[1m])) > 0) /
+            0.93,
+          1)
+          or avg by (systemId, envId) (otcs_heartbeat_up)
+      - record: system_env:otcs_thread_execution_time:le5_perf
+        expr: |
+          clamp_max(
+            sum by (systemId, envId) (sum_over_time(system_env:otcs_thread_request_execution_time:le5_count[1m])) /
+            (sum by (systemId, envId) (sum_over_time(system_env:otcs_thread_request_execution_time:count[1m])) > 0) /
+            0.35,
+          1)
+          or avg by (systemId, envId) (otcs_heartbeat_up)
+      - record: system_env:perf
+        expr: |
+              system_env:otcs_thread_execution_time:le1_perf * 0.3 +
+              system_env:otcs_thread_execution_time:le5_perf * 0.275 +
+              system_env:otcs_thread_queue_depth_in:avg_perf * 0.2 +
+              system_env:otcs_thread_execution_time:avg_perf * 0.225
+      - record: system_env:otcs_thread_busy:ratio:avg_1h
+        expr: avg_over_time(system_env:otcs_thread_busy:ratio[1h])
+      - record: system_env:otcs_heartbeat_up:max_1h
+        expr: max_over_time(otcs_heartbeat_up[1h])
+  - name: fuse-report-rules
+    interval: 1h
+    rules:
+      - record: fuse_alert_count_total:max_1h
+        expr: max_over_time(fuse_alert_count_total[1h])
+      - record: fuse_alert_lasted_time_total:rate_1h
+        expr: rate(fuse_alert_lasted_time_total[1h])
+      - record: fuse_alert_count_total:rate_1h
+        expr: rate(fuse_alert_count_total[1h])
+      - record: fuse_alert_lasted_time_total:max_1h
+        expr: max_over_time(fuse_alert_lasted_time_total[1h])
+      - record: otcs_queuetables_d_tree_notify:avg_1h
+        expr: avg_over_time(otcs_queuetables_d_tree_notify[1h])
+      - record: otcs_queuetables_ll_event_queue:avg_1h
+        expr: avg_over_time(otcs_queuetables_ll_event_queue[1h])
+      - record: otcs_queuetables_notify_events:avg_1h
+        expr: avg_over_time(otcs_queuetables_notify_events[1h])
+      - record: otcs_queuetables_notify_messages:avg_1h
+        expr: avg_over_time(otcs_queuetables_notify_messages[1h])
+      - record: otcs_queuetables_provider_retry:avg_1h
+        expr: avg_over_time(otcs_queuetables_provider_retry[1h])
+      - record: otcs_queuetables_rendition_queue:avg_1h
+        expr: avg_over_time(otcs_queuetables_rendition_queue[1h])
+      - record: otcs_queuetables_worker_queue:avg_1h
+        expr: avg_over_time(otcs_queuetables_worker_queue[1h])
+      - record: otcs_queuetables_worker_queue_pending:avg_1h
+        expr: avg_over_time(otcs_queuetables_worker_queue_pending[1h])
+      - record: otcs_thread_request_execution_time_current:max_1h
+        expr: max_over_time(otcs_thread_request_execution_time_current[1h])
+      - record: system_env:perf:avg_1h
+        expr: avg_over_time(system_env:perf[1h])
+      - record: otcs_heartbeat_up:max_1h
+        expr: max_over_time(otcs_heartbeat_up[1h])
+      - record: otcs_heartbeat_up:sum_1h
+        expr: sum_over_time(otcs_heartbeat_up[1h])
+      - record: fuse_system_active:sum_1h
+        expr: sum_over_time(fuse_system_active[1h])
+      - record: fuse_system_active:count_1h
+        expr: count_over_time(fuse_system_active[1h])
+  - name: otcs-storage-provider-storage
+    interval: 24h
+    rules:
+      - record: otcs_storage_provider_document_size:max_24h
+        expr: max_over_time(otcs_storage_provider_document_size[24h])

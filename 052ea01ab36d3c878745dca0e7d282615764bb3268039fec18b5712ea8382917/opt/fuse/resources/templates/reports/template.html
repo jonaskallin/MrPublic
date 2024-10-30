@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" content="">
+    <title>Service Report</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" type="text/css" href="montserrat/style.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+  </head>
+  <body>
+    <div class="headerLeft">
+      <img src="fuse-logo.png" class="logo-header" alt="fuse Management Central"/>
+    </div>
+    <div class="headerRight">
+      <span>Service Report</span>
+    </div>
+    <div class="footerLeft">
+      [[${#temporals.format(data.getDate(), data.dateFormat)}]]
+    </div>
+    <div class="footerCenter">
+      [[${#temporals.format(data.getStartPeriod(), data.dateFormat)}]] to [[${#temporals.format(data.getEndPeriod(), data.dateFormat)}]]
+      (<b>[[${data.periodDuration}]]</b>)
+    </div>
+    <div class="footerRight">
+      Page <span class="pagenumber"><span class="d-none">Ignore trimming</span></span> of <span class="pagecount"><span class="d-none">Ignore trimming</span></span>
+    </div>
+
+    <div class="cover">
+      <div class="cover-header">
+        <img src="fuse-logo.png" class="logo" alt="fuse Management Central"/>
+        <div class="top-right-message">
+          <span class="d-none">Ignore trimming</span>
+        </div>
+      </div>
+      <div class="cover-body">
+        <h1>[[${data.getCustomerName()}]]</h1>
+        <h2>Service Report</h2>
+        <p class="h3-style">[[${#temporals.format(data.getDate(), 'dd MMM yyyy')}]]</p>
+        <p class="h4-style">Timezone UTC[[${data.getUtc()}]]</p>
+      </div>
+      <div class="cover-bottom">
+        <div class="message">
+          If you have questions or comments about this report, please contact your Fuse Management Central administrator.
+        </div>
+        <div class="overview">
+          <p>
+            This is an automatically generated Service Report, describing <b>[[${data.getCustomerName()}]]</b> OpenText
+            application status, availability and performance, covering the period from
+            <b th:text="${#temporals.format(data.getStartPeriod(), data.dateFormat)}">12 May 2020 (UTC[[${data.getUtc()}]])</b>
+            <b>(UTC</b><b th:text="${data.getUtc()}">+00:00</b><b>)</b> to
+            <b th:text="${#temporals.format(data.getEndPeriod(), data.dateFormat)}">15 May 2020 (UTC[[${data.getUtc()}]])</b>
+            <b>(UTC</b><b th:text="${data.getUtc()}">+00:00</b><b>)</b>.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <div th:include="reports/overview::overview"></div>
+
+      <div class="next-page" th:include="reports/management-summary::management-summary"></div>
+
+      <div
+        class="next-page"
+        th:if="${#lists.contains(data.getSystemsTypes(), 'OTCS')}"
+        th:include="reports/systems-data::otcs"></div>
+      <div
+        class="next-page"
+        th:if="${#lists.contains(data.getSystemsTypes(), 'OTAC')}"
+        th:include="reports/systems-data::otac"></div>
+
+    </div>
+  </body>
+</html>

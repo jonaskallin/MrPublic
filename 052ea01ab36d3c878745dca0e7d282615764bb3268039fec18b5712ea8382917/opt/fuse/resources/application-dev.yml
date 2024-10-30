@@ -1,0 +1,50 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: liberty09!
+  thymeleaf:
+    prefix: file:fuse-app/src/main/resources/templates/
+    cache: false
+
+logging:
+  level:
+    root: INFO
+    "io.vilt.fuse": INFO
+    "org.springframework.web": INFO
+    "liquibase": WARN
+    "org.apache.catalina": WARN
+    "org.hibernate": WARN
+    "org.hibernate.engine.jdbc.spi.SqlExceptionHelper": OFF
+    "org.quartz": WARN
+    "org.springframework": WARN
+    "com.vladmihalcea.hibernate.type": WARN
+    "com.zaxxer.hikari": WARN
+
+prometheus:
+  base-uri: http://localhost:9090
+
+alertmanager:
+  base-uri: http://localhost:9093
+
+grafana:
+  dashboard:
+    base-uris:
+      - file:./docker/grafana/provisioning/dashboards
+      - classpath:grafana/provisioning/dashboards
+
+encryptor:
+  password: s3cr3t
+
+service-now:
+  roles:
+    - admin
+    - itil_admin
+    - itil
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

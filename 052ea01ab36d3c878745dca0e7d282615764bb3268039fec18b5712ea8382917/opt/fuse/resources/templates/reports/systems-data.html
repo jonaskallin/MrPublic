@@ -1,0 +1,34 @@
+<div th:fragment="otcs">
+  <th:block th:with="
+    indexN='3',
+    charts=${data.getReportOTCSData()},
+    systemType='OTCS'
+  ">
+    <h4>[[${indexN}]] | OpenText Content Server</h4>
+    <p>
+      The following chapter describes key performance metrics, health indicators, and an overview of alerts for OpenText Content Server systems.
+    </p>
+
+    <div th:include="reports/alerts::alerts (${indexN} + '.1', ${charts})"></div>
+    <div th:include="reports/performance-availability::performance-availability (${indexN} + '.2', ${charts}, ${systemType})"></div>
+    <div th:include="reports/host-resources::host-resources (${indexN} + '.3', ${charts})"></div>
+    <div th:include="reports/content-analytics::content-analytics (${indexN} + '.4', ${charts})"></div>
+  </th:block>
+</div>
+
+<div th:fragment="otac">
+  <th:block th:with="
+    indexN=${#lists.contains(data.getSystemsTypes(), 'OTCS')}?'4':'3',
+    charts=${data.getReportOTACData()},
+    systemType='OTAC'
+  ">
+    <h4>[[${indexN}]] | OpenText Archive Center</h4>
+    <p>
+      The following chapter describes key performance metrics, health indicators, and an overview of alerts for OpenText Archive Center systems.
+    </p>
+
+    <div th:include="reports/alerts::alerts (${indexN} + '.1', ${charts})"></div>
+    <div th:include="reports/performance-availability::performance-availability (${indexN} + '.2', ${charts}, ${systemType})"></div>
+    <div th:include="reports/host-resources::host-resources (${indexN} + '.3', ${charts})"></div>
+  </th:block>
+</div>

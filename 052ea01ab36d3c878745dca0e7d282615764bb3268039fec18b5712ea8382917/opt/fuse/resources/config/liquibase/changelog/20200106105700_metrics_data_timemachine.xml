@@ -1,0 +1,58 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="fuse.team" id="metrics-data-timemachine" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+        <dropNotNullConstraint tableName="metrics_info" columnName="data" />
+        <dropPrimaryKey tableName="metrics_info" constraintName="pk_metrics_info" />
+        <addPrimaryKey columnNames="system_type, system_id, metrics_type, timestamp" constraintName="pk_metrics_info" tableName="metrics_info" />
+    </changeSet>
+
+    <changeSet author="fuse.team" id="metrics-data-add-expiration-timestamp" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+        <sql>
+            with metrics_type_rate as (
+                select metrics_type, max(rate_seconds) as rate_seconds from metrics_info
+                group by metrics_type
+            )
+            update metrics_info mi
+            set rate_seconds = (select mtr.rate_seconds from metrics_type_rate mtr where mtr.metrics_type = mi.metrics_type)
+            where rate_seconds is null
+        </sql>
+        <addColumn tableName="metrics_info">
+            <column name="expiration_timestamp" type="timestamp" valueComputed="timestamp + make_interval(secs => rate_seconds * 2)" />
+        </addColumn>
+        <sql><![CDATA[
+            -- ensures we don't have two entries for same metric and system that intercept
+            update metrics_info m
+            set expiration_timestamp = (
+                select min(m2.timestamp)
+                from metrics_info m2
+                where
+                    m.system_id = m.system_id and m.metrics_type = m2.metrics_type and
+                    m.timestamp < m2.timestamp and m.expiration_timestamp > m2.timestamp
+            )
+            where exists (
+                select *
+                from metrics_info m2
+                where
+                m.system_id = m.system_id and m.metrics_type = m2.metrics_type and
+                m.timestamp < m2.timestamp and m.expiration_timestamp > m2.timestamp
+            );
+        ]]></sql>
+    </changeSet>
+
+    <changeSet author="fuse.team" id="metrics-data-delete-unnecessary-entries" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+        <sql>
+            delete from metrics_info where metrics_type in ('logcollection', 'systemresources', 'threadstatus')
+        </sql>
+    </changeSet>
+
+    <changeSet author="fuse.team" id="metrics-timestamps-index" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+        <createIndex tableName="metrics_info" indexName="idx_metrics_info_timestamp">
+            <column name="timestamp" descending="true" />
+            <column name="expiration_timestamp" descending="true" />
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

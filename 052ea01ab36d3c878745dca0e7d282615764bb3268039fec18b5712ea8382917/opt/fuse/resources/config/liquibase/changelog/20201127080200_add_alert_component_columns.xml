@@ -1,0 +1,21 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="fuse.team" id="add-alert-component-columns" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+       <addColumn tableName="alert">
+           <column name="alert_name" type="varchar(255)" valueComputed="data->'labels'->>'alertname'" />
+           <column name="severity" type="varchar(255)" valueComputed="data->'labels'->>'severity'" />
+           <column name="component_class" type="varchar(255)" valueComputed="data->'labels'->>'componentClass'" />
+           <column name="component_id" type="varchar(255)" valueComputed="data->'labels'->>'componentId'" />
+           <column name="component_name" type="varchar(255)" valueComputed="data->'labels'->>'componentName'" />
+       </addColumn>
+    </changeSet>
+
+    <changeSet author="fuse.team" id="add-alert-component-columns-add-notnull-constraints" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+        <addNotNullConstraint tableName="alert" columnName="alert_name" />
+        <addNotNullConstraint tableName="alert" columnName="severity" />
+    </changeSet>
+
+</databaseChangeLog>

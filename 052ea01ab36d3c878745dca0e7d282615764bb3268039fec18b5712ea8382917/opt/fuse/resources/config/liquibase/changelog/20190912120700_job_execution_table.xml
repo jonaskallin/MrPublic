@@ -1,0 +1,75 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="fuse.team" id="job-execution-table" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+        <createTable tableName="job_execution">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" primaryKeyName="job_execution_PK" />
+            </column>
+            <column name="status" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="end_time" type="timestamp" />
+            <column name="start_time" type="timestamp" />
+        </createTable>
+
+        <!-- JOIN TABLE -->
+        <createTable tableName="job_execution_system_entry">
+            <column name="job_execution_id" type="uuid">
+                <constraints nullable="false"/>
+            </column>
+            <column name="system_id" type="uuid" />
+            <column name="title" type="varchar(255)" />
+            <column name="error_message" type="varchar(400)" />
+            <column name="end_time" type="timestamp" />
+            <column name="start_time" type="timestamp" />
+            <column name="log" type="json" />
+            <column name="steps" type="json"  />
+            <column name="status" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="timestamp" type="timestamp" />
+        </createTable>
+
+        <addPrimaryKey
+            tableName="job_execution_system_entry"
+            columnNames="job_execution_id, system_id"
+            constraintName="job_execution_system_entry_PK" />
+
+        <addForeignKeyConstraint
+            baseTableName="job_execution_system_entry"
+            baseColumnNames="job_execution_id"
+            referencedTableName="job_execution"
+            referencedColumnNames="id"
+            constraintName="job_execution_system_entry_FK" />
+
+    </changeSet>
+
+    <changeSet author="fuse.team" id="update-job-execution-table" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+        <addColumn tableName="job_execution">
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="username" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="fuse.team" id="update-job-system-entry-table" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+        <addForeignKeyConstraint
+                baseTableName="job_execution_system_entry"
+                baseColumnNames="system_id"
+                referencedTableName="system"
+                referencedColumnNames="id"
+                constraintName="job_execution_system_entry_system_FK" />
+    </changeSet>
+
+    <changeSet author="fuse.team" id="add-filename-job-system-entry-table" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+        <addColumn tableName="job_execution_system_entry">
+            <column name="filename" type="varchar(400)"/>
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>
+

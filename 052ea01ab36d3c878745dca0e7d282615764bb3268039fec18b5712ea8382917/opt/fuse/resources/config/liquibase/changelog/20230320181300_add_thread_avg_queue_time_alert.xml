@@ -1,0 +1,22 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="fuse.team" id="add-thread-avg-queue-and-execution-time-alert" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+        <sql>
+            INSERT INTO fuse_config (component, type, value) VALUES
+            ('FUSE_ALERTS', 'thread_avg_queue_time_high.warning', '{"enabled": true, "sendMail": true, "threshold": 0.7, "sendServiceNow": true, "forSeconds":300}'),
+            ('FUSE_ALERTS', 'thread_avg_queue_time_high.error', '{"enabled": true, "sendMail": true, "threshold": 1, "sendServiceNow": true, "forSeconds":300}')
+            ;
+            INSERT INTO fuse_config (component, type, value) VALUES
+            ('FUSE_ALERTS', 'thread_avg_execution_time_high.warning', '{"enabled": true, "sendMail": true, "threshold": 0.7, "sendServiceNow": true, "forSeconds":300}'),
+            ('FUSE_ALERTS', 'thread_avg_execution_time_high.error', '{"enabled": true, "sendMail": true, "threshold": 1, "sendServiceNow": true, "forSeconds":300}')
+            ;
+            INSERT INTO fuse_config (component, type, value) VALUES
+            ('FUSE_ALERTS', 'thread_current_execution_time_high.warning', '{"enabled": true, "sendMail": true, "threshold": 120, "sendServiceNow": true, "forSeconds":300}')
+            ;
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

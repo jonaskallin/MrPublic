@@ -1,0 +1,66 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+
+    <changeSet author="fuse.team"
+               id="add-roles"
+               objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+
+        <validCheckSum>8:d948e07a3f04fb693327a5a5b737ae0b</validCheckSum>
+
+        <!-- ROLES -->
+        <createTable tableName="role">
+            <column name="id" type="varchar(1025)">
+                <constraints primaryKey="true" primaryKeyName="role_PK"/>
+            </column>
+            <column name="name" type="varchar(1025)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="access_roles" type="varchar(1025)"/>
+        </createTable>
+
+        <!-- JOIN TABLE FOR USERS <=> ROLES -->
+        <createTable tableName="users_roles">
+            <column name="role_id" type="varchar(1025)">
+                <constraints foreignKeyName="fk_role_users_roles"
+                             referencedTableName="role"
+                             referencedColumnNames="id" deferrable="false" initiallyDeferred="false"/>
+            </column>
+            <column name="user_id" type="uuid">
+                <constraints foreignKeyName="fk_user_users_roles"
+                             referencedTableName="fuse_user"
+                             referencedColumnNames="id" deferrable="false" initiallyDeferred="false"/>
+            </column>
+
+        </createTable>
+
+        <!-- ADD PRIMARY KEY TO USERS <=> ROLES -->
+        <addPrimaryKey tableName="users_roles" columnNames="role_id, user_id" constraintName="pk_role_id_user_id"/>
+
+        <insert tableName="role">
+            <column name="id" value="ROLE_FUSE_ADMIN"/>
+            <column name="name" value="ROLE_FUSE_ADMIN"/>
+        </insert>
+
+        <insert tableName="role">
+            <column name="id" value="ROLE_SYSTEM_ADMIN"/>
+            <column name="name" value="ROLE_SYSTEM_ADMIN"/>
+        </insert>
+
+        <insert tableName="role">
+            <column name="id" value="ROLE_GUEST"/>
+            <column name="name" value="ROLE_GUEST"/>
+        </insert>
+
+        <sql>
+            insert into users_roles (user_id, role_id) values
+                ('d0e7475e-faed-11e9-8f0b-362b9e155667', 'ROLE_FUSE_ADMIN'),
+                ('d0e7475e-faed-11e9-8f0b-362b9e155667', 'ROLE_SYSTEM_ADMIN')
+            on conflict do nothing;
+        </sql>
+
+    </changeSet>
+
+</databaseChangeLog>

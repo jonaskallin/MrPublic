@@ -1,0 +1,50 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="fuse.team" id="tuning-threshold" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+        <sql>
+            update fuse_config
+            set value = '{"threshold":0,"forSeconds":3600}'
+            where component='FUSE_ALERTS' and type='performance_low.error';
+
+            update fuse_config
+            set value = '{"threshold":1,"forSeconds":3600}'
+            where component='FUSE_ALERTS' and type='cpu_high.error';
+
+            update fuse_config
+            set value = '{"threshold":1,"forSeconds":3600}'
+            where component='FUSE_ALERTS' and type='memory_high.error';
+
+            update fuse_config
+            set value = '{"threshold":1,"forSeconds":3600}'
+            where component='FUSE_ALERTS' and type='thread_usage_high.error';
+
+            update fuse_config
+            set value = '{"threshold":0,"forSeconds":3600}'
+            where component='FUSE_ALERTS' and type='storage_provider_extshared_free_space.error';
+
+            update fuse_config
+            set value = '{"threshold":0,"forSeconds":3600}'
+            where component='FUSE_ALERTS' and type='storage_provider_extshared_read_performance.error';
+
+            update fuse_config
+            set value = '{"threshold":0,"forSeconds":3600}'
+            where component='FUSE_ALERTS' and type='storage_provider_entreprisearchive_write_performance.error';
+
+            update fuse_config
+            set value = '{"threshold":0,"forSeconds":3600}'
+            where component='FUSE_ALERTS' and type='storage_provider_entreprisearchive_read_performance.error';
+
+            update fuse_config
+            set value = '{"threshold":0,"forSeconds":3600}'
+            where component='FUSE_ALERTS' and type='storage_provider_rdbms_write_performance.error';
+
+            update fuse_config
+            set value = '{"threshold":0,"forSeconds":3600}'
+            where component='FUSE_ALERTS' and type='storage_provider_rdbms_read_performance.error';
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

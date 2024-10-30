@@ -1,0 +1,84 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="fuse.team" id="fuse-config-update-alerts-config" failOnError="false" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+        <sql>
+            delete from fuse_config
+            where component = 'FUSE_ALERTS';
+
+            INSERT INTO fuse_config (component, type, value) VALUES
+            ('FUSE_ALERTS', 'configuration_policy_compliance_failures.warning', '{"threshold":1}')
+            ,('FUSE_ALERTS', 'configuration_policy_compliance_conflicts.warning', '{"threshold":1}')
+            ,('FUSE_ALERTS', 'authentication_error.error', '{"threshold":1}')
+            ,('FUSE_ALERTS', 'secretkey_error.error', '{"threshold":1}')
+            -- based on alerts specification, check https://artemis.vilt-group.com/engineering/fuse/fuse-server/issues/106
+            ,('FUSE_ALERTS', 'default_admin_server_password.warning', '{"threshold":1,"forSeconds":10}')
+            ,('FUSE_ALERTS', 'default_admin_user_password.warning', '{"threshold":1,"forSeconds":10}')
+            ,('FUSE_ALERTS', 'dump_files.warning', '{"threshold":1,"editable":false}')
+            --- storage provider
+            ,('FUSE_ALERTS', 'storage_provider_extshared_free_space.error', '{"threshold":524288000,"forSeconds":60}')
+            ,('FUSE_ALERTS', 'storage_provider_extshared_free_space.warning', '{"threshold":1048576000  ,"forSeconds":60}')
+            ,('FUSE_ALERTS', 'storage_provider_extshared_write_performance.error', '{"threshold":10485760,"forSeconds":60}')
+            ,('FUSE_ALERTS', 'storage_provider_extshared_read_performance.error', '{"threshold":20971520,"forSeconds":60}')
+            ,('FUSE_ALERTS', 'storage_provider_entreprisearchive_write_performance.error', '{"threshold":3145728,"forSeconds":60}')
+            ,('FUSE_ALERTS', 'storage_provider_entreprisearchive_read_performance.error', '{"threshold":6291456,"forSeconds":60}')
+            ,('FUSE_ALERTS', 'storage_provider_rdbms_write_performance.error', '{"threshold":5242880,"forSeconds":60}')
+            ,('FUSE_ALERTS', 'storage_provider_rdbms_read_performance.error', '{"threshold":10485760,"forSeconds":60}')
+            ,('FUSE_ALERTS', 'storage_provider_extshared_write_performance.warning', '{"threshold":52428800,"forSeconds":60}')
+            ,('FUSE_ALERTS', 'storage_provider_extshared_read_performance.warning', '{"threshold":104857600,"forSeconds":60}')
+            ,('FUSE_ALERTS', 'storage_provider_entreprisearchive_write_performance.warning', '{"threshold":10485760,"forSeconds":60}')
+            ,('FUSE_ALERTS', 'storage_provider_entreprisearchive_read_performance.warning', '{"threshold":20971520,"forSeconds":60}')
+            ,('FUSE_ALERTS', 'storage_provider_rdbms_write_performance.warning', '{"threshold":20971520,"forSeconds":60}')
+            ,('FUSE_ALERTS', 'storage_provider_rdbms_read_performance.warning', '{"threshold":41943040,"forSeconds":60}')
+            -- distributed agents
+            ,('FUSE_ALERTS', 'da_agent_status_paused.warning', '{"threshold":1,"forSeconds":300}')
+            ,('FUSE_ALERTS', 'da_agent_status_stopped.warning', '{"threshold":1,"forSeconds":300}')
+            ,('FUSE_ALERTS', 'da_agent_status_offline.error', '{"threshold":1,"forSeconds":300}')
+            ,('FUSE_ALERTS', 'da_worker_status_paused.warning', '{"threshold":1,"forSeconds":300}')
+            ,('FUSE_ALERTS', 'da_worker_status_stopped.warning', '{"threshold":1,"forSeconds":300}')
+            ,('FUSE_ALERTS', 'da_worker_status_offline.error', '{"threshold":1,"forSeconds":300}')
+            ,('FUSE_ALERTS', 'da_agent_stopped.error', '{"threshold":1,"forSeconds":30}')
+            ,('FUSE_ALERTS', 'da_worker_stopped.error', '{"threshold":1,"forSeconds":30}')
+            ,('FUSE_ALERTS', 'da_primary_agent_undefined.warning', '{"threshold":1,"forSeconds":300}')
+            ,('FUSE_ALERTS', 'da_total_task_error.warning', '{"threshold":1,"forSeconds":300}')
+            -- system object volumes
+            ,('FUSE_ALERTS', 'sov_processes_status_unknown.error', '{"threshold":1,"forSeconds":60}')
+            ,('FUSE_ALERTS', 'sov_processes_status_error.error', '{"threshold":1,"forSeconds":60}')
+            ,('FUSE_ALERTS', 'sov_processes_status_admin_server_error.error', '{"threshold":1,"forSeconds":60}')
+            ,('FUSE_ALERTS', 'sov_processes_status_not_exist.error', '{"threshold":1,"forSeconds":60}')
+            ,('FUSE_ALERTS', 'sov_processes_status_error_11.error', '{"threshold":1,"forSeconds":60}')
+            ,('FUSE_ALERTS', 'sov_admserv_active.error', '{"threshold":0,"forSeconds":30}')
+            ,('FUSE_ALERTS', 'sov_admserv_safe_mode.warning', '{"threshold":1,"forSeconds":30}')
+            ,('FUSE_ALERTS', 'sov_partition_unavailable.error', '{"threshold":0,"forSeconds":30}')
+            ,('FUSE_ALERTS', 'sov_partition_full.error', '{"threshold":1,"forSeconds":5}')
+            ,('FUSE_ALERTS', 'sov_partition_almost_full.warning', '{"threshold":0.9,"forSeconds":300}')
+            -- agents
+            ,('FUSE_ALERTS', 'agent_nextstart_failed.warning', '{"threshold":1,"forSeconds":300}')
+            -- processes
+            ,('FUSE_ALERTS', 'verify_agent_multiple_instances.error', '{"threshold":2}')
+            -- queue tables
+            ,('FUSE_ALERTS', 'queuetables_notify_events.warning', '{"threshold":10000,"forSeconds":300}')
+            -- based on alerts specification, check https://artemis.vilt-group.com/engineering/fuse/fuse-server/issues/106
+            ,('FUSE_ALERTS', 'heartbeat_missing.error', '{"threshold":0,"forSeconds":10}')
+            ,('FUSE_ALERTS', 'performance_low.warning', '{"threshold":0.35,"forSeconds":30}')
+            ,('FUSE_ALERTS', 'performance_low.error', '{"threshold":0.10,"forSeconds":60}')
+            ,('FUSE_ALERTS', 'cside_mode_on.warning', '{"threshold":1}')
+            ,('FUSE_ALERTS', 'app_disk_space_low.warning', '{"threshold":0.92}')
+            ,('FUSE_ALERTS', 'noapp_disk_space_low.warning', '{"threshold":0.95}')
+            ,('FUSE_ALERTS', 'cpu_high.warning', '{"threshold":0.95, "forSeconds": 30}')
+            ,('FUSE_ALERTS', 'cpu_high.error', '{"threshold":0.98, "forSeconds": 60}')
+            ,('FUSE_ALERTS', 'memory_high.warning', '{"threshold":0.95, "forSeconds": 30}')
+            ,('FUSE_ALERTS', 'memory_high.error', '{"threshold":0.98, "forSeconds": 60}')
+            ,('FUSE_ALERTS', 'thread_exceptions.warning', '{"threshold": 1}')
+            ,('FUSE_ALERTS', 'thread_usage_high.warning', '{"threshold":0.85, "forSeconds": 300}')
+            ,('FUSE_ALERTS', 'thread_usage_high.error', '{"threshold":0.95, "forSeconds": 300}')
+            ,('FUSE_ALERTS', 'trace_files.warning', '{"threshold":1}')
+            ,('FUSE_ALERTS', 'log_files_size_high.warning', '{"threshold":2147483648}')
+            ,('FUSE_ALERTS', 'storage_provider_unavailable.error', '{"threshold": 0, "forSeconds": 10}')
+            ;
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

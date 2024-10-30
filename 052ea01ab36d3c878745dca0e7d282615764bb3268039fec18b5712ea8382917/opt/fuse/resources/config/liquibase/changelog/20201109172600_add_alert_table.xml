@@ -1,0 +1,23 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="fuse.team" id="alert-table" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+        <createTable tableName="alert">
+            <column name="id" type="uuid">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_alert" />
+            </column>
+            <column name="environment_id" type="uuid" />
+            <column name="system_id" type="uuid" />
+            <column name="data" type="json">
+                <constraints nullable="false"/>
+            </column>
+            <column name="notification_channels" type="json" />
+            <column name="started_at" type="timestamp" />
+            <column name="resolved_at" type="timestamp" />
+            <column name="timestamp" type="timestamp" />
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

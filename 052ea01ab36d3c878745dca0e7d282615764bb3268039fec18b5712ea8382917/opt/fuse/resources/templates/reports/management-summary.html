@@ -1,0 +1,527 @@
+<div th:fragment="management-summary">
+  <h4>2 | Management Summary</h4>
+  <p>
+    This section provides an overview of health, performance and component status metrics.
+    All information was collected from the received system metrics, which are proactively sent by each managed system to Fuse Management Central.
+  </p>
+
+  <h5>2.1 | Performance Overview</h5>
+  <p>
+    The following chart displays the average performance, based on a system performance calculation formula using specific health and status metrics, during this report period.
+  </p>
+  <div class="special-table">
+    <div class="header">
+      <div class="title">
+        <span class="d-none">Titles</span>
+      </div>
+      <div>
+        Lower than 10%
+        <div class="bar danger"><span class="d-none">Ignore trimming</span></div>
+      </div>
+      <div>
+        Between 10% and 50%
+        <div class="bar warning"><span class="d-none">Ignore trimming</span></div>
+      </div>
+      <div>
+        Between 51% and 90%
+        <div class="bar ok"><span class="d-none">Ignore trimming</span></div>
+      </div>
+      <div>
+        Higher than 90%
+        <div class="bar good"><span class="d-none">Ignore trimming</span></div>
+      </div>
+    </div>
+    <div class="row environments">
+      <div class="title">
+        <img src="environments-title.png" alt="Environments">
+      </div>
+      <div class="danger">
+        <span class="d-none">Ignore trimming</span>
+
+        <th:block th:each="element : ${data.getTables().get('Performance Overview by Env')}">
+          <div class="item" th:each="value : ${element}">
+            <div class="item-container" th:if="${value.stats['< 10%'] > 0}">
+              <div class="icon"><img src="environment.png" alt="Environment"></div>
+              <div class="name-container">
+                <div class="name" th:text="${data.environments[value.metric.envId].getName()}">PROD</div>
+              </div>
+            </div>
+          </div>
+        </th:block>
+
+
+      </div>
+      <div class="warning">
+        <span class="d-none">Ignore trimming</span>
+
+        <th:block th:each="element : ${data.getTables().get('Performance Overview by Env')}">
+          <div class="item" th:each="value : ${element}">
+            <div class="item-container" th:if="${value.stats['>= 10% and <= 50%'] > 0}">
+              <div class="icon"><img src="environment.png" alt="Environment"></div>
+              <div class="name-container">
+                <div class="name" th:text="${data.environments[value.metric.envId].getName()}">PROD</div>
+              </div>
+            </div>
+          </div>
+        </th:block>
+
+      </div>
+      <div class="ok">
+        <span class="d-none">Ignore trimming</span>
+
+        <th:block th:each="element : ${data.getTables().get('Performance Overview by Env')}">
+          <div class="item" th:each="value : ${element}">
+            <div class="item-container" th:if="${value.stats['>= 51% and <= 90%'] > 0}">
+              <div class="icon"><img src="environment.png" alt="Environment"></div>
+              <div class="name-container">
+                <div class="name" th:text="${data.environments[value.metric.envId].getName()}">PROD</div>
+              </div>
+            </div>
+          </div>
+        </th:block>
+
+      </div>
+      <div class="good">
+        <span class="d-none">Ignore trimming</span>
+
+        <th:block th:each="element : ${data.getTables().get('Performance Overview by Env')}">
+          <div class="item" th:each="value : ${element}">
+            <div class="item-container" th:if="${value.stats['> 90%'] > 0}">
+              <div class="icon"><img src="environment.png" alt="Environment"></div>
+              <div class="name-container">
+                <div class="name" th:text="${data.environments[value.metric.envId].getName()}">PROD</div>
+              </div>
+            </div>
+          </div>
+        </th:block>
+
+      </div>
+    </div>
+    <div class="row systems">
+      <div class="title">
+        <img src="systems-title.png" alt="Environments">
+      </div>
+      <div class="danger">
+        <span class="d-none">Ignore trimming</span>
+
+        <th:block th:each="element : ${data.getTables().get('Performance Overview')}">
+          <div class="item" th:each="value : ${element}" th:if="${value.stats['< 10%'] > 0}">
+            <div class="item-container">
+              <div class="icon"><img src="system.png" alt="System"></div>
+              <div class="name-container" th:with="system = ${data.systems[value.metric.systemId]}">
+                <div class="name" th:text="${system.getName()}">PD-128-100</div>
+              </div>
+            </div>
+            <div class="env">
+              <div class="env-container" th:with="system = ${data.systems[value.metric.systemId]}">
+                <div class="icon"><img src="environment.png" alt="Environment" /></div>
+                <div class="name" th:text="${system.getEnvironment().getName()}">DEV</div>
+              </div>
+            </div>
+          </div>
+        </th:block>
+
+      </div>
+      <div class="warning">
+        <span class="d-none">Ignore trimming</span>
+
+        <th:block th:each="element : ${data.getTables().get('Performance Overview')}">
+          <div class="item" th:each="value : ${element}" th:if="${value.stats['>= 10% and <= 50%'] > 0}">
+            <div class="item-container">
+              <div class="icon"><img src="system.png" alt="System"></div>
+              <div class="name-container" th:with="system = ${data.systems[value.metric.systemId]}">
+                <div class="name" th:text="${system.getName()}">PD-128-100</div>
+              </div>
+            </div>
+            <div class="env">
+              <div class="env-container" th:with="system = ${data.systems[value.metric.systemId]}">
+                <div class="icon"><img src="environment.png" alt="Environment" /></div>
+                <div class="name" th:text="${system.getEnvironment().getName()}">DEV</div>
+              </div>
+            </div>
+          </div>
+        </th:block>
+
+      </div>
+      <div class="ok">
+        <span class="d-none">Ignore trimming</span>
+
+        <th:block th:each="element : ${data.getTables().get('Performance Overview')}">
+          <div class="item" th:each="value : ${element}" th:if="${value.stats['>= 51% and <= 90%'] > 0}">
+            <div class="item-container">
+              <div class="icon"><img src="system.png" alt="System"></div>
+              <div class="name-container" th:with="system = ${data.systems[value.metric.systemId]}">
+                <div class="name" th:text="${system.getName()}">PD-128-100</div>
+              </div>
+            </div>
+            <div class="env">
+              <div class="env-container" th:with="system = ${data.systems[value.metric.systemId]}">
+                <div class="icon"><img src="environment.png" alt="Environment" /></div>
+                <div class="name" th:text="${system.getEnvironment().getName()}">DEV</div>
+              </div>
+            </div>
+          </div>
+        </th:block>
+
+      </div>
+      <div class="good">
+        <span class="d-none">Ignore trimming</span>
+
+        <th:block th:each="element : ${data.getTables().get('Performance Overview')}">
+          <div class="item" th:each="value : ${element}" th:if="${value.stats['> 90%'] > 0}">
+            <div class="item-container">
+              <div class="icon"><img src="system.png" alt="System"></div>
+              <div class="name-container" th:with="system = ${data.systems[value.metric.systemId]}">
+                <div class="name" th:text="${system.getName()}">PD-128-100</div>
+              </div>
+            </div>
+            <div class="env">
+              <div class="env-container" th:with="system = ${data.systems[value.metric.systemId]}">
+                <div class="icon"><img src="environment.png" alt="Environment" /></div>
+                <div class="name" th:text="${system.getEnvironment().getName()}">DEV</div>
+              </div>
+            </div>
+          </div>
+        </th:block>
+
+      </div>
+    </div>
+  </div>
+
+  <h5>2.2 | Availability Overview</h5>
+  <p>
+    The following chart displays the average availability calculated using each system uptime, during this report period.
+  </p>
+  <div class="special-table">
+    <div class="header">
+      <div class="title">
+        <span class="d-none">Titles</span>
+      </div>
+      <div>
+        Lower than 95%
+        <div class="bar danger"><span class="d-none">Ignore trimming</span></div>
+      </div>
+      <div>
+        Between 95% and 99%
+        <div class="bar warning"><span class="d-none">Ignore trimming</span></div>
+      </div>
+      <div>
+        Between 99% and 99.5%
+        <div class="bar ok"><span class="d-none">Ignore trimming</span></div>
+      </div>
+      <div>
+        Higher than 99.5%
+        <div class="bar good"><span class="d-none">Ignore trimming</span></div>
+      </div>
+    </div>
+    <div class="row environments">
+      <div class="title">
+        <img src="environments-title.png" alt="Environments">
+      </div>
+      <div class="danger">
+        <span class="d-none">Ignore trimming</span>
+
+        <th:block th:each="element : ${data.getTables().get('Availability Overview by Env')}">
+          <div class="item" th:each="value : ${element}">
+            <div class="item-container" th:if="${value.stats['< 95%'] > 0}">
+              <div class="icon"><img src="environment.png" alt="Environment"></div>
+              <div class="name-container">
+                <div class="name" th:text="${data.environments[value.metric.envId].getName()}">PROD</div>
+              </div>
+            </div>
+          </div>
+        </th:block>
+
+
+      </div>
+      <div class="warning">
+        <span class="d-none">Ignore trimming</span>
+
+        <th:block th:each="element : ${data.getTables().get('Availability Overview by Env')}">
+          <div class="item" th:each="value : ${element}">
+            <div class="item-container" th:if="${value.stats['>= 95% and <= 99%'] > 0}">
+              <div class="icon"><img src="environment.png" alt="Environment"></div>
+              <div class="name-container">
+                <div class="name" th:text="${data.environments[value.metric.envId].getName()}">PROD</div>
+              </div>
+            </div>
+          </div>
+        </th:block>
+
+      </div>
+      <div class="ok">
+        <span class="d-none">Ignore trimming</span>
+
+        <th:block th:each="element : ${data.getTables().get('Availability Overview by Env')}">
+          <div class="item" th:each="value : ${element}">
+            <div class="item-container" th:if="${value.stats['>= 99% and <= 99.5%'] > 0}">
+              <div class="icon"><img src="environment.png" alt="Environment"></div>
+              <div class="name-container">
+                <div class="name" th:text="${data.environments[value.metric.envId].getName()}">PROD</div>
+              </div>
+            </div>
+          </div>
+        </th:block>
+
+      </div>
+
+      <div class="good">
+        <span class="d-none">Ignore trimming</span>
+
+        <th:block th:each="element : ${data.getTables().get('Availability Overview by Env')}">
+          <div class="item" th:each="value : ${element}">
+            <div class="item-container" th:if="${value.stats['> 99.5%'] > 0}">
+              <div class="icon"><img src="environment.png" alt="Environment"></div>
+              <div class="name-container">
+                <div class="name" th:text="${data.environments[value.metric.envId].getName()}">PROD</div>
+              </div>
+            </div>
+          </div>
+        </th:block>
+
+      </div>
+    </div>
+    <div class="row systems">
+      <div class="title">
+        <img src="systems-title.png" alt="Environments">
+      </div>
+      <div class="danger">
+        <span class="d-none">Ignore trimming</span>
+
+        <th:block th:each="element : ${data.getTables().get('Availability Overview')}">
+          <div class="item" th:each="value : ${element}" th:if="${value.stats['< 95%'] > 0}">
+            <div class="item-container">
+              <div class="icon"><img src="system.png" alt="System"></div>
+              <div class="name-container" th:with="system = ${data.systems[value.metric.systemId]}">
+                <div class="name" th:text="${system.getName()}">PD-128-100</div>
+              </div>
+            </div>
+            <div class="env">
+              <div class="env-container" th:with="system = ${data.systems[value.metric.systemId]}">
+                <div class="icon"><img src="environment.png" alt="Environment" /></div>
+                <div class="name" th:text="${system.getEnvironment().getName()}">DEV</div>
+              </div>
+            </div>
+          </div>
+        </th:block>
+
+      </div>
+      <div class="warning">
+        <span class="d-none">Ignore trimming</span>
+
+        <th:block th:each="element : ${data.getTables().get('Availability Overview')}">
+          <div class="item" th:each="value : ${element}" th:if="${value.stats['>= 95% and <= 99%'] > 0}">
+            <div class="item-container">
+              <div class="icon"><img src="system.png" alt="System"></div>
+              <div class="name-container" th:with="system = ${data.systems[value.metric.systemId]}">
+                <div class="name" th:text="${system.getName()}">PD-128-100</div>
+              </div>
+            </div>
+            <div class="env">
+              <div class="env-container" th:with="system = ${data.systems[value.metric.systemId]}">
+                <div class="icon"><img src="environment.png" alt="Environment" /></div>
+                <div class="name" th:text="${system.getEnvironment().getName()}">DEV</div>
+              </div>
+            </div>
+          </div>
+        </th:block>
+
+      </div>
+      <div class="ok">
+        <span class="d-none">Ignore trimming</span>
+
+        <th:block th:each="element : ${data.getTables().get('Availability Overview')}">
+          <div class="item" th:each="value : ${element}" th:if="${value.stats['>= 99% and <= 99.5%'] > 0}">
+            <div class="item-container">
+              <div class="icon"><img src="system.png" alt="System"></div>
+              <div class="name-container" th:with="system = ${data.systems[value.metric.systemId]}">
+                <div class="name" th:text="${system.getName()}">PD-128-100</div>
+              </div>
+            </div>
+            <div class="env">
+              <div class="env-container" th:with="system = ${data.systems[value.metric.systemId]}">
+                <div class="icon"><img src="environment.png" alt="Environment" /></div>
+                <div class="name" th:text="${system.getEnvironment().getName()}">DEV</div>
+              </div>
+            </div>
+          </div>
+        </th:block>
+
+      </div>
+      <div class="good">
+        <span class="d-none">Ignore trimming</span>
+
+        <th:block th:each="element : ${data.getTables().get('Availability Overview')}">
+          <div class="item" th:each="value : ${element}" th:if="${value.stats['> 99.5%'] > 0}">
+            <div class="item-container">
+              <div class="icon"><img src="system.png" alt="System"></div>
+              <div class="name-container" th:with="system = ${data.systems[value.metric.systemId]}">
+                <div class="name" th:text="${system.getName()}">PD-128-100</div>
+              </div>
+            </div>
+            <div class="env">
+              <div class="env-container" th:with="system = ${data.systems[value.metric.systemId]}">
+                <div class="icon"><img src="environment.png" alt="Environment" /></div>
+                <div class="name" th:text="${system.getEnvironment().getName()}">DEV</div>
+              </div>
+            </div>
+          </div>
+        </th:block>
+
+      </div>
+    </div>
+  </div>
+
+  <h5 class="page-break-auto">2.3 | Alerts Overview</h5>
+  <p>
+    The following chart displays the total of new alerts triggered during this report period.
+  </p>
+  <!-- alerts table must have the alerts class and items the env div-->
+  <div class="special-table alerts">
+    <div class="header">
+      <div class="title"><span class="d-none">Title</span></div>
+      <div class="danger">
+        Errors
+      </div>
+      <div class="warning">
+        Warnings
+      </div>
+      <div class="ok">
+        Total
+      </div>
+    </div>
+    <div class="row environments">
+      <div class="title">
+        <img src="environments-title.png" alt="Environments">
+      </div>
+      <div class="danger">
+        <span class="d-none">Ignore trimming</span>
+
+        <th:block th:each="element : ${data.getTables().get('Alerts Overview by Env')}">
+          <div class="item"  th:each="value : ${element}">
+            <div class="item-container" th:if="${value.stats['Errors'] != null}">
+              <div class="icon"><img src="environment.png" alt="Environment"></div>
+              <div class="name-container">
+                <div class="name" th:text="${data.environments[value.metric.envId].getName()}">QA</div>
+              </div>
+              <div class="alerts" th:text="${#numbers.formatInteger(value.stats['Errors'], 1)}">666</div>
+            </div>
+          </div>
+        </th:block>
+
+      </div>
+      <div class="warning">
+        <span class="d-none">Ignore trimming</span>
+
+        <th:block th:each="element : ${data.getTables().get('Alerts Overview by Env')}">
+          <div class="item"  th:each="value : ${element}">
+            <div class="item-container" th:if="${value.stats['Warnings'] != null}">
+              <div class="icon"><img src="environment.png" alt="Environment"></div>
+              <div class="name-container">
+                <div class="name" th:text="${data.environments[value.metric.envId].getName()}">QA</div>
+              </div>
+              <div class="alerts" th:text="${#numbers.formatInteger(value.stats['Warnings'], 1)}">666</div>
+            </div>
+          </div>
+        </th:block>
+
+      </div>
+      <div class="good">
+        <span class="d-none">Ignore trimming</span>
+
+        <th:block th:each="element : ${data.getTables().get('Alerts Overview by Env')}">
+          <div class="item"  th:each="value : ${element}">
+            <div class="item-container" th:if="${value.stats['Total'] != null}">
+              <div class="icon"><img src="environment.png" alt="Environment"></div>
+              <div class="name-container">
+                <div class="name" th:text="${data.environments[value.metric.envId].getName()}">QA</div>
+              </div>
+              <div class="alerts" th:text="${#numbers.formatInteger(value.stats['Total'], 1)}">666</div>
+            </div>
+          </div>
+        </th:block>
+
+      </div>
+    </div>
+    <div class="row systems">
+      <div class="title">
+        <img src="systems-title.png" alt="Environments">
+      </div>
+      <div class="danger">
+        <span class="d-none">Ignore trimming</span>
+
+        <th:block th:each="element : ${data.getTables().get('Alerts Overview')}">
+          <th:block th:each="value : ${element}">
+            <div class="item" th:if="${value.stats['Errors'] != null && value.metric['systemId'] != null && value.metric['systemId'] != 'null'}">
+              <div class="item-container">
+                <div class="icon"><img src="system.png" alt="System"></div>
+                <div class="name-container">
+                  <div class="name" th:text="${data.systems[value.metric.systemId].getName()}">PD-128-13</div>
+                </div>
+                <div class="alerts" th:text="${#numbers.formatInteger(value.stats['Errors'], 1)}">666</div>
+              </div>
+              <div class="env">
+                <div class="env-container">
+                  <div class="icon"><img src="environment.png" alt="Environment" /></div>
+                  <div class="name" th:text="${data.systems[value.metric.systemId].getEnvironment().getName()}">PROD</div>
+                </div>
+              </div>
+            </div>
+          </th:block>
+        </th:block>
+
+      </div>
+      <div class="warning">
+        <span class="d-none">Ignore trimming</span>
+
+        <th:block th:each="element : ${data.getTables().get('Alerts Overview')}">
+          <th:block th:each="value : ${element}">
+            <div class="item" th:if="${value.stats['Warnings'] != null && value.metric['systemId'] != null && value.metric['systemId'] != 'null'}">
+              <div class="item-container">
+                <div class="icon"><img src="system.png" alt="System"></div>
+                <div class="name-container">
+                  <div class="name" th:text="${data.systems[value.metric.systemId].getName()}">PD-128-13</div>
+                </div>
+                <div class="alerts" th:text="${#numbers.formatInteger(value.stats['Warnings'], 1)}">666</div>
+              </div>
+              <div class="env">
+                <div class="env-container">
+                  <div class="icon"><img src="environment.png" alt="Environment" /></div>
+                  <div class="name" th:text="${data.systems[value.metric.systemId].getEnvironment().getName()}">PROD</div>
+                </div>
+              </div>
+            </div>
+          </th:block>
+        </th:block>
+
+      </div>
+      <div class="good">
+        <span class="d-none">Ignore trimming</span>
+
+        <th:block th:each="element : ${data.getTables().get('Alerts Overview')}">
+          <th:block th:each="value : ${element}">
+            <div class="item" th:if="${value.stats['Total'] != null && value.metric['systemId'] != null && value.metric['systemId'] != 'null'}">
+              <div class="item-container">
+                <div class="icon"><img src="system.png" alt="System"></div>
+                <div class="name-container">
+                  <div class="name" th:text="${data.systems[value.metric.systemId].getName()}">PD-128-13</div>
+                </div>
+                <div class="alerts" th:text="${#numbers.formatInteger(value.stats['Total'], 1)}">666</div>
+              </div>
+              <div class="env">
+                <div class="env-container">
+                  <div class="icon"><img src="environment.png" alt="Environment" /></div>
+                  <div class="name" th:text="${data.systems[value.metric.systemId].getEnvironment().getName()}">PROD</div>
+                </div>
+              </div>
+            </div>
+          </th:block>
+        </th:block>
+      </div>
+    </div>
+  </div>
+  <div class="info-balloon">
+    <img src="info.png" alt="info" />
+    <p>The total alerts of the environments could be different from each corresponding system since the environment could have alerts from other systems not included in this report.</p>
+  </div>
+</div>

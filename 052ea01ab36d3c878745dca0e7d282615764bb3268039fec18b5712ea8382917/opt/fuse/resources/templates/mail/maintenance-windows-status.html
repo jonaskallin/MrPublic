@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta http-equiv="Content-Type" content="text/html charset=UTF-8" />
+  <style>
+      @import url('https://fonts.googleapis.com/css?family=Montserrat');
+    </style>
+  <style>
+    /* Remove space around the email design. */
+     html,
+     body {
+         margin: 0 auto !important;
+         padding: 0 !important;
+         height: 100% !important;
+         width: 100% !important;
+     }
+     /* Stop Outlook resizing small text. */
+     * {
+       -ms-text-size-adjust: 100%;
+     }
+     /* Stop Outlook from adding extra spacing to tables. */
+     table,
+     td {
+       mso-table-lspace: 0pt !important;
+       mso-table-rspace: 0pt !important;
+     }
+     /* Use a better rendering method when resizing images in Outlook IE. */
+     img {
+       -ms-interpolation-mode:bicubic;
+     }
+      a {color: #bebf11;}
+      .message h1 a {color: white;}
+      h4 {color: #ffffff; margin-top: 10px; margin-bottom: 3px;}
+      .details p {margin-top: 0; margin-bottom: 10px;}
+      .details td {border-bottom: 2px solid #212234;}
+      .details tr:last-child td {border-bottom: 0;}
+    </style>
+</head>
+<body width="100%" style="margin: 0; padding: 0 !important; mso-line-height-rule: exactly; background: #1e1e2f;font-family: 'Montserrat', Arial;">
+<div style="width:100%; background: #1e1e2f;font-family: 'Montserrat', Arial; text-align: center;">
+
+  <table style="width:100%;">
+    <tr style="width:100%;">
+      <td width="700">
+
+        <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="width:100%;max-width:700px;padding: 50px;text-align: center;margin: auto; background: #1e1e2f; font-family: 'Montserrat', Arial;">
+          <tbody style="width:100%;">
+            <tr style="width:100%;">
+              <td style="width:100%;">
+
+                <div class="logo" style="margin-bottom: 1.5em;">
+                  <a th:href="${fuseUrl}" target="_blank" style="text-decoration: none;">
+                    <img src="https://www.vilt-group.com/public/signature/fuse/logo.png" style="width: 100px;" alt="fuse management central">
+                  </a>
+                </div>
+
+                <!-- COLORS FOR BORDER error - #ed4f38 | warning - #f9e912 | success - #8cc63f -->
+                <table style="width: 100%; background: #26293d;
+                      -webkit-border-radius: 20px; -moz-border-radius: 20px; border-radius: 20px;
+                      padding: 3.5em 1.5em; text-align: center;
+                      font-size: 12px; color: #bdbdbd;" th:styleappend="${'border-top: 3px solid ' + color}">
+                  <tbody style="width:100%;">
+                    <tr style="width: 100%;">
+                      <td style="width: 100%;">
+                        <div class="message" style="margin-bottom: 35px;">
+                          <img th:src="${'https://www.vilt-group.com/public/signature/fuse/maintenance_windows_execution.png'}" width="80px" style="margin: 0 auto; width: 80px;" alt="Maintenance Window Execution">
+                          <h1 style="font-size: 1.5em;margin-bottom: 35px; margin-top: 35px;font-family: 'Montserrat', Arial;">
+                            Maintenance Window <span style="color: white;" th:text="${maintenanceWindowExecution.name}"></span>
+                            <span th:if="${maintenanceWindowExecution.endTime == null}">started</span>
+                            <span th:if="${maintenanceWindowExecution.endTime != null}">finished</span>
+                          </h1>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr style="width: 100%;">
+                      <td style="width: 100%;">
+                        <table class="details" style="text-align: left; width: 100%;">
+                          <tbody style="width: 100%;">
+                            <tr style="width: 100%;">
+                              <td style="width:100%;border-bottom: 2px solid #212234;">
+                                <div style="width: 50%; float:left;">
+                                  <h4 style="color: #ffffff; margin-top: 10px; margin-bottom: 3px;font-family: 'Montserrat', Arial;">Start Time</h4>
+                                  <p style="margin-top: 0; margin-bottom: 10px; color: #bdbdbd;font-family: 'Montserrat', Arial;" th:text="${T(io.vilt.fuse.utils.ExtensionsKt).instantToIntegrationChannelsTimezoneDateFormat(maintenanceWindowExecution.startTime, timeZone)}">June 5, 2019 at 9:48PM UTC</p>
+                                </div>
+                                <div style="width: 50%; float:left;" th:if="${maintenanceWindowExecution.endTime != null}">
+                                  <h4 style="color: #ffffff; margin-top: 10px; margin-bottom: 3px;font-family: 'Montserrat', Arial;">End Time</h4>
+                                  <p style="margin-top: 0; margin-bottom: 10px; color: #bdbdbd;font-family: 'Montserrat', Arial;" th:text="${T(io.vilt.fuse.utils.ExtensionsKt).instantToIntegrationChannelsTimezoneDateFormat(maintenanceWindowExecution.endTime, timeZone)}">June 5, 2019 at 9:48PM UTC</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr style="width: 100%;" th:if="${maintenanceWindowExecution.endTime != null}">
+                              <td style="width: 100%;border-bottom: 2px solid #212234;">
+                                <h4 style="color: #ffffff;margin-top: 10px;margin-bottom: 3px;font-family: 'Montserrat', Arial;">Duration</h4>
+                                <p th:text="${
+                                  T(org.apache.commons.lang3.time.DurationFormatUtils).formatDurationWords(
+                                    T(java.time.Duration).between(maintenanceWindowExecution.startTime, maintenanceWindowExecution.endTime).toMillis(),
+                                    true,
+                                    true
+                                  )
+                                }" style="margin-top: 0; margin-bottom: 10px; color: #bdbdbd;font-family: 'Montserrat', Arial;">40 secs</p>
+                              </td>
+                            </tr>
+                            <tr style="width: 100%;" th:unless="${#lists.isEmpty(environments)}">
+                              <td style="width: 100%;border-bottom: 2px solid #212234;">
+                                <h4 style="color: #ffffff;margin-top: 10px;margin-bottom: 3px;font-family: 'Montserrat', Arial;">
+                                  Environments Affected
+                                </h4>
+                                <span style="margin-bottom: 5px; display: inline-block;" th:each="entry: ${environments}" th:with="
+                                  environmentUrl = ${fuseUrl + '/#/environments/' + entry.id + '/detail'}
+                                ">
+                                  <img src="https://www.vilt-group.com/public/signature/fuse/environment.png" style="width: 20px; margin-top: -5px; position: relative; top: 5px;"/>
+                                  <a style="color: #bebf11;" th:href="${environmentUrl}" th:text="${entry.name}">PROD</a>
+                                </span>
+                              </td>
+                            </tr>
+                            <tr style="width: 100%;" th:unless="${#lists.isEmpty(systems)}">
+                              <td style="width: 100%;border-bottom: 2px solid #212234;">
+                                <h4 style="color: #ffffff;margin-top: 10px;margin-bottom: 3px;font-family: 'Montserrat', Arial;">
+                                  Systems Affected
+                                </h4>
+                                <span style="margin-bottom: 5px; display: inline-block;" th:each="entry: ${systems}" th:with="
+                                  systemUrl = ${fuseUrl + '/#/systems/' + entry.id + '/detail'}
+                                ">
+                                  <img src="https://www.vilt-group.com/public/signature/fuse/system.png" style="width: 20px; margin-top: -5px; position: relative; top: 5px;"/>
+                                  <a style="color: #bebf11;" th:href="${systemUrl}" th:text="${entry.name}">otcs-docker</a>
+                                </span>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+      </td>
+    </tr>
+  </table>
+
+</div>
+</body>
+</html>

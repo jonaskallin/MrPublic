@@ -1,0 +1,21 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="fuse.team" id="update-jobs-tables-relations" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+        <dropPrimaryKey tableName="job_execution_system_entry" constraintName="job_execution_system_entry_pk"/>
+        <addColumn tableName="job_execution_system_entry">
+            <column name="id" type="uuid"/>
+        </addColumn>
+
+        <sql>
+            Update job_execution_system_entry jese
+            Set id = uuid_generate_v4()
+        </sql>
+
+        <addPrimaryKey tableName="job_execution_system_entry" columnNames="id" constraintName="job_execution_entry_pk"/>
+        <addUniqueConstraint tableName="job_execution_system_entry" columnNames="id, system_id" constraintName="unique_job_execution_entry_id_system_id"/>
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,37 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="fuse.team" id="add-smtp-enabled-field" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+        <sql>
+            Update fuse_config
+            Set value = JSONB_SET(value::jsonb, '{isEnabled}', 'true')
+            Where component='FUSE_CORE'
+                and type='SMTP'
+                and value::jsonb->>'host' notnull;
+        </sql>
+    </changeSet>
+
+    <changeSet author="fuse.team" id="add-servicenow-enabled-field" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+        <sql>
+            Update fuse_config
+            Set value = JSONB_SET(value::jsonb, '{sendServiceNow}', 'true')
+            Where component='FUSE_ALERTS'
+                and cast(value::jsonb->>'sendMail' as boolean) is true;
+
+            Update fuse_config
+            Set value = JSONB_SET(value::jsonb, '{sendServiceNow}', 'false')
+            Where component='FUSE_ALERTS'
+              and cast(value::jsonb->>'sendMail' as boolean) is false;
+        </sql>
+    </changeSet>
+
+    <changeSet author="fuse.team" id="add-service-now-alert" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+        <sql>
+            INSERT INTO fuse_config (component, type, value) VALUES
+           ('FUSE_ALERTS', 'health_service_now.error', '{"threshold":1, "enabled": true , "sendMail": false, "sendServiceNow": false }');
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,90 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="fuse.team" id="fuse-config-update-alerts-config" failOnError="false" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+        <sql>
+            UPDATE fuse_config
+            SET value = '{"threshold":0,"forSeconds":10, "editable": false}'
+            WHERE type = 'heartbeat_missing.error';
+
+            UPDATE fuse_config
+            SET value = '{"threshold":1, "editable": false}'
+            WHERE type = 'cside_mode_on.warning';
+
+            UPDATE fuse_config
+            SET value = '{"threshold": 1, "editable": false}'
+            WHERE type = 'thread_exceptions.warning';
+
+            UPDATE fuse_config
+            SET value = '{"threshold":1, "editable": false}'
+            WHERE type = 'trace_files.warning';
+
+            UPDATE fuse_config
+            SET value = '{"threshold": 0, "forSeconds": 10, "editable": false}'
+            WHERE type = 'storage_provider_unavailable.error';
+
+            UPDATE fuse_config
+            SET value = '{"threshold":1, "editable": false}'
+            WHERE type = 'configuration_policy_compliance_failures.warning';
+
+            UPDATE fuse_config
+            SET value = '{"threshold":1, "editable": false}'
+            WHERE type = 'configuration_policy_compliance_conflicts.warning';
+
+            UPDATE fuse_config
+            SET value = '{"threshold":1, "editable": false}'
+            WHERE type = 'authentication_error.error';
+
+            UPDATE fuse_config
+            SET value = '{"threshold":1, "editable": false}'
+            WHERE type = 'secretkey_error.error';
+
+            UPDATE fuse_config
+            SET value = '{"threshold":0.35, "minThreshold":0, "maxThreshold":1, "stepThreshold":0.005, "type": "percent", "forSeconds":30, "minForSeconds":5, "maxForSeconds":60, "stepForSeconds":5}'
+            WHERE type = 'performance_low.warning';
+
+            UPDATE fuse_config
+            SET value = '{"threshold":0.10, "minThreshold":0, "maxThreshold":1, "stepThreshold":0.005, "type": "percent", "forSeconds":60, "minForSeconds":5, "maxForSeconds":120, "stepForSeconds":5 }'
+            WHERE type = 'performance_low.error';
+
+            UPDATE fuse_config
+            SET value = '{"threshold":0.92, "minThreshold":0, "maxThreshold":1, "stepThreshold":0.005, "type": "percent"}'
+            WHERE type = 'app_disk_space_low.warning';
+
+            UPDATE fuse_config
+            SET value = '{"threshold":0.95, "minThreshold":0, "maxThreshold":1, "stepThreshold":0.005, "type": "percent"}'
+            WHERE type = 'noapp_disk_space_low.warning';
+
+            UPDATE fuse_config
+            SET value = '{"threshold":0.95, "minThreshold":0, "maxThreshold":1, "stepThreshold":0.005, "type": "percent", "forSeconds": 30, "minForSeconds":5, "maxForSeconds":60, "stepForSeconds":5}'
+            WHERE type = 'cpu_high.warning';
+
+            UPDATE fuse_config
+            SET value = '{"threshold":0.98, "minThreshold":0, "maxThreshold":1, "stepThreshold":0.005, "type": "percent", "forSeconds": 60, "minForSeconds":5, "maxForSeconds":120, "stepForSeconds":5}'
+            WHERE type = 'cpu_high.error';
+
+            UPDATE fuse_config
+            SET value = '{"threshold":0.95, "minThreshold":0, "maxThreshold":1, "stepThreshold":0.005, "type": "percent", "forSeconds": 30, "minForSeconds":5, "maxForSeconds":60, "stepForSeconds":5}'
+            WHERE type = 'memory_high.warning';
+
+            UPDATE fuse_config
+            SET value = '{"threshold":0.98, "minThreshold":0, "maxThreshold":1, "stepThreshold":0.005, "type": "percent", "forSeconds": 60, "minForSeconds":5, "maxForSeconds":120, "stepForSeconds":5}'
+            WHERE type = 'memory_high.error';
+
+            UPDATE fuse_config
+            SET value = '{"threshold":0.85, "minThreshold":0, "maxThreshold":1, "stepThreshold":0.005, "type": "percent", "forSeconds": 300, "minForSeconds":5, "maxForSeconds":600, "stepForSeconds":5}'
+            WHERE type = 'thread_usage_high.warning';
+
+            UPDATE fuse_config
+            SET value = '{"threshold":0.95, "minThreshold":0, "maxThreshold":1, "stepThreshold":0.005, "type": "percent", "forSeconds": 300, "minForSeconds":5, "maxForSeconds":600, "stepForSeconds":5}'
+            WHERE type = 'thread_usage_high.error';
+
+            UPDATE fuse_config
+            SET value = '{"threshold":2147483648, "minThreshold":104857600, "stepThreshold":104857600, "type": "bytes"}'
+            WHERE type = 'log_files_size_high.warning';
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

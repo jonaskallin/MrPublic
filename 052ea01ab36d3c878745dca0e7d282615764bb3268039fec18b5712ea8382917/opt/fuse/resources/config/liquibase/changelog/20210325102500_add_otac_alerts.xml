@@ -1,0 +1,24 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="fuse.team" id="add-otac_alerts" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+        <sql>
+            INSERT INTO fuse_config (component, type, value) VALUES
+            ('FUSE_ALERTS', 'otac_archive_no_pools.warning', '{"threshold":1, "forSeconds":300, "enabled":true, "sendMail": true}'),
+            ('FUSE_ALERTS', 'otac_storage_device_detached.warning', '{"threshold":1, "forSeconds":300, "enabled":true, "sendMail": true}'),
+            ('FUSE_ALERTS', 'otac_storage_device_free_space_high.warning', '{"threshold":0.08, "forSeconds":300, "enabled":true, "sendMail": true}'),
+            ('FUSE_ALERTS', 'otac_storage_device_free_space_limit.error', '{"threshold":1, "enabled":true, "sendMail": true}'),
+            ('FUSE_ALERTS', 'otac_buffer_no_volumes_attached.warning', '{"threshold":1, "forSeconds":300, "enabled":true, "sendMail": true}'),
+            ('FUSE_ALERTS', 'otac_pool_no_volumes.warning', '{"threshold":1, "forSeconds":300, "enabled":true, "sendMail": true}'),
+            ('FUSE_ALERTS', 'otac_service_status_error.error', '{"threshold":1, "forSeconds":30, "enabled":true, "sendMail": true}'),
+            ('FUSE_ALERTS', 'otac_pool_free_space_high.warning', '{"threshold":0.08, "forSeconds":300, "enabled":true, "sendMail": true}'),
+            ('FUSE_ALERTS', 'otac_pool_free_space_limit.error', '{"threshold":1, "enabled":true, "sendMail": true}'),
+            ('FUSE_ALERTS', 'otac_buffer_free_space_high.warning', '{"threshold":0.08, "forSeconds":300, "enabled":true, "sendMail": true}'),
+            ('FUSE_ALERTS', 'otac_buffer_free_space_limit.error', '{"threshold":1, "enabled":true, "sendMail": true}')
+            ;
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

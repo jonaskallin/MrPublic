@@ -1,0 +1,48 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="fuse.team" id="add-alert-digest" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+        <createProcedure><![CDATA[
+            -- create a function that generates uuidv3 from strings
+            -- (adapted from https://stackoverflow.com/a/55049994/10016792)
+            CREATE FUNCTION uuidv3(value text)
+            RETURNS uuid
+            AS $$
+            DECLARE
+            md5bytes  bytea;
+            BEGIN
+            md5bytes := decode(md5(value), 'hex');
+            --       md5Bytes[6]  &= 0x0f;  /* clear version        */
+            --       md5Bytes[6]  |= 0x30;  /* set to version 3     */
+            md5bytes := set_byte(md5bytes, 6, (get_byte(md5bytes, 6) & x'0F'::int) | x'30'::int);
+            --       md5Bytes[8]  &= 0x3f;  /* clear variant        */
+            --       md5Bytes[8]  |= 0x80;  /* set to IETF variant  */
+            md5bytes := set_byte(md5bytes, 8, (get_byte(md5bytes, 8) & x'3F'::int)|  x'80'::int);
+            RETURN (encode(md5bytes, 'hex'))::uuid;
+            END
+            $$
+            LANGUAGE plpgsql;
+        ]]></createProcedure>
+        <sql><![CDATA[
+            ALTER TABLE alert ADD COLUMN digest UUID;
+
+            UPDATE alert
+                SET digest = uuidv3(
+                    -- note that this must match with the same string that is used to generate the alert id in kotlin
+                    'alertname:' || alert_name
+                    || coalesce('|componentClass:' || component_class, '')
+                    || coalesce('|componentId:' || component_id, '')
+                    || coalesce('|componentName:' || component_name, '')
+                    || coalesce('|envId:' || environment_id::text, '')
+                    || coalesce('|systemId:' || system_id::text, '')
+                );
+
+            ALTER TABLE alert ALTER COLUMN digest SET NOT NULL;
+
+            DROP FUNCTION uuidv3;
+        ]]></sql>
+    </changeSet>
+
+</databaseChangeLog>

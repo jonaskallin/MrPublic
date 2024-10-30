@@ -1,0 +1,29 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="fuse.team" id="fuse-config-alerts-data" runOnChange="true" failOnError="false" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+        <sql>
+            INSERT INTO fuse_config (component, type, value) VALUES
+            -- based on alerts specification, check https://artemis.vilt-group.com/engineering/fuse/fuse-server/issues/106
+            ('FUSE_ALERTS', 'heartbeat_missing.error', '{"threshold":0,"forSeconds":10}')
+            ,('FUSE_ALERTS', 'performance_low.warning', '{"threshold":0.35,"forSeconds":30}')
+            ,('FUSE_ALERTS', 'performance_low.error', '{"threshold":0.10,"forSeconds":60}')
+            ,('FUSE_ALERTS', 'cside_mode_on.warning', '{"threshold":1}')
+            ,('FUSE_ALERTS', 'app_disk_space_low.warning', '{"threshold":0.92}')
+            ,('FUSE_ALERTS', 'noapp_disk_space_low.warning', '{"threshold":0.95}')
+            ,('FUSE_ALERTS', 'cpu_high.warning', '{"threshold":0.95, "forSeconds": 30}')
+            ,('FUSE_ALERTS', 'cpu_high.error', '{"threshold":0.98, "forSeconds": 60}')
+            ,('FUSE_ALERTS', 'memory_high.warning', '{"threshold":0.95, "forSeconds": 30}')
+            ,('FUSE_ALERTS', 'memory_high.error', '{"threshold":0.98, "forSeconds": 60}')
+            ,('FUSE_ALERTS', 'thread_exceptions.warning', '{"threshold": 1}')
+            ,('FUSE_ALERTS', 'thread_usage_high.warning', '{"threshold":0.85, "forSeconds": 300}')
+            ,('FUSE_ALERTS', 'thread_usage_high.error', '{"threshold":0.95, "forSeconds": 300}')
+            ,('FUSE_ALERTS', 'trace_files.warning', '{"threshold":1}')
+            ,('FUSE_ALERTS', 'log_files_size_high.warning', '{"threshold":2147483648}')
+            ,('FUSE_ALERTS', 'storage_provider_unavailable.error', '{"threshold": 0, "forSeconds": 10}')
+            ;
+        </sql>
+    </changeSet>
+</databaseChangeLog>

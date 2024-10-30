@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta http-equiv="Content-Type" content="text/html charset=UTF-8" />
+  <style>
+      @import url('https://fonts.googleapis.com/css?family=Montserrat');
+  </style>
+  <style>
+     /* Remove space around the email design. */
+     html,
+     body {
+         margin: 0 auto !important;
+         padding: 0 !important;
+         height: 100% !important;
+         width: 100% !important;
+     }
+     /* Stop Outlook resizing small text. */
+     * {
+       -ms-text-size-adjust: 100%;
+     }
+     /* Stop Outlook from adding extra spacing to tables. */
+     table,
+     td {
+       mso-table-lspace: 0pt !important;
+       mso-table-rspace: 0pt !important;
+     }
+     /* Use a better rendering method when resizing images in Outlook IE. */
+     img {
+       -ms-interpolation-mode:bicubic;
+     }
+      a {color: #bebf11;}
+      .message h1 a {color: white;}
+      h4 {color: #ffffff; margin-top: 10px; margin-bottom: 3px;}
+      .details p {margin-top: 0; margin-bottom: 10px;}
+      .details td {border-bottom: 2px solid #212234;}
+      .details tr:last-child td {border-bottom: 0;}
+      .multiple-details th {border-bottom: 2px solid #212234; padding: 0 5px 12px 5px;}
+      .multiple-details tbody tr td {padding-left: 5px; padding-right: 5px;}
+      .multiple-details tbody tr:first-child td {border-bottom: 0;}
+      .multiple-details tbody tr:last-child td {border-bottom: 2px solid #212234;}
+      .multiple-details tbody:nth-child(even) {background-color: #1e1e2f;}
+    </style>
+</head>
+<body width="100%" style="margin: 0; padding: 0 !important; mso-line-height-rule: exactly; background: #1e1e2f;font-family: 'Montserrat', Arial;" th:with="
+  systemUrl = ${system != null} ? ${fuseUrl + '/#/systems/' + system.id + '/detail'},
+  environmentUrl = ${environment != null} ? ${fuseUrl + '/#/environments/' + environment.id + '/detail'},
+  alertDetailUrl = ${fuseUrl + '/#/alerts/'},
+  color=${ alertData[0].dismissed ? '#fff' : { '#8cc63f', '#f9e912', '#ed4f38' }[eventSeverity.ordinal()] }
+">
+<!--<div style="width:100%; background: #1e1e2f;font-family: 'Montserrat', Arial; text-align: center;">-->
+
+  <table style="width:100%;">
+  <tr style="width:100%;">
+  <td></td>
+  <td width="700">
+
+  <table style="width:100%;max-width:700px;padding: 50px;text-align: center;margin: auto; background: #1e1e2f; font-family: 'Montserrat', Arial;">
+    <tbody style="width:100%;">
+    <tr style="width:100%;">
+      <td style="width:100%;">
+        <div class="logo" style="margin-bottom: 1.5em;">
+          <a th:href="${fuseUrl}" target="_blank" style="text-decoration: none;">
+            <img src="https://www.vilt-group.com/public/signature/fuse/logo.png" style="width: 100px;" width="100px" alt="fuse management central">
+          </a>
+        </div>
+
+        <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="width: 100%; background: #26293d;
+                      -webkit-border-radius: 20px; -moz-border-radius: 20px; border-radius: 20px;
+                      padding: 3.5em 1.5em; text-align: center;
+                      font-size: 12px; color: #bdbdbd;" th:styleappend="${'border-top: 3px solid ' + color}">
+          <tbody style="width:100%;">
+            <tr style="width: 100%;">
+              <td style="width: 100%;">
+                <th:block th:if="${alertData[0].dismissed}">
+                  <img src="https://www.vilt-group.com/public/signature/fuse/dismissed.png" style="margin: 0 auto; width: 80px;" width="80px" alt="dismissed">
+                  <h2 style="color: #fff; font-family: 'Montserrat', Arial;">Dismissed</h2>
+                </th:block>
+                <th:block th:unless="${alertData[0].dismissed}">
+                  <img th:src="${'https://www.vilt-group.com/public/signature/fuse/' + eventSeverity.name().toLowerCase() + '.png'}" style="margin: 0 auto; width: 80px;" width="80px" th:alt="${ { 'success', 'warning', 'error' }[eventSeverity.ordinal()] }">
+                  <h2 th:if="${alertData[0].status.name() == 'RESOLVED'}" th:text="${alertData[0].dismissed ? 'Dismissed' : 'Resolved'}" style="color: #8cc63f; font-family: 'Montserrat', Arial;">Resolved</h2>
+                </th:block>
+                <h1 style="font-size: 1.5em;margin-bottom: 15px; margin-top: 35px; font-family: 'Montserrat', Arial;">
+                    <span>
+                      <span th:if="${system != null}">System <a th:href="${systemUrl}" target="_blank" th:text="${system.name}" style="color: white;"></a></span>
+                      <span th:if="${system == null and environment != null}">Environment <a th:href="${environmentUrl}" target="_blank" th:text="${environment.name}" style="color: white;"></a></span>
+                      <br/><span th:text="${eventSummaryy}"></span>
+                    </span>
+                </h1>
+                <table class="details" style="text-align: left; width: 100%;">
+                  <tbody style="width: 100%;">
+                    <tr style="width: 100%;">
+                      <td style="width: 100%;border-bottom: 2px solid #212234;">
+                        <h4 style="color: #ffffff; margin-top: 10px; margin-bottom: 3px; font-family: 'Montserrat', Arial;">Affected</h4>
+                        <p style="margin-top: 0; margin-bottom: 10px; font-family: 'Montserrat', Arial;">
+                          <img th:if="${environment != null}" src="https://www.vilt-group.com/public/signature/fuse/environment.png" width="20px" style="width: 20px; margin-top: -5px; position: relative; top: 5px;"/>
+                          <a th:if="${environment != null}" style="color: #bebf11;" th:href="${environmentUrl}" th:text="${environment.name}">PROD</a>
+                          <img th:if="${system != null}" src="https://www.vilt-group.com/public/signature/fuse/system.png" width="20px" style="width: 20px; margin-top: -5px; position: relative; top: 5px;"/>
+                          <a th:if="${system != null}" style="color: #bebf11;" th:href="${systemUrl}" th:text="${system.name}">otcs-docker</a>
+                        </p>
+                      </td>
+                    </tr>
+                    <tr style="width: 100%;">
+                      <td style="width:100%;border-bottom: 2px solid #212234;">
+                        <div style="width: 50%; float:left;">
+                          <h4 style="color: #ffffff; margin-top: 10px; margin-bottom: 3px; font-family: 'Montserrat', Arial;">Start Time</h4>
+                          <p  style="margin-top: 0; margin-bottom: 10px; color: #bdbdbd; font-family: 'Montserrat', Arial;" th:text="${T(io.vilt.fuse.utils.ExtensionsKt).instantToIntegrationChannelsTimezoneDateFormat(alertData[0].startsAt, timeZone)}">June 5, 2019 at 9:48PM UTC</p>
+                        </div>
+                        <div style="width: 50%; float:left;" th:if="${alertData[0].endsAt != null}">
+                          <h4 style="color: #ffffff; margin-top: 10px; margin-bottom: 3px; font-family: 'Montserrat', Arial;">End Time</h4>
+                          <p style="margin-top: 0; margin-bottom: 10px; color: #bdbdbd; font-family: 'Montserrat', Arial;" th:text="${T(io.vilt.fuse.utils.ExtensionsKt).instantToIntegrationChannelsTimezoneDateFormat(alertData[0].endsAt, timeZone)}">June 5, 2019 at 9:48PM UTC</p>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr style="width: 100%;">
+                      <td style="width:100%;">
+                        <div style="width: 50%; float:left;">
+                          <h4 style="color: #ffffff; margin-top: 10px; margin-bottom: 3px; font-family: 'Montserrat', Arial;">Metric</h4>
+                          <p style="margin-top: 0; margin-bottom: 10px; color: #bdbdbd; font-family: 'Montserrat', Arial;" th:text="${alertData[0].alertName}"></p>
+                        </div>
+                        <div style="width: 50%; float:left;" th:if="${alertData[0].threshold != null and alertData[0].units.isValid()}">
+                          <h4 style="color: #ffffff; margin-top: 10px; margin-bottom: 3px; font-family: 'Montserrat', Arial;">Threshold</h4>
+                          <p style="margin-top: 0; margin-bottom: 10px; color: #bdbdbd; font-family: 'Montserrat', Arial;" th:text="${
+                          (alertData[0].below ? 'below ' : 'above ') +
+                          (alertData[0].units != null ? alertData[0].units.format(alertData[0].threshold) : alertData[0].threshold)
+                          }"></p>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <p style="color: #bdbdbd; font-family: 'Montserrat', Arial;">Please find below a list of alerts triggered simultaneously.</p>
+                <table style="width:100%;text-align:left;border-collapse: collapse;margin-top:15px;" class="multiple-details">
+                  <tr style="width: 100%;">
+                    <td style="width: 50%;border-bottom: 2px solid #212234; padding: 0 5px 12px 5px;font-family: 'Montserrat', Arial;">
+                      <h4 style="color: #ffffff; margin-top: 0px; margin-bottom: 0px; font-family: 'Montserrat', Arial;">Alert Lasted</h4>
+                    </td>
+                    <td th:if="${alertData[0].status.name() != 'RESOLVED' and alertData[0].units.isValid()}" style="width:50%;border-bottom: 2px solid #212234; padding: 0 5px 12px 5px;font-family: 'Montserrat', Arial;">
+                      <h4 style="color: #ffffff; margin-top: 0px; margin-bottom: 0px; font-family: 'Montserrat', Arial;">Observed</h4>
+                    </td>
+                  </tr>
+                </table>
+                <table th:each="alert,iterStat: ${alertData}" style="width:100%;" th:styleappend="${iterStat.odd ? 'background-color: #1e1e2f;' : ''} ">
+                  <tr style="width:100%;">
+                    <td style="text-align:left; padding-left: 5px; padding-right: 5px;width:50%;" th:styleappend="${iterStat.odd ? 'background-color: #1e1e2f;' : ''} ">
+                      <p style="color: #bdbdbd;font-family: 'Montserrat', Arial;" th:if="${alert.endsAt != null}" th:text="${
+                          T(org.apache.commons.lang3.time.DurationFormatUtils).formatDurationWords(
+                            T(java.time.Duration).between(alert.startsAt, alert.endsAt).toMillis(),
+                            true,
+                            true
+                          )
+                        }">40 secs</p>
+                      <p style="color: #bdbdbd;font-family: 'Montserrat', Arial;" th:if="${alert.endsAt == null}">-</p>
+                    </td>
+                    <td th:if="${alert.status.name() != 'RESOLVED' and alert.units.isValid()}" style="text-align:left; padding-left: 5px; padding-right: 5px;width:50%;" th:styleappend="${iterStat.odd ? 'background-color: #1e1e2f;' : ''} ">
+                      <p style="color: #bdbdbd;font-family: 'Montserrat', Arial;" th:text="${alert.units.format(alert.observedValue)}">5000</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" style="text-align: left; padding-left: 5px; padding-right: 5px;" th:styleappend="${iterStat.odd ? 'background-color: #1e1e2f;' : ''} ">
+                      <p style="margin-bottom: -2px; margin-top: 0; font-weight: bold; color: #ffffff; font-family: 'Montserrat', Arial;">Description:</p>
+                      <p style="margin-top:0; color: #bdbdbd; font-family: 'Montserrat', Arial;" th:text="${alert.summary}"></p>
+                      <a th:if="${alert.alertDetailDigest != null}" th:href="${alertDetailUrl + alert.alertDetailDigest}" target="_blank" style="margin-bottom: 10px;display: inline-block;">
+                        View Details
+                      </a>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  </td>
+  <td></td>
+  </tr>
+  </table>
+
+<!--</div>-->
+</body>
+</html>

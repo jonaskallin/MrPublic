@@ -1,0 +1,35 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="fuse.team" id="policy-table" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+        <createTable tableName="configuration_policy">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" primaryKeyName="policy_PK" />
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="data" type="json">
+                <constraints nullable="false"/>
+            </column>
+            <column name="active"
+                    type="boolean"/>
+        </createTable>
+
+         <!-- JOIN TABLE -->
+        <createTable tableName="configuration_policy_system">
+            <column name="configuration_policy_id" type="uuid">
+                <constraints foreignKeyName="fk_configuration_policy_system_policy"
+                             referencedTableName="configuration_policy"
+                             referencedColumnNames="id" deferrable="false" initiallyDeferred="false"/>
+            </column>
+            <column name="system_id" type="uuid">
+                <constraints foreignKeyName="fk_configuration_policy_system_system"
+                             referencedTableName="system"
+                             referencedColumnNames="id" deferrable="false" initiallyDeferred="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

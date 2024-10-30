@@ -1,0 +1,45 @@
+<div th:fragment="overview">
+  <h4>1 | Overview</h4>
+  <p>
+    This report provides information regarding status, health, detected alerts and the efficiency of the OpenText infrastructure for <b>[[${data.getCustomerName()}]]</b>.
+  </p>
+  <br>
+  <p>
+    It represents the recorded data from the following environment(s), covering the period of
+    <b>[[${data.periodDuration}]]</b> from
+    <b>[[${#temporals.format(data.getStartPeriod(), data.dateFormat)}]] (UTC[[${data.getUtc()}]])</b> to <b>[[${#temporals.format(data.getEndPeriod(), data.dateFormat)}]] (UTC[[${data.getUtc()}]])</b>.
+  </p>
+  <ul class="overview-ul">
+    <li th:each="environmentEntry: ${data.environments}">
+      <b>[[ ${environmentEntry.value.getName()} ]]</b>
+      <ul class="overview-ul-systems" th:with="typeCount = ${data.systemsPerEnvAndTypeCount[environmentEntry.key]}">
+        <li th:if="${typeCount != null && #maps.containsKey(typeCount, 'OTCS')}" th:with="numberOfOTCS = ${typeCount['OTCS']}">
+          <span class="text-secondary">OpenText Content Server: [[ ${numberOfOTCS} ]] system[[ ${numberOfOTCS > 1 ? "s" : ""} ]]</span>
+        </li>
+        <li th:if="${typeCount != null && #maps.containsKey(typeCount, 'OTAC')}" th:with="numberOfOTAC = ${typeCount['OTAC']}">
+          <span class="text-secondary">OpenText Archive Center: [[ ${numberOfOTAC} ]] system[[ ${numberOfOTAC > 1 ? "s" : ""} ]]</span>
+        </li>
+      </ul>
+    </li>
+  </ul>
+  <br>
+  <p>
+    The service report is divided in different sections, facilitating the analysis of specific application areas that are required to understand and maintain a healthy and high performant OpenText infrastructure.
+  </p>
+  <ul class="overview-ul">
+    <li>
+      <b>Management Summary :</b> A short summary of the overall OpenText health, performance and availability.
+    </li>
+    <li>
+      <b>Alerts Report :</b> This section provides a detailed list of all alerts, either every individual alert
+      that matches the parameters or a count of the number of times each alert occurred, during
+      this report time frame.
+    </li>
+    <li>
+      <b>Performance &amp; Availability Analysis :</b> This section shows detailed information regarding system responsiveness and user activity.
+    </li>
+    <li>
+      <b>Host Resources Usage Analysis :</b> This section displays the most important host resource usage during this report timeframe.
+    </li>
+  </ul>
+</div>

@@ -1,0 +1,27 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="fuse.team" id="health_alerts" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+        <sql>
+            INSERT INTO fuse_config (component, type, value) VALUES
+            ('FUSE_ALERTS', 'health_disk.warning', '{"threshold":0.95, "enabled": true , "sendMail": false }')
+            ,('FUSE_ALERTS', 'health_disk.error', '{"threshold":0.99, "enabled": true , "sendMail": false }')
+            ,('FUSE_ALERTS', 'health_alert_manager.error', '{"threshold":1, "enabled": true , "sendMail": false }')
+            ,('FUSE_ALERTS', 'health_database.error', '{"threshold":1, "enabled": true , "sendMail": false }')
+            ,('FUSE_ALERTS', 'health_mail.error', '{"threshold":1, "enabled": true , "sendMail": false }')
+            ,('FUSE_ALERTS', 'health_prometheus.error', '{"threshold":1, "enabled": true , "sendMail": false }')
+            ;
+        </sql>
+    </changeSet>
+
+    <changeSet author="fuse.team" id="update-table-alerts" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+        <sql>
+            ALTER TABLE public.alert ADD admin_alert bool NOT NULL DEFAULT false;
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>
+
+

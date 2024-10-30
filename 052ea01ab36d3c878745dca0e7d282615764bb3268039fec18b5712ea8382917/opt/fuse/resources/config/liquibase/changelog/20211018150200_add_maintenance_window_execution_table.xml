@@ -1,0 +1,38 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="fuse.team" id="maintenance-window-execution-table" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+        <createTable tableName="maintenance_window_execution">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" primaryKeyName="maintenance_window_execution_PK" />
+            </column>
+            <column name="name" type="varchar(50)"/>
+            <column name="description" type="varchar(255)"/>
+            <column name="duration" type="int4"/>
+            <column name="job_id" type="uuid"/>
+            <column name="start_time" type="timestamp" />
+            <column name="end_time" type="timestamp" />
+            <column name="username" type="varchar(255)"/>
+            <column name="user_email" type="varchar(50)"/>
+            <column name="notify_condition" type="varchar(20)"/>
+            <column name="notify_recipients" type="varchar(500)"/>
+        </createTable>
+
+        <!-- JOIN TABLE -->
+        <createTable tableName="maintenance_window_execution_entry">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" primaryKeyName="maintenance_window_execution_entry_pk" />
+            </column>
+            <column name="maintenance_window_execution_id" type="uuid">
+                <constraints foreignKeyName="maintenance_window_execution_entry_maintenance_window_execution_fk"
+                             referencedTableName="maintenance_window_execution"
+                             referencedColumnNames="id" deferrable="false" initiallyDeferred="false"/>
+            </column>
+            <column name="env_id" type="uuid" />
+            <column name="system_id" type="uuid" />
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

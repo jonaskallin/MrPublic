@@ -1,0 +1,6537 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "$$hashKey": "object:1105",
+        "builtIn": 1,
+        "datasource": "Grafana",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "collapsed": false,
+      "datasource": "Grafana",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 149,
+      "panels": [],
+      "title": "Default",
+      "type": "row"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 7,
+        "x": 0,
+        "y": 1
+      },
+      "id": 58,
+      "interval": "",
+      "links": [],
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "10.3.1",
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "expr": "count(fuse_configuration_policy_system{envId=~\"[[envId]]\",} and on (policyId) fuse_configuration_policy_active == 1)",
+          "format": "time_series",
+          "instant": true,
+          "legendFormat": "Configuration Policies",
+          "refId": "A"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(otcs_system_configurations_count{envId=~\"[[envId]]\",})",
+          "format": "time_series",
+          "instant": true,
+          "legendFormat": "System Configurations",
+          "refId": "B"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(otcs_log_files_counter{envId=~\"[[envId]]\"}) or vector(0)",
+          "instant": true,
+          "legendFormat": "Logs - Counter",
+          "refId": "C"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(otcs_resource_trace_files_total{envId=~\"[[envId]]\"}) or vector(0)",
+          "instant": true,
+          "legendFormat": "Logs - Trace Counter",
+          "refId": "D"
+        },
+        {
+          "datasource": "Prometheus",
+          "exemplar": true,
+          "expr": "sum(otcs_log_files_total_size{envId=~\"[[envId]]\"})",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Logs - Total Size",
+          "refId": "E"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(otcs_loaderprocess_count{envId=~\"[[envId]]\",})",
+          "instant": true,
+          "legendFormat": "Loaders",
+          "refId": "F"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(max by (envId) (otcs_agent_count{envId=~\"[[envId]]\",}))",
+          "instant": true,
+          "legendFormat": "Agents",
+          "refId": "G"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(max by (envId) (otcs_da_agents_total_count{envId=~\"[[envId]]\",}))",
+          "instant": true,
+          "legendFormat": "Distributed Agents - Agents",
+          "refId": "H"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(max by (envId) (otcs_da_workers_total_count{envId=~\"[[envId]]\",}))",
+          "instant": true,
+          "legendFormat": "Distributed Agents - Workers",
+          "refId": "I"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(otcs_sov_process_count{envId=~\"[[envId]]\",})",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "System Object Volume",
+          "refId": "J"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "count(otcs_storage_provider_available{envId=~\"[[envId]]\", type=\"RDBMS\"})  by (envId, name, type)",
+          "instant": true,
+          "legendFormat": "RDBMS",
+          "refId": "K"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "count(otcs_storage_provider_available{envId=~\"[[envId]]\", type=\"EXTSHARED\"}) by (envId, name, type)",
+          "instant": true,
+          "legendFormat": "EXTSHARED",
+          "refId": "L"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "count(otcs_storage_provider_available{envId=~\"[[envId]]\", type=\"ENTERPRISEARCHIVE\"}) by (envId, name, type)",
+          "instant": true,
+          "legendFormat": "ENTERPRISEARCHIVE",
+          "refId": "M"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "count(ALERTS{alertname!~\"__.*\",adminAlert!=\"true\",envId=~\"[[envId]]\",severity=\"warning\"} unless ignoring (severity) \r\nALERTS{alertname!~\"__.*\",adminAlert!=\"true\",envId=~\"[[envId]]\",severity=\"error\"}) or vector(0)",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Warnings",
+          "refId": "N"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "count(ALERTS{alertname!~\"^__.*$\",envId=~\"[[envId]]\",severity=\"error\"}) or vector(0)",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Errors",
+          "refId": "O"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "avg by(componentId, type) (otcs_storage_provider_read_throughput{envId=~\"[[envId]]\"})",
+          "instant": true,
+          "legendFormat": "Avg. Read Throughput",
+          "refId": "P"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "avg by(componentId, type) (otcs_storage_provider_write_throughput{envId=~\"[[envId]]\"})",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Avg. Write Throughput",
+          "refId": "Q"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "avg by(componentId, type) (otcs_storage_provider_disk_space_total{envId=~\"[[envId]]\"})",
+          "instant": true,
+          "legendFormat": "Avg. Disk Total Space",
+          "refId": "R"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "avg by(componentId, type) (otcs_storage_provider_disk_space_used{envId=~\"[[envId]]\"})",
+          "instant": true,
+          "legendFormat": "Avg. Disk Used Space",
+          "refId": "S"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(otcs_resource_memory_total{envId=~\"[[envId]]\"})",
+          "instant": true,
+          "legendFormat": "Total Memory",
+          "refId": "T"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(otcs_resource_swap_memory_total{envId=~\"[[envId]]\"})",
+          "instant": true,
+          "legendFormat": "Total Swap Memory",
+          "refId": "U"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(otcs_system_logical_processor{envId=~\"[[envId]]\"})",
+          "instant": true,
+          "legendFormat": "Total Logical Processor",
+          "refId": "V"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(otcs_system_physical_processor{envId=~\"[[envId]]\"})",
+          "instant": true,
+          "legendFormat": "Total Physical Processor",
+          "refId": "X"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "count(count by (envId, alertname, severity) (ALERTS{envId=~\"[[envId]]\",alertname=~\"trace_files\",severity=\"warning\"} unless ignoring (severity) ALERTS{envId=~\"[[envId]]\",alertname=~\"trace_files\",severity=\"error\"} or ALERTS{envId=~\"[[envId]]\",alertname=~\"trace_files\",severity=\"error\"})) * sum(otcs_resource_trace_files_total{envId=~\"[[envId]]\"}) or vector(0)",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Logs - Trace Counter Alert",
+          "refId": "Y"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "avg(otcs_db_query_execution_time{componentClass=\"db_performance\",envId=~\"[[envId]]\"}) or vector(0)",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Avg. Query Performance",
+          "refId": "Z"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "count(ALERTS{alertname!~\"__.*\",adminAlert!=\"true\",envId=~\"[[envId]]\",systemId=~\"[[otcsId]]\",severity=\"warning\"} unless ignoring (severity) ALERTS{alertname!~\"__.*\",adminAlert!=\"true\",envId=~\"[[envId]]\",systemId=~\"[[otcsId]]\",severity=\"error\"}) or vector(0)",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Warnings OTCS",
+          "refId": "A1"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "count(ALERTS{alertname!~\"^__.*$\",envId=~\"[[envId]]\",systemId=~\"[[otcsId]]\",severity=\"error\"}) or vector(0)",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Errors OTCS",
+          "refId": "A2"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "count(ALERTS{alertname!~\"__.*\",adminAlert!=\"true\",envId=~\"[[envId]]\",systemId=~\"[[otacId]]\",severity=\"warning\"} unless ignoring (severity) ALERTS{alertname!~\"__.*\",adminAlert!=\"true\",envId=~\"[[envId]]\",systemId=~\"[[otacId]]\",severity=\"error\"}) or vector(0)",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Warnings OTAC",
+          "refId": "A3"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "count(ALERTS{alertname!~\"^__.*$\",envId=~\"[[envId]]\",systemId=~\"[[otacId]]\",severity=\"error\"}) or vector(0)",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Errors OTAC",
+          "refId": "A4"
+        },
+        {
+          "datasource": "Prometheus",
+          "exemplar": true,
+          "expr": "avg by(componentId, type) (otcs_storage_provider_file_size{envId=~\"[[envId]]\"})",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Avg. File Size",
+          "refId": "A5"
+        },
+        {
+          "datasource": "Prometheus",
+          "exemplar": true,
+          "expr": "sum(fuse_maintenance_window_start_time{envId=~\"[[envId]]\", systemId=\"\"}) by (envId)",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Maintenance Mode",
+          "refId": "A6"
+        },
+        {
+          "datasource": "Prometheus",
+          "exemplar": true,
+          "expr": "max(otcs_heartbeat_last_time{systemId=~\"[[systemId]]\"})",
+          "format": "time_series",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Last Heart Beat",
+          "refId": "A7"
+        }
+      ],
+      "title": "Components",
+      "type": "stat"
+    },
+    {
+      "columns": [],
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": false,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 5,
+        "w": 6,
+        "x": 7,
+        "y": 1
+      },
+      "id": 50,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "10.3.1",
+      "scroll": true,
+      "showHeader": true,
+      "sort": {
+        "col": 0,
+        "desc": true
+      },
+      "styles": [
+        {
+          "alias": "Time",
+          "align": "auto",
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "pattern": "Time",
+          "type": "date"
+        },
+        {
+          "alias": "",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 2,
+          "pattern": "/.*/",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "expr": "sum by (severity, alertname, componentId, systemId, envId) (ALERTS{alertname!~\"__.*\",adminAlert!=\"true\",envId=~\"[[envId]]\",severity=\"warning\"} unless ignoring (severity) \r\nALERTS{alertname!~\"__.*\",adminAlert!=\"true\",envId=~\"[[envId]]\",severity=\"error\"} or ALERTS{alertname!~\"__.*\",adminAlert!=\"true\",envId=~\"[[envId]]\",severity=\"error\"})",
+          "format": "table",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "{{severity}} - {{alertname}}",
+          "refId": "A"
+        }
+      ],
+      "title": "Alerts",
+      "transform": "table",
+      "type": "table"
+    },
+    {
+      "columns": [],
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": false,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 5,
+        "w": 5,
+        "x": 13,
+        "y": 1
+      },
+      "id": 4,
+      "links": [],
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "10.3.1",
+      "scroll": true,
+      "showHeader": true,
+      "sort": {
+        "col": 4,
+        "desc": true
+      },
+      "styles": [
+        {
+          "alias": "Time",
+          "align": "auto",
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "pattern": "Time",
+          "type": "date"
+        },
+        {
+          "alias": "System",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "systemId",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
+          "alias": "Status",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "mappingType": 1,
+          "pattern": "Value #A",
+          "thresholds": [],
+          "type": "number",
+          "unit": "none"
+        },
+        {
+          "alias": "Threads Usage",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Value #C",
+          "thresholds": [],
+          "type": "number",
+          "unit": "percentunit"
+        },
+        {
+          "alias": "CPU Usage",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Value #F",
+          "thresholds": [],
+          "type": "number",
+          "unit": "percentunit"
+        },
+        {
+          "alias": "Memory Usage",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Value #G",
+          "thresholds": [],
+          "type": "number",
+          "unit": "percentunit"
+        },
+        {
+          "alias": "Errors",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 0,
+          "mappingType": 1,
+          "pattern": "Value #H",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        },
+        {
+          "alias": "Warnings",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 0,
+          "mappingType": 1,
+          "pattern": "Value #I",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        },
+        {
+          "alias": "CSIDE Mode",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Value #B",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        },
+        {
+          "alias": "Pending Restart",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Value #E",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        },
+        {
+          "alias": "Active",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Value #D",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        },
+        {
+          "alias": "Total Memory",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Value #J",
+          "thresholds": [],
+          "type": "number",
+          "unit": "bytes"
+        },
+        {
+          "alias": "Total Swap Memory",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Value #K",
+          "thresholds": [],
+          "type": "number",
+          "unit": "bytes"
+        },
+        {
+          "alias": "Total Physical Processor",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Value #L",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        },
+        {
+          "alias": "Total Logical Processor",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Value #M",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "expr": "avg(otcs_resource_system_uptime{envId=~\"[[envId]]\"}) by (systemId)",
+          "format": "table",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "Status",
+          "refId": "A"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "avg by (systemId) (system_env:otcs_thread_busy:ratio{envId=~\"[[envId]]\",})",
+          "format": "table",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "Threads Usage",
+          "refId": "C"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "avg(otcs_resource_system_cpu_load{envId=~\"[[envId]]\",} ) by (systemId)",
+          "format": "table",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "CPU Usage",
+          "refId": "F"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(otcs_resource_memory_used{envId=~\"[[envId]]\"}) by (systemId) / sum(otcs_resource_memory_total{envId=~\"[[envId]]\"}) by (systemId)",
+          "format": "table",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "Memory Usage",
+          "refId": "G"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "count(ALERTS{alertname!~\"^__.*$\",envId=~\"[[envId]]\",severity=\"error\"}) by (systemId, envId) or 0 * count(otcs_heartbeat_up{envId=~\"[[envId]]\",}) by (systemId, envId)",
+          "format": "table",
+          "instant": true,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "Errors",
+          "refId": "H"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "count(ALERTS{alertname!~\"__.*\",adminAlert!=\"true\",envId=~\"[[envId]]\",severity=\"warning\"}  unless ignoring (severity) ALERTS{alertname!~\"__.*\",adminAlert!=\"true\",envId=~\"[[envId]]\",severity=\"error\"}) by (systemId, envId) or 0 * count(otcs_heartbeat_up{envId=~\"[[envId]]\",}) by (systemId, envId)",
+          "format": "table",
+          "instant": true,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "Warnings",
+          "refId": "I"
+        },
+        {
+          "datasource": "Prometheus",
+          "exemplar": true,
+          "expr": "max(otcs_heartbeat_cside_mode{envId=~\"[[envId]]\"}) by (systemId, envId)",
+          "format": "table",
+          "instant": true,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "CSIDE Mode",
+          "refId": "B"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "max(otcs_heartbeat_pending_restart{envId=~\"[[envId]]\",}) by (systemId)",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "Pending Restart",
+          "refId": "E"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "max(fuse_system_active{envId=~\"[[envId]]\"}) by (systemId)",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "Active",
+          "refId": "D"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "avg(otcs_resource_memory_total{envId=~\"[[envId]]\",} ) by (systemId)",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "Total Memory",
+          "refId": "J"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "avg(otcs_resource_swap_memory_total{envId=~\"[[envId]]\",} ) by (systemId)",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "Total Swap Memory",
+          "refId": "K"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "avg(otcs_system_physical_processor{envId=~\"[[envId]]\",} ) by (systemId)",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "Total Physical Processor",
+          "refId": "L"
+        },
+        {
+          "datasource": "Prometheus",
+          "exemplar": true,
+          "expr": "avg(otcs_system_logical_processor{envId=~\"[[envId]]\",} ) by (systemId)",
+          "format": "table",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Total Logical Processor",
+          "refId": "M"
+        },
+        {
+          "datasource": "Prometheus",
+          "exemplar": true,
+          "expr": "max by(systemId) (fuse_maintenance_window_start_time{systemId=~\"[[systemId]]\"})",
+          "format": "table",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Maintenance Mode",
+          "refId": "N"
+        },
+        {
+          "datasource": "Prometheus",
+          "exemplar": true,
+          "expr": "sum(otcs_heartbeat_up{envId=~\"[[envId]]\"}) by (systemId)",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Heartbeat",
+          "refId": "O"
+        }
+      ],
+      "title": "Systems Table",
+      "transform": "table",
+      "type": "table"
+    },
+    {
+      "columns": [
+        {
+          "$$hashKey": "object:19",
+          "text": "Total",
+          "value": "total"
+        }
+      ],
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 5,
+        "w": 6,
+        "x": 18,
+        "y": 1
+      },
+      "id": 122,
+      "interval": "",
+      "links": [],
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "10.3.1",
+      "scroll": true,
+      "showHeader": true,
+      "sort": {
+        "col": 0,
+        "desc": true
+      },
+      "styles": [
+        {
+          "$$hashKey": "object:1432",
+          "alias": "Time",
+          "align": "auto",
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "pattern": "Time",
+          "type": "date"
+        },
+        {
+          "$$hashKey": "object:1433",
+          "alias": "",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 2,
+          "pattern": "/.*/",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "expr": "count(ALERTS{alertname=\"heartbeat_missing\",envId=~\"[[envId]]\",systemId=~\"[[otacId]]\"}) or vector(0)",
+          "format": "time_series",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Offline",
+          "refId": "B"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "count(ALERTS{alertname!~\"__.*\",adminAlert!=\"true\",envId=~\"[[envId]]\",systemId=~\"[[otacId]]\",severity=\"warning\"} unless ignoring (severity) \r\nALERTS{alertname!~\"__.*\",adminAlert!=\"true\",envId=~\"[[envId]]\",systemId=~\"[[otacId]]\",severity=\"error\"}) or vector(0)",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Warnings",
+          "refId": "C"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "count(ALERTS{alertname!~\"^__.*$\",envId=~\"[[envId]]\",systemId=~\"[[otacId]]\",severity=\"error\"}) or vector(0)",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Errors",
+          "refId": "D"
+        }
+      ],
+      "title": "Components OTAC",
+      "transform": "timeseries_aggregations",
+      "type": "table"
+    },
+    {
+      "collapsed": false,
+      "datasource": "Grafana",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 6
+      },
+      "id": 147,
+      "panels": [],
+      "title": "Overview - Systems",
+      "type": "row"
+    },
+    {
+      "datasource": "Prometheus",
+      "description": "Alerts with performance and availability",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 0,
+        "y": 7
+      },
+      "id": 73,
+      "interval": "",
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "none",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 100
+      },
+      "pluginVersion": "10.3.1",
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(count by (systemId, alertname, severity) (count_over_time(ALERTS{alertname!~\"__.*\",severity=\"warning\",envId=~\"[[envId]]\", systemId=~\"[[systemId]]\", systemId!~\"\"}[${overviewChartBarInterval}])) OR count by (systemId, alertname, severity) (count_over_time(ALERTS{alertname!~\"__.*\",adminAlert!=\"true\",severity=\"warning\",envId=~\"[[envId]]\",systemId=~\"[[systemId]]\"}[${overviewChartBarInterval}])))",
+          "hide": false,
+          "interval": "${overviewChartBarInterval}",
+          "legendFormat": "Warnings",
+          "refId": "B"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(count by (systemId, alertname, severity) (count_over_time(ALERTS{alertname!~\"__.*\",severity=\"error\",envId=~\"[[envId]]\", systemId=~\"[[systemId]]\", systemId!~\"\"}[${overviewChartBarInterval}])) OR count by (systemId, alertname, severity) (count_over_time(ALERTS{alertname!~\"__.*\",severity=\"error\",envId=~\"[[envId]]\",systemId=~\"[[systemId]]\"}[${overviewChartBarInterval}])))",
+          "hide": false,
+          "interval": "${overviewChartBarInterval}",
+          "legendFormat": "Errors",
+          "refId": "A"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "avg(system_env:perf{envId=~\"[[envId]]\",systemId=~\"[[systemId]]\"})*100 or vector(0)",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "Performance",
+          "refId": "E"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "(sum(sum_over_time(otcs_heartbeat_up{envId=~\"[[envId]]\",systemId=~\"[[systemId]]\"}[5m])) / sum(sum_over_time(fuse_system_active{envId=~\"[[envId]]\",systemId=~\"[[systemId]]\"}[5m])))*100 or vector(0)",
+          "hide": false,
+          "legendFormat": "Avg. Availability",
+          "refId": "D"
+        }
+      ],
+      "title": "Overview",
+      "type": "barchart"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "percent",
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 4,
+        "y": 7
+      },
+      "id": 109,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "10.3.1",
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "expr": "avg(otcs_resource_system_cpu_load{systemId=~\"[[systemId]]\",} and otcs_heartbeat_up{systemId=~\"[[systemId]]\"})*100",
+          "interval": "",
+          "legendFormat": "CPU Usage",
+          "queryType": "randomWalk",
+          "refId": "A"
+        }
+      ],
+      "title": "CPU Usage",
+      "type": "timeseries"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "decbytes",
+          "unitScale": true
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Total Memory"
+            },
+            "properties": [
+              {
+                "id": "custom.lineWidth",
+                "value": 0
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 8,
+        "y": 7
+      },
+      "id": 107,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "10.3.1",
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(otcs_resource_memory_used{systemId=~\"[[systemId]]\"}) and max(otcs_heartbeat_up{systemId=~\"[[systemId]]\"})",
+          "interval": "",
+          "legendFormat": "Memory Usage",
+          "queryType": "randomWalk",
+          "refId": "A"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(otcs_resource_memory_total{systemId=~\"[[systemId]]\"}) and max(otcs_heartbeat_up{systemId=~\"[[systemId]]\"})",
+          "interval": "",
+          "legendFormat": "Total Memory",
+          "refId": "B"
+        }
+      ],
+      "title": "Memory Usage",
+      "type": "timeseries"
+    },
+    {
+      "columns": [
+        {
+          "$$hashKey": "object:19",
+          "text": "Total",
+          "value": "total"
+        }
+      ],
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 5,
+        "w": 7,
+        "x": 12,
+        "y": 7
+      },
+      "id": 121,
+      "interval": "",
+      "links": [],
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "10.3.1",
+      "scroll": true,
+      "showHeader": true,
+      "sort": {
+        "col": 0,
+        "desc": true
+      },
+      "styles": [
+        {
+          "$$hashKey": "object:1432",
+          "alias": "Time",
+          "align": "auto",
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "pattern": "Time",
+          "type": "date"
+        },
+        {
+          "$$hashKey": "object:1433",
+          "alias": "",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 2,
+          "pattern": "/.*/",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "expr": "count(ALERTS{alertname=\"heartbeat_missing\",envId=~\"[[envId]]\",systemId=~\"[[systemId]]\"}) or vector(0)",
+          "format": "time_series",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Offline",
+          "refId": "B"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "count(ALERTS{alertname!~\"__.*\",adminAlert!=\"true\",envId=~\"[[envId]]\",systemId=~\"[[systemId]]\",severity=\"warning\"} unless ignoring (severity) \r\nALERTS{alertname!~\"__.*\",adminAlert!=\"true\",envId=~\"[[envId]]\",systemId=~\"[[systemId]]\",severity=\"error\"}) or vector(0)",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Warnings",
+          "refId": "C"
+        },
+        {
+          "datasource": "Prometheus",
+          "exemplar": true,
+          "expr": "count(ALERTS{alertname!~\"^__.*$\",envId=~\"[[envId]]\",systemId=~\"[[systemId]]\",severity=\"error\"}) or vector(0)",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Errors",
+          "refId": "D"
+        },
+        {
+          "datasource": "Prometheus",
+          "exemplar": true,
+          "expr": "sum(fuse_maintenance_window_start_time{envId=~\"[[envId]]\", systemId=\"\"}) by (envId)",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Maintenance Mode",
+          "refId": "A"
+        }
+      ],
+      "title": "Components Overview",
+      "transform": "timeseries_aggregations",
+      "type": "table"
+    },
+    {
+      "collapsed": false,
+      "datasource": "Grafana",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 12
+      },
+      "id": 143,
+      "panels": [],
+      "title": "OTCS - Overview",
+      "type": "row"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 0,
+        "y": 13
+      },
+      "id": 65,
+      "links": [],
+      "options": {
+        "fieldOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "max": "1",
+            "min": 0,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green"
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "percentunit"
+          },
+          "overrides": [],
+          "values": false
+        },
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "sizing": "auto",
+        "text": {}
+      },
+      "pluginVersion": "10.3.1",
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "expr": "avg(system_env:perf{envId=~\"[[envId]]\",}) or vector(0)",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "Performance",
+          "refId": "B"
+        }
+      ],
+      "title": "Performance",
+      "type": "gauge"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 4,
+        "y": 13
+      },
+      "id": 67,
+      "links": [],
+      "options": {
+        "fieldOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "max": "1",
+            "min": 0,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green"
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "percentunit"
+          },
+          "overrides": [],
+          "values": false
+        },
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "sizing": "auto",
+        "text": {}
+      },
+      "pluginVersion": "10.3.1",
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "expr": "(sum(sum_over_time(otcs_heartbeat_up{envId=~\"[[envId]]\"}[${__range_s}s])) / sum(sum_over_time(fuse_system_active{envId=~\"[[envId]]\"}[${__range_s}s]))) or vector(0)",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "Avg. Availability",
+          "refId": "A"
+        }
+      ],
+      "title": "Avg. Availability",
+      "type": "gauge"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "ms",
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 8,
+        "y": 13
+      },
+      "id": 105,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "10.3.1",
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "expr": "avg by (componentId) (otcs_db_query_execution_time{componentClass=\"db_performance\",envId=~\"[[envId]]\"} and on(envId) otcs_heartbeat_up{envId=~\"[[envId]]\"})",
+          "interval": "",
+          "legendFormat": "Avg. {{componentId}}",
+          "queryType": "randomWalk",
+          "refId": "A"
+        }
+      ],
+      "title": "Database Performance",
+      "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "datasource": "Grafana",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 18
+      },
+      "id": 141,
+      "panels": [],
+      "title": "OTCS - Components",
+      "type": "row"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "max": 1,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "percentunit",
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 0,
+        "y": 19
+      },
+      "id": 111,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "10.3.1",
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "expr": "avg(avg_over_time(system_env:otcs_thread_busy:ratio{envId=~\"[[envId]]\",}[5m])) and on(envId) max(otcs_heartbeat_up{envId=~\"[[envId]]\"})",
+          "interval": "",
+          "legendFormat": "Avg. Threads Usage",
+          "refId": "B"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "avg(system_env:otcs_thread_busy:ratio{envId=~\"[[envId]]\",}) and on(envId) max(otcs_heartbeat_up{envId=~\"[[envId]]\"})",
+          "interval": "",
+          "legendFormat": "Threads Usage",
+          "queryType": "randomWalk",
+          "refId": "A"
+        }
+      ],
+      "title": "Threads Usage",
+      "type": "timeseries"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "ms",
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 4,
+        "y": 19
+      },
+      "id": 131,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "10.3.1",
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "exemplar": true,
+          "expr": "avg(otcs_thread_execution_time_total{envId=~\"[[envId]]\",} and on(envId) otcs_heartbeat_up{envId=~\"[[envId]]\"})",
+          "interval": "",
+          "legendFormat": "Avg. Execution Time",
+          "refId": "B"
+        }
+      ],
+      "title": "Execution Time",
+      "type": "timeseries"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "reqps",
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 8,
+        "y": 19
+      },
+      "id": 113,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "10.3.1",
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(irate(otcs_socket_requests_valid_total{envId=~\"[[envId]]\",}[1m])) and max(otcs_heartbeat_up{envId=~\"[[envId]]\"})",
+          "interval": "",
+          "legendFormat": "Total Valid Requests",
+          "queryType": "randomWalk",
+          "refId": "A"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(irate(otcs_socket_requests_invalid_total{envId=~\"[[envId]]\",}[1m])) and max(otcs_heartbeat_up{envId=~\"[[envId]]\"})",
+          "interval": "",
+          "legendFormat": "Total Invalid Requests",
+          "refId": "B"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(irate(otcs_socket_requests_timeout_total{envId=~\"[[envId]]\",}[1m])) and max(otcs_heartbeat_up{envId=~\"[[envId]]\"})",
+          "interval": "",
+          "legendFormat": "Total Timeout Requests",
+          "refId": "C"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(otcs_socket_exceptions_total{envId=~\"[[envId]]\",}) and max(otcs_heartbeat_up{envId=~\"[[envId]]\"})",
+          "interval": "",
+          "legendFormat": "Total Exceptions",
+          "refId": "D"
+        }
+      ],
+      "title": "Requests",
+      "type": "timeseries"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "s",
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 12,
+        "y": 19
+      },
+      "id": 115,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "10.3.1",
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "expr": "avg(system_env:otcs_thread_queue_avg:avg{envId=~\"[[envId]]\",}) and max(otcs_heartbeat_up{envId=~\"[[envId]]\"})",
+          "interval": "",
+          "legendFormat": "Queue Average",
+          "queryType": "randomWalk",
+          "refId": "A"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "min(system_env:otcs_thread_queue_min:min{envId=~\"[[envId]]\",}) and max(otcs_heartbeat_up{envId=~\"[[envId]]\"})",
+          "interval": "",
+          "legendFormat": "Queue Min",
+          "refId": "B"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "max(system_env:otcs_thread_queue_max:max{envId=~\"[[envId]]\",}) and max(otcs_heartbeat_up{envId=~\"[[envId]]\"})",
+          "interval": "",
+          "legendFormat": "Queue Max",
+          "refId": "C"
+        }
+      ],
+      "title": "Queue Time",
+      "type": "timeseries"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "decimals": 0,
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "none",
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 16,
+        "y": 19
+      },
+      "id": 117,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "10.3.1",
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(system_env:otcs_thread_queue_depth_in:sum{envId=~\"[[envId]]\",}) and max(otcs_heartbeat_up{envId=~\"[[envId]]\"})",
+          "interval": "",
+          "legendFormat": "Queue Depth In",
+          "queryType": "randomWalk",
+          "refId": "A"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(system_env:otcs_thread_queue_depth_in_max:sum{envId=~\"[[envId]]\",}) and max(otcs_heartbeat_up{envId=~\"[[envId]]\"})",
+          "interval": "",
+          "legendFormat": "Queue Depth Max",
+          "refId": "B"
+        }
+      ],
+      "title": "Queue Depth",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "01"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisGridShow": false,
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "fieldMinMax": false,
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "s",
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 20,
+        "y": 19
+      },
+      "id": 119,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "orientation": "vertical",
+        "showValue": "auto",
+        "stacking": "none",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "pluginVersion": "10.3.1",
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "editorMode": "code",
+          "expr": "topk(10, max(max_over_time(otcs_thread_request_execution_time_current{envId=~\"[[envId]]\"}[$__range]) and on(envId) max_over_time(otcs_heartbeat_up{envId=~\"[[envId]]\"}[$__range])) by (envId, currentRequest))",
+          "instant": true,
+          "interval": "20m",
+          "legendFormat": "{{currentRequest}}",
+          "queryType": "randomWalk",
+          "refId": "A"
+        }
+      ],
+      "title": "Longest Requests",
+      "type": "barchart"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "bars",
+            "fillOpacity": 100,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "max": 1,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "percentunit",
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 0,
+        "y": 24
+      },
+      "id": 24,
+      "links": [],
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "10.3.1",
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "expr": "system_env:otcs_thread_busy:ratio:avg_1h{envId=~\"[[envId]]\"} and on(envId) system_env:otcs_heartbeat_up:max_1h{envId=~\".+\"}",
+          "format": "time_series",
+          "interval": "1h",
+          "intervalFactor": 1,
+          "legendFormat": "Threads Usage",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": "8d",
+      "title": "Threads",
+      "type": "timeseries"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 4,
+        "y": 24
+      },
+      "id": 59,
+      "links": [],
+      "options": {
+        "displayMode": "gradient",
+        "fieldOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "max": 100,
+            "min": 0,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green"
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": [],
+          "values": false
+        },
+        "maxVizHeight": 300,
+        "minVizHeight": 16,
+        "minVizWidth": 8,
+        "namePlacement": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": true,
+        "sizing": "auto",
+        "text": {},
+        "valueMode": "color"
+      },
+      "pluginVersion": "10.3.1",
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(max by (envId) (otcs_queuetables_d_tree_notify{envId=~\"[[envId]]\"} and on(envId) otcs_heartbeat_up{envId=~\"[[envId]]\"}))",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "DTree Notify",
+          "refId": "A"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(max by (envId) (otcs_queuetables_ll_event_queue{envId=~\"[[envId]]\"} and on(envId) otcs_heartbeat_up{envId=~\"[[envId]]\"}))",
+          "instant": true,
+          "interval": "",
+          "legendFormat": " LLEvent Queue",
+          "refId": "B"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(max by (envId) (otcs_queuetables_notify_events{envId=~\"[[envId]]\"} and on(envId) otcs_heartbeat_up{envId=~\"[[envId]]\"}))",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Notify Events",
+          "refId": "C"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(max by (envId) (otcs_queuetables_notify_messages{envId=~\"[[envId]]\"} and on(envId) otcs_heartbeat_up{envId=~\"[[envId]]\"}))",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Notify Messages",
+          "refId": "D"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(max by (envId) (otcs_queuetables_provider_retry{envId=~\"[[envId]]\"} and on(envId) otcs_heartbeat_up{envId=~\"[[envId]]\"}))",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Provider Retry",
+          "refId": "E"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(max by (envId) (otcs_queuetables_rendition_queue{envId=~\"[[envId]]\"} and on(envId) otcs_heartbeat_up{envId=~\"[[envId]]\"}))",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Rendition Queue",
+          "refId": "F"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(max by (envId) (otcs_queuetables_worker_queue{envId=~\"[[envId]]\"} and on(envId) otcs_heartbeat_up{envId=~\"[[envId]]\"}))",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Worker Queue",
+          "refId": "G"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(max by (envId) (otcs_queuetables_worker_queue_pending{envId=~\"[[envId]]\"} and on(envId) otcs_heartbeat_up{envId=~\"[[envId]]\"}))",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Worker Queue Pending",
+          "refId": "H"
+        }
+      ],
+      "title": "Queues",
+      "type": "bargauge"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "decimals": 0,
+          "mappings": [],
+          "unit": "short",
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 8,
+        "y": 24
+      },
+      "id": 36,
+      "links": [],
+      "maxDataPoints": 3,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true,
+          "values": [
+            "value"
+          ]
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "sum"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "expr": "sort_desc(sum by (envId, componentName) (topk(5, sum by (envId, componentName) (max(max_over_time(otcs_content_status_size{envId=~\"[[envId]]\",}[1d])) by (envId, componentName, type))))) or sort_desc(sum by (envId, componentName) (label_replace(sum  (max(max_over_time(otcs_content_status_size{envId=~\"[[envId]]\",}[1d])) by (envId, componentName, type)) - sum (topk(5, sum by (envId, componentName) (max(max_over_time(otcs_content_status_size{envId=~\"[[envId]]\",}[1d])) by (envId, componentName, type)))),\"componentName\",\"Other\",\"componentName\",  \"(.*)\")) > 0)",
+          "format": "time_series",
+          "instant": true,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "{{componentName}}",
+          "refId": "A"
+        }
+      ],
+      "title": "Content Status",
+      "type": "piechart"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "bars",
+            "fillOpacity": 100,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "bytes",
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 12,
+        "y": 24
+      },
+      "id": 69,
+      "links": [],
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "10.3.1",
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(max_over_time(otcs_content_ingestion{envId=~\"[[envId]]\",}[1d])) or vector(0)",
+          "format": "time_series",
+          "instant": false,
+          "interval": "1d",
+          "intervalFactor": 1,
+          "legendFormat": "Total Ingested",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": "7d",
+      "title": "Content Ingestion",
+      "type": "timeseries"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "active session",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "decimals": 0,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "short",
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 16,
+        "y": 24
+      },
+      "id": 71,
+      "links": [],
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "10.3.1",
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(otcs_users_total_active{envId=~\"[[envId]]\",}) and max(otcs_heartbeat_up{envId=~\"[[envId]]\"})",
+          "format": "time_series",
+          "instant": false,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "Active Sessions",
+          "refId": "A"
+        }
+      ],
+      "title": "Active Sessions",
+      "transparent": true,
+      "type": "timeseries"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": [],
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 20,
+        "y": 24
+      },
+      "id": 34,
+      "links": [],
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "10.3.1",
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(max_over_time(otcs_workflows_total{envId=~\"[[envId]]\", name=\"activeWorkflows\"}[1d]) and on(envId) max_over_time(otcs_heartbeat_up{envId=~\"[[envId]]\"}[1d])) / (sum((max_over_time(otcs_workflows_total{envId=~\"[[envId]]\"}[1d]) and on(envId) max_over_time(otcs_heartbeat_up{envId=~\"[[envId]]\"}[1d])) > 0)) or (vector(0))",
+          "format": "table",
+          "instant": true,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "Active",
+          "refId": "A"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(max_over_time(otcs_workflows_total{envId=~\"[[envId]]\", name=\"finishedWorkflows\"}[1d]) and on(envId) max_over_time(otcs_heartbeat_up{envId=~\"[[envId]]\"}[1d])) / (sum((max_over_time(otcs_workflows_total{envId=~\"[[envId]]\"}[1d]) and on(envId) max_over_time(otcs_heartbeat_up{envId=~\"[[envId]]\"}[1d])) > 0)) or (vector(0))",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Finished",
+          "refId": "C"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(max_over_time(otcs_workflows_total{envId=~\"[[envId]]\", name=\"archivedWorkflows\"}[1d]) and on(envId) max_over_time(otcs_heartbeat_up{envId=~\"[[envId]]\"}[1d])) / (sum((max_over_time(otcs_workflows_total{envId=~\"[[envId]]\"}[1d]) and on(envId) max_over_time(otcs_heartbeat_up{envId=~\"[[envId]]\"}[1d])) > 0)) or (vector(0))",
+          "format": "time_series",
+          "instant": true,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "Archived",
+          "refId": "B"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(max_over_time(otcs_workflows_total{envId=~\"[[envId]]\", name=\"deletedUsersTasks\"}[1d]) and on(envId) max_over_time(otcs_heartbeat_up{envId=~\"[[envId]]\"}[1d])) / (sum((max_over_time(otcs_workflows_total{envId=~\"[[envId]]\"}[1d]) and on(envId) max_over_time(otcs_heartbeat_up{envId=~\"[[envId]]\"}[1d])) > 0)) or (vector(0))",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Pending on Deleted Users",
+          "refId": "D"
+        }
+      ],
+      "title": "Workflows",
+      "type": "piechart"
+    },
+    {
+      "columns": [],
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": false,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 0,
+        "y": 29
+      },
+      "id": 102,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "10.3.1",
+      "scroll": true,
+      "showHeader": true,
+      "sort": {
+        "col": 0,
+        "desc": true
+      },
+      "styles": [
+        {
+          "alias": "Time",
+          "align": "auto",
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "pattern": "Time",
+          "type": "date"
+        },
+        {
+          "alias": "",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 2,
+          "pattern": "/.*/",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "expr": "sum by (policyId) (fuse_configuration_policy_compliance_failures{systemId=~\"[[systemId]]\"})",
+          "format": "table",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Failures",
+          "refId": "A"
+        }
+      ],
+      "title": "Configurations Policies Compliance",
+      "transform": "table",
+      "type": "table"
+    },
+    {
+      "columns": [],
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": false,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 12,
+        "y": 29
+      },
+      "id": 103,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "10.3.1",
+      "scroll": true,
+      "showHeader": true,
+      "sort": {
+        "col": 0,
+        "desc": true
+      },
+      "styles": [
+        {
+          "$$hashKey": "object:9307",
+          "alias": "Time",
+          "align": "auto",
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "pattern": "Time",
+          "type": "date"
+        },
+        {
+          "$$hashKey": "object:9308",
+          "alias": "",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 2,
+          "pattern": "/.*/",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "expr": "sum by (policyId, systemId) (fuse_configuration_policy_compliance_failures{systemId=~\"[[systemId]]\"})",
+          "format": "table",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Failures",
+          "refId": "A"
+        }
+      ],
+      "title": "Configurations Policies With Systems Compliance",
+      "transform": "table",
+      "type": "table"
+    },
+    {
+      "collapsed": false,
+      "datasource": "Grafana",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 35
+      },
+      "id": 139,
+      "panels": [],
+      "title": "OTCS - Processes",
+      "type": "row"
+    },
+    {
+      "columns": [
+        {
+          "text": "Total",
+          "value": "total"
+        }
+      ],
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 7,
+        "w": 7,
+        "x": 0,
+        "y": 36
+      },
+      "id": 61,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "frameIndex": 7,
+        "showHeader": true
+      },
+      "pluginVersion": "10.3.1",
+      "showHeader": true,
+      "sort": {
+        "col": 0,
+        "desc": true
+      },
+      "styles": [
+        {
+          "alias": "Time",
+          "align": "auto",
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "pattern": "Time",
+          "type": "date"
+        },
+        {
+          "alias": "",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 2,
+          "pattern": "/.*/",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(max by (envId, componentId, componentName, componentClass) (otcs_sov_admserv_active{envId=~\"[[envId]]\"} unless on(envId, componentClass) ALERTS{alertname=~\"sov_admserv_.*\",envId=~\"[[envId]]\"})) or vector(0) + count(count by (envId) (ALERTS{alertname=~\"sov_admserv_.*\",envId=~\"[[envId]]\",severity=\"warning\"} unless ignoring (severity) ALERTS{alertname=~\"sov_admserv_.*\",envId=~\"[[envId]]\",severity=\"error\"} or ALERTS{alertname=~\"sov_admserv_.*\",envId=~\"[[envId]]\",severity=\"error\"}\n)) or vector(0)",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Admin Servers Total",
+          "refId": "A"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(max by (envId, componentId, componentName, componentClass) (otcs_sov_admserv_active{envId=~\"[[envId]]\"} unless on(envId, componentClass) ALERTS{alertname=~\"sov_admserv_.*\",envId=~\"[[envId]]\"})) or vector(0)",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "Admin Servers Active",
+          "refId": "B"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "count(count by (envId) (ALERTS{alertname=~\"sov_admserv_.*\",envId=~\"[[envId]]\",severity=\"warning\"} unless ignoring (severity) ALERTS{alertname=~\"sov_admserv_.*\",envId=~\"[[envId]]\",severity=\"error\"} or ALERTS{alertname=~\"sov_admserv_.*\",envId=~\"[[envId]]\",severity=\"error\"}\r)) or vector(0)",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Admin Servers Errors",
+          "refId": "C"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(max by (envId, componentId, componentName, componentClass) (otcs_sov_admserv_processes_total{envId=~\"[[envId]]\"})) or sum(count by (envId) (otcs_sov_processes_status{envId=~\"[[envId]]\"})) or vector(0)",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "Processes Total",
+          "refId": "D"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(max by (envId, componentId, componentName, componentClass) (otcs_sov_admserv_processes_running{envId=~\"[[envId]]\"})) or vector(0)",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "Processes Running",
+          "refId": "E"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "(sum(max by (envId, componentId, componentName, componentClass) (otcs_sov_admserv_processes_total{envId=~\"[[envId]]\"})) or sum(count by (envId) (otcs_sov_processes_status{envId=~\"[[envId]]\"})) or vector(0)) - (sum(max by (envId, componentId, componentName, componentClass) (otcs_sov_admserv_processes_running{envId=~\"[[envId]]\"})) or vector(0))",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Processes Errors",
+          "refId": "F"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(max by (envId) (otcs_sov_partition_count{envId=~\"[[envId]]\"})) or vector(0)",
+          "instant": true,
+          "legendFormat": "Partitions Total",
+          "refId": "G"
+        },
+        {
+          "datasource": "Prometheus",
+          "exemplar": true,
+          "expr": "sum( max by (envId) (otcs_sov_partition_count{envId=~\"[[envId]]\"}) and on (envId) (ALERTS{alertname!~\"^__.*$\",componentClass=~\"partition|search_federator\",envId=~\"[[envId]]\",severity=\"error\"})) or vector(0)",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Partitions Errors",
+          "refId": "H"
+        },
+        {
+          "datasource": "Prometheus",
+          "exemplar": true,
+          "expr": "sum( max by (envId) (otcs_sov_partition_count{envId=~\"[[envId]]\"}) unless on (envId) (ALERTS{alertname!~\"^__.*$\",componentClass=~\"partition|search_federator\",envId=~\"[[envId]]\",severity=\"error\"})) or vector(0)",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Partitions Active",
+          "refId": "I"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(max by (envId, componentId, componentName, componentClass) (otcs_sov_ipool_pending{envId=~\"[[envId]]\"})) or vector(0)",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "iPools Pending",
+          "refId": "J"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(max by (envId, componentId, componentName, componentClass) ((otcs_sov_ipool_quarantined{envId=~\"[[envId]]\"}) > 0)) or vector(0)",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "iPools Quarantined",
+          "refId": "K"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "count(count by (envId, alertname, severity) (ALERTS{envId=~\"[[envId]]\",alertname=~\"sov_ipool_quarantined\",severity=\"warning\"} unless ignoring (severity) ALERTS{envId=~\"[[envId]]\",alertname=~\"sov_ipool_quarantined\",severity=\"error\"} or ALERTS{envId=~\"[[envId]]\",alertname=~\"sov_ipool_quarantined\",severity=\"error\"\r})) * sum(count by (envId) ((otcs_sov_ipool_quarantined{envId=~\"[[envId]]\"}) > 0)) or vector(0)",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "iPools Quarantined Count Alert",
+          "refId": "L"
+        }
+      ],
+      "title": "System Object Volumes",
+      "transform": "timeseries_aggregations",
+      "type": "table"
+    },
+    {
+      "aliasColors": {},
+      "bars": true,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "links": [],
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 7,
+        "w": 6,
+        "x": 7,
+        "y": 36
+      },
+      "hiddenSeries": false,
+      "id": 100,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": false,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "10.3.1",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": true,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "avg(otcs_sov_avg_search_time{envId=~\"[[envId]]\",}) and max(otcs_heartbeat_up{envId=~\"[[envId]]\"})",
+          "format": "time_series",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "Avg. Search Time",
+          "refId": "A"
+        },
+        {
+          "expr": "max(otcs_sov_total_searches{envId=~\"[[envId]]\",}) and max(otcs_heartbeat_up{envId=~\"[[envId]]\"})",
+          "format": "time_series",
+          "hide": false,
+          "instant": false,
+          "interval": "${barInterval}",
+          "intervalFactor": 1,
+          "legendFormat": "Total Searches",
+          "refId": "B"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Search Performance",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:61",
+          "decimals": 0,
+          "format": "ms",
+          "label": "ms",
+          "logBase": 1,
+          "min": "0",
+          "show": false
+        },
+        {
+          "$$hashKey": "object:62",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 5,
+        "x": 13,
+        "y": 36
+      },
+      "id": 63,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "10.3.1",
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(max by (id, envId) (max_over_time(otcs_sov_ipool_pending{envId=~\"[[envId]]\"}[$barInterval])))",
+          "instant": false,
+          "interval": "$barInterval",
+          "legendFormat": "Pending",
+          "refId": "A"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(max by (id, envId) (max_over_time(otcs_sov_ipool_quarantined{envId=~\"[[envId]]\"}[$barInterval])))",
+          "interval": "$barInterval",
+          "legendFormat": "Quarantined",
+          "refId": "B"
+        }
+      ],
+      "title": "Ipools",
+      "type": "timeseries"
+    },
+    {
+      "columns": [],
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": false,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 7,
+        "w": 6,
+        "x": 18,
+        "y": 36
+      },
+      "id": 98,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "frameIndex": 0,
+        "showHeader": true
+      },
+      "pluginVersion": "10.3.1",
+      "showHeader": true,
+      "sort": {
+        "col": 2,
+        "desc": true
+      },
+      "styles": [
+        {
+          "alias": "",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 2,
+          "pattern": "componentId",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
+          "alias": "Processed",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Value #A",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        },
+        {
+          "alias": "Pending",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Value #B",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        },
+        {
+          "alias": "Quarantined",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Value #C",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        },
+        {
+          "alias": "Active",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Value #D",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "expr": "max by (envId, componentId, componentName, componentClass) (otcs_sov_ipool_processed{envId=~\"[[envId]]\"})",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "Processed",
+          "refId": "A"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "max by (envId, componentId, componentName, componentClass) (otcs_sov_ipool_pending{envId=~\"[[envId]]\"})",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "Pending",
+          "refId": "B"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "max by (envId, componentId, componentName, componentClass) (otcs_sov_ipool_quarantined{envId=~\"[[envId]]\"})",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "Quarantined",
+          "refId": "C"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "max by (envId, componentId, componentName, componentClass) (otcs_sov_ipool_active{envId=~\"[[envId]]\"})",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "Active",
+          "refId": "D"
+        }
+      ],
+      "title": "Ipools Details",
+      "transform": "table",
+      "type": "table"
+    },
+    {
+      "columns": [
+        {
+          "text": "Total",
+          "value": "total"
+        }
+      ],
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 7,
+        "w": 7,
+        "x": 0,
+        "y": 43
+      },
+      "id": 75,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "10.3.1",
+      "showHeader": true,
+      "sort": {
+        "col": 0,
+        "desc": false
+      },
+      "styles": [
+        {
+          "alias": "Time",
+          "align": "auto",
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "pattern": "Time",
+          "type": "date"
+        },
+        {
+          "alias": "",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 2,
+          "pattern": "/.*/",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(max by (systemId) (otcs_da_agents_total_count{envId=~\"[[envId]]\"})) or vector(0)",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "Agents Total",
+          "refId": "D"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "count(count by (envId) (ALERTS{alertname=~\"da_agent_.*\",envId=~\"[[envId]]\",severity=\"warning\"} unless ignoring (severity) ALERTS{alertname=~\"da_agent_.*\",envId=~\"[[envId]]\",severity=\"error\"} or ALERTS{alertname=~\"da_agent_.*\",envId=~\"[[envId]]\",severity=\"error\"})) or vector(0)",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Agents Errors",
+          "refId": "E"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(max by (systemId) (otcs_da_workers_total_count{envId=~\"[[envId]]\"})) or vector(0)",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "Workers Total",
+          "refId": "F"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "count(count by (envId) (ALERTS{alertname=~\"da_worker_.*\",envId=~\"[[envId]]\",severity=\"warning\"} unless ignoring (severity) ALERTS{alertname=~\"da_worker_.*\",envId=~\"[[envId]]\",severity=\"error\"} or ALERTS{alertname=~\"da_worker_.*\",envId=~\"[[envId]]\",severity=\"error\"})) or vector(0)",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Workers Errors",
+          "refId": "G"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "count (count by(envId) (otcs_da_agents_total_count{envId=~\"[[envId]]\"}))",
+          "instant": true,
+          "legendFormat": "Environments",
+          "refId": "H"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(max by (envId) (otcs_da_queue_backlog{envId=~\"[[envId]]\"})) or vector(0)",
+          "instant": true,
+          "legendFormat": "Queue Backlog",
+          "refId": "A"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(max by (envId) (otcs_da_queue_queued{envId=~\"[[envId]]\"})) or vector(0)",
+          "instant": true,
+          "legendFormat": "Queue Queued",
+          "refId": "B"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(max by (envId) (otcs_da_queue_processed{envId=~\"[[envId]]\"})) or vector(0)",
+          "instant": true,
+          "legendFormat": "Queue Processed",
+          "refId": "C"
+        }
+      ],
+      "title": "Distributed Agents",
+      "transform": "timeseries_aggregations",
+      "type": "table"
+    },
+    {
+      "aliasColors": {},
+      "breakPoint": "50%",
+      "combine": {
+        "label": "Others",
+        "threshold": 0
+      },
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": [],
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "fontSize": "80%",
+      "format": "short",
+      "gridPos": {
+        "h": 7,
+        "w": 6,
+        "x": 7,
+        "y": 43
+      },
+      "id": 77,
+      "legend": {
+        "show": true,
+        "values": true
+      },
+      "legendType": "Under graph",
+      "links": [],
+      "maxDataPoints": 3,
+      "nullPointMode": "connected",
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pieType": "pie",
+      "strokeWidth": 1,
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(max by (envId) (otcs_da_queue_backlog{envId=~\"[[envId]]\"} and on(envId) otcs_heartbeat_up{envId=~\"[[envId]]\"})) or vector(0)",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Backlog",
+          "refId": "A"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(max by (envId) (otcs_da_queue_queued{envId=~\"[[envId]]\"} and on(envId) otcs_heartbeat_up{envId=~\"[[envId]]\"})) or vector(0)",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Queued",
+          "refId": "B"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(max by (envId) (otcs_da_queue_processed{envId=~\"[[envId]]\"} and on(envId) otcs_heartbeat_up{envId=~\"[[envId]]\"})) or vector(0)",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Processed",
+          "refId": "C"
+        }
+      ],
+      "title": "Distributed Agents Pie",
+      "type": "piechart",
+      "valueName": "total"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "bars",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "normal"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 5,
+        "x": 13,
+        "y": 43
+      },
+      "id": 79,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "10.3.1",
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(max by (envId) (max_over_time(otcs_da_queue_processed{envId=~\"[[envId]]\"}[$barInterval]) and on(envId) max_over_time(otcs_heartbeat_up{envId=~\"[[envId]]\"}[$barInterval])))",
+          "interval": "$barInterval",
+          "legendFormat": "Processed",
+          "refId": "B"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(max by (envId) (max_over_time(otcs_da_queue_queued{envId=~\"[[envId]]\"}[$barInterval]) and on(envId) max_over_time(otcs_heartbeat_up{envId=~\"[[envId]]\"}[$barInterval])))",
+          "interval": "$barInterval",
+          "legendFormat": "Queued",
+          "refId": "C"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(max by (envId) (max_over_time(otcs_da_queue_backlog{envId=~\"[[envId]]\"}[$barInterval]) and on(envId) max_over_time(otcs_heartbeat_up{envId=~\"[[envId]]\"}[$barInterval])))",
+          "interval": "$barInterval",
+          "legendFormat": "Backlog",
+          "refId": "A"
+        }
+      ],
+      "title": "Distributed Agents Queue",
+      "type": "timeseries"
+    },
+    {
+      "columns": [],
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": false,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 6,
+        "w": 10,
+        "x": 0,
+        "y": 50
+      },
+      "id": 83,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "10.3.1",
+      "showHeader": true,
+      "sort": {
+        "col": 0,
+        "desc": true
+      },
+      "styles": [
+        {
+          "alias": "",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 2,
+          "pattern": "componentId",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
+          "alias": "# Enabled",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Value #A",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        },
+        {
+          "alias": "# Errors",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Value #B",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        },
+        {
+          "alias": "# Warnings",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Value #C",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "expr": "max by (envId, systemId, componentId, componentName, componentClass) (otcs_agent_activated{envId=~\"[[envId]]\"})",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "# Enabled",
+          "refId": "A"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "count by (envId, systemId, componentId, componentName, componentClass) (ALERTS{alertname!~\"^__.*$\",componentClass=\"agent\",severity=\"error\",envId=~\"[[envId]]\"}) or 0 * count by (envId, systemId, componentId, componentName, componentClass) (otcs_agent_activated{envId=~\"[[envId]]\"})",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "# Errors",
+          "refId": "B"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "count by (envId, systemId, componentId, componentName, componentClass) (ALERTS{alertname!~\"^__.*$\",componentClass=\"agent\",severity=\"warning\",envId=~\"[[envId]]\"}) or 0 * count by (envId, systemId, componentId, componentName, componentClass) (otcs_agent_activated{envId=~\"[[envId]]\"})",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "# Warnings",
+          "refId": "C"
+        }
+      ],
+      "title": "Agents Detail",
+      "transform": "table",
+      "type": "table"
+    },
+    {
+      "columns": [],
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": false,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 6,
+        "w": 10,
+        "x": 10,
+        "y": 50
+      },
+      "id": 93,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "10.3.1",
+      "showHeader": true,
+      "sort": {
+        "col": 0,
+        "desc": true
+      },
+      "styles": [
+        {
+          "alias": "",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 2,
+          "pattern": "componentId",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
+          "alias": "# Enabled",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Value #A",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        },
+        {
+          "alias": "# Errors",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Value #B",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        },
+        {
+          "alias": "# Warnings",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Value #C",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "expr": "max by (envId, systemId, componentId, componentName, componentClass) (otcs_loaderprocess_alive{envId=~\"[[envId]]\"})",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "# Enabled",
+          "refId": "A"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "0 * count by (envId, systemId, componentId, componentName, componentClass) (otcs_loaderprocess_alive{envId=~\"[[envId]]\"})",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "# Errors",
+          "refId": "B"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "0 * count by (envId, systemId, componentId, componentName, componentClass) (otcs_loaderprocess_alive{envId=~\"[[envId]]\"})",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "# Warnings",
+          "refId": "C"
+        }
+      ],
+      "title": "Loaded Components Detail",
+      "transform": "table",
+      "type": "table"
+    },
+    {
+      "columns": [],
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": false,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 5,
+        "w": 8,
+        "x": 0,
+        "y": 56
+      },
+      "id": 94,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "10.3.1",
+      "showHeader": true,
+      "sort": {
+        "col": 0,
+        "desc": true
+      },
+      "styles": [
+        {
+          "alias": "",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 2,
+          "pattern": "componentId",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
+          "alias": "Active",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Value #A",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        },
+        {
+          "alias": "Total",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Value #D",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        },
+        {
+          "alias": "Running",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Value #B",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        },
+        {
+          "alias": "Error",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Value #C",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        },
+        {
+          "alias": "Safe Mode",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Value #E",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "expr": "max by (envId, componentId, componentName, componentClass) (otcs_sov_admserv_active{envId=~\"[[envId]]\"})",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "Active",
+          "refId": "A"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "max by (envId, componentId, componentName, componentClass) (otcs_sov_admserv_processes_total{envId=~\"[[envId]]\"})",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "Processes",
+          "refId": "D"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "max by (envId, componentId, componentName, componentClass) (otcs_sov_admserv_processes_running{envId=~\"[[envId]]\"})",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "Running",
+          "refId": "B"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "max by (envId, componentId, componentName, componentClass) (otcs_sov_admserv_processes_error{envId=~\"[[envId]]\"})",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "Error",
+          "refId": "C"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "max by (envId, componentId, componentName, componentClass) (otcs_sov_admserv_safe_mode{envId=~\"[[envId]]\"})",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "Safe Mode",
+          "refId": "E"
+        }
+      ],
+      "title": "Admin Server Details",
+      "transform": "table",
+      "type": "table"
+    },
+    {
+      "columns": [],
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": false,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 5,
+        "w": 8,
+        "x": 8,
+        "y": 56
+      },
+      "id": 95,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "10.3.1",
+      "showHeader": true,
+      "sort": {
+        "col": 2,
+        "desc": true
+      },
+      "styles": [
+        {
+          "alias": "",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 2,
+          "pattern": "componentId",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
+          "alias": "Status",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Value #A",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "expr": "max by (envId, componentId, componentName, componentClass) (otcs_sov_processes_status{envId=~\"[[envId]]\"})",
+          "format": "table",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Status",
+          "refId": "A"
+        }
+      ],
+      "title": "Processes Details",
+      "transform": "table",
+      "type": "table"
+    },
+    {
+      "columns": [],
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": false,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 5,
+        "w": 8,
+        "x": 16,
+        "y": 56
+      },
+      "id": 96,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "10.3.1",
+      "showHeader": true,
+      "sort": {
+        "col": 0,
+        "desc": true
+      },
+      "styles": [
+        {
+          "alias": "",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 2,
+          "pattern": "componentId",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
+          "alias": "Available",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Value #A",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        },
+        {
+          "alias": "Disk",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Value #B",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        },
+        {
+          "alias": "Ram",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Value #C",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "expr": "sum by (envId, systemId, componentId, componentName, componentClass) (otcs_sov_partition_available{envId=~\"[[envId]]\"})",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "Available",
+          "refId": "A"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "sum by (envId, systemId, componentId, componentName, componentClass) (otcs_sov_partition_size_content{envId=~\"[[envId]]\"} * 100)",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "Disk",
+          "refId": "B"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "sum by (envId, systemId, componentId, componentName, componentClass) (otcs_sov_partition_size_metadata{envId=~\"[[envId]]\"} * 100)",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "Ram",
+          "refId": "C"
+        }
+      ],
+      "title": "Partition Details",
+      "transform": "table",
+      "type": "table"
+    },
+    {
+      "columns": [],
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": false,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 0,
+        "y": 61
+      },
+      "id": 89,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "10.3.1",
+      "showHeader": true,
+      "sort": {
+        "col": 0,
+        "desc": true
+      },
+      "styles": [
+        {
+          "alias": "",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 2,
+          "pattern": "componentId",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
+          "alias": "# Enabled",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Value #A",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        },
+        {
+          "alias": "# Errors",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Value #B",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        },
+        {
+          "alias": "# Warnings",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Value #C",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "expr": "max by (envId, systemId, componentId, componentName, componentClass) (otcs_da_agent_status{envId=~\"[[envId]]\"})",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "# Enabled",
+          "refId": "A"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "count by (envId, systemId, componentId, componentName, componentClass) (ALERTS{alertname!~\"^__.*$\",componentClass=\"da_agent\",envId=~\"[[envId]]\",severity=\"error\"}) or 0 * count by (envId, systemId, componentId, componentName, componentClass) (otcs_da_agent_status{envId=~\"[[envId]]\"})",
+          "format": "table",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "# Errors",
+          "refId": "B"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "count by (envId, systemId, componentId, componentName, componentClass) (ALERTS{alertname!~\"^__.*$\",componentClass=\"da_agent\",envId=~\"[[envId]]\",severity=\"warning\"} unless ignoring (severity) ALERTS{alertname!~\"^__.*$\",componentClass=\"da_agent\",envId=~\"[[envId]]\",severity=\"error\"}) or 0 * count by (envId, systemId, componentId, componentName, componentClass) (otcs_da_agent_status{envId=~\"[[envId]]\"})",
+          "format": "table",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "# Warnings",
+          "refId": "C"
+        }
+      ],
+      "title": "DA Agents Detail",
+      "transform": "table",
+      "type": "table"
+    },
+    {
+      "columns": [],
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": false,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 8,
+        "y": 61
+      },
+      "id": 91,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "10.3.1",
+      "showHeader": true,
+      "sort": {
+        "col": 0,
+        "desc": true
+      },
+      "styles": [
+        {
+          "alias": "",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 2,
+          "pattern": "componentId",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
+          "alias": "# Enabled",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Value #A",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        },
+        {
+          "alias": "# Errors",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Value #B",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        },
+        {
+          "alias": "# Warnings",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Value #C",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "expr": "max by (envId, systemId, componentId, componentName, componentClass) (otcs_da_worker_status{envId=~\"[[envId]]\"})",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "# Enabled",
+          "refId": "A"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "count by (envId, systemId, componentId, componentName, componentClass) (ALERTS{alertname!~\"^__.*$\",componentClass=\"da_worker\",envId=~\"[[envId]]\",severity=\"error\"}) or 0 * count by (envId, systemId, componentId, componentName, componentClass) (otcs_da_worker_status{envId=~\"[[envId]]\"})",
+          "format": "table",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "# Errors",
+          "refId": "B"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "count by (envId, systemId, componentId, componentName, componentClass) (ALERTS{alertname!~\"^__.*$\",componentClass=\"da_worker\",envId=~\"[[envId]]\",severity=\"warning\"} unless ignoring (severity) ALERTS{alertname!~\"^__.*$\",componentClass=\"da_worker\",envId=~\"[[envId]]\",severity=\"error\"}) or 0 * count by (envId, systemId, componentId, componentName, componentClass) (otcs_da_worker_status{envId=~\"[[envId]]\"})",
+          "format": "table",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "# Warnings",
+          "refId": "C"
+        }
+      ],
+      "title": "Worker Agents Detail",
+      "transform": "table",
+      "type": "table"
+    },
+    {
+      "columns": [],
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": false,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 16,
+        "y": 61
+      },
+      "id": 81,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "10.3.1",
+      "showHeader": true,
+      "sort": {
+        "col": 0,
+        "desc": true
+      },
+      "styles": [
+        {
+          "alias": "# Agents",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 2,
+          "pattern": "Value #A",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        },
+        {
+          "alias": "",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "componentId",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
+          "alias": "# Enabled",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Value #B",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        },
+        {
+          "alias": "# Errors",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Value #C",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        },
+        {
+          "alias": "# Warnings",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Value #D",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "expr": "count by (componentId, componentName, componentClass) (otcs_agent_activated{envId=~\"[[envId]]\"})",
+          "format": "table",
+          "instant": true,
+          "refId": "A"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "sum by (componentId, componentName, componentClass) (otcs_agent_activated{envId=~\"[[envId]]\"})",
+          "format": "table",
+          "instant": true,
+          "refId": "B"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "count by (componentId, componentName, componentClass) (ALERTS{alertname!~\"^__.*$\",componentClass=\"agent\",envId=~\"[[envId]]\",severity=\"error\"}) or 0 * count by (componentId, componentName, componentClass) (otcs_agent_activated{envId=~\"[[envId]]\"})",
+          "format": "table",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "C"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "count by (componentId, componentName, componentClass) (ALERTS{alertname!~\"^__.*$\",componentClass=\"agent\",envId=~\"[[envId]]\",severity=\"warning\"} unless ignoring (severity) ALERTS{alertname!~\"^__.*$\",componentClass=\"agent\",envId=~\"[[envId]]\",severity=\"error\"}) or 0 * count by (componentId, componentName, componentClass) (otcs_agent_activated{envId=~\"[[envId]]\"})",
+          "format": "table",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "D"
+        }
+      ],
+      "title": "Agents Summary",
+      "transform": "table",
+      "type": "table"
+    },
+    {
+      "collapsed": false,
+      "datasource": "Grafana",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 67
+      },
+      "id": 137,
+      "panels": [],
+      "title": "OTCS - Storage Providers",
+      "type": "row"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "Mbits",
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 8,
+        "x": 0,
+        "y": 68
+      },
+      "id": 38,
+      "interval": "",
+      "links": [],
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "10.3.1",
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "expr": "avg by (componentId) (otcs_storage_provider_read_throughput{envId=~\"[[envId]]\", type=\"RDBMS\"} and on(envId) otcs_heartbeat_up{envId=~\"[[envId]]\"})",
+          "format": "time_series",
+          "instant": false,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "Avg. Read Throughput",
+          "refId": "A"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "avg by (componentId) (otcs_storage_provider_write_throughput{envId=~\"[[envId]]\", type=\"RDBMS\"} and on(envId) otcs_heartbeat_up{envId=~\"[[envId]]\"})",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "Avg. Write Throughput",
+          "refId": "B"
+        }
+      ],
+      "title": "Throughput RDBMS",
+      "type": "timeseries"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "MBs",
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 8,
+        "x": 8,
+        "y": 68
+      },
+      "id": 44,
+      "interval": "",
+      "links": [],
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "10.3.1",
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "expr": "avg by (componentId) (otcs_storage_provider_read_throughput{envId=~\"[[envId]]\", type=\"ENTERPRISEARCHIVE\"} and on(envId) otcs_heartbeat_up{envId=~\"[[envId]]\"})",
+          "format": "time_series",
+          "instant": false,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "Avg. Read Throughput",
+          "refId": "A"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "avg by (componentId) (otcs_storage_provider_write_throughput{envId=~\"[[envId]]\", type=\"ENTERPRISEARCHIVE\"} and on(envId) otcs_heartbeat_up{envId=~\"[[envId]]\"})",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "Avg. Write Throughput",
+          "refId": "B"
+        }
+      ],
+      "title": "Throughput ENTERPRISEARCHIVE",
+      "type": "timeseries"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "MBs",
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 8,
+        "x": 16,
+        "y": 68
+      },
+      "id": 40,
+      "interval": "",
+      "links": [],
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "10.3.1",
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "expr": "avg by (componentId) (otcs_storage_provider_read_throughput{envId=~\"[[envId]]\", type=\"EXTSHARED\"} and on(envId) otcs_heartbeat_up{envId=~\"[[envId]]\"})",
+          "format": "time_series",
+          "instant": false,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "Avg. Read Throughput",
+          "refId": "A"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "avg by (componentId) (otcs_storage_provider_write_throughput{envId=~\"[[envId]]\", type=\"EXTSHARED\"} and on(envId) otcs_heartbeat_up{envId=~\"[[envId]]\"})",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "Avg. Write Throughput",
+          "refId": "B"
+        }
+      ],
+      "title": "Throughput EXTSHARED",
+      "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "datasource": "Grafana",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 73
+      },
+      "id": 126,
+      "panels": [],
+      "title": "OTAC - Overview",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "01"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "bars",
+            "fillOpacity": 100,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "decimals": 0,
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "decbytes",
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 0,
+        "y": 74
+      },
+      "id": 128,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "10.3.1",
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "editorMode": "code",
+          "expr": "max(increase(otac_read_data_volume_total{envId=~\"[[envId]]\"}[$barIntervalLarge]) * 1000000 and on(envId) otcs_heartbeat_up{envId=~\"[[envId]]\"}) or vector(0)",
+          "instant": false,
+          "interval": "${barIntervalLarge}",
+          "legendFormat": "Read Data Volume",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": "Prometheus",
+          "editorMode": "code",
+          "expr": "max(increase(otac_write_data_volume_total{envId=~\"[[envId]]\"}[$barIntervalLarge]) * 1000000 and on(envId) otcs_heartbeat_up{envId=~\"[[envId]]\"}) or vector(0)",
+          "hide": false,
+          "instant": false,
+          "interval": "${barIntervalLarge}",
+          "legendFormat": "Write Data Volume",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "title": "Data Volume",
+      "type": "timeseries"
+    },
+    {
+      "columns": [],
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": false,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 6,
+        "w": 7,
+        "x": 8,
+        "y": 74
+      },
+      "id": 129,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "frameIndex": 0,
+        "showHeader": true
+      },
+      "pluginVersion": "10.3.1",
+      "showHeader": true,
+      "sort": {
+        "col": 2,
+        "desc": true
+      },
+      "styles": [
+        {
+          "alias": "",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 2,
+          "pattern": "componentId",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
+          "alias": "Processed",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Value #A",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        },
+        {
+          "alias": "Pending",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Value #B",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        },
+        {
+          "alias": "Quarantined",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Value #C",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        },
+        {
+          "alias": "Active",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Value #D",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "exemplar": true,
+          "expr": "max by (envId, systemId, componentId, componentName, componentClass) (otac_archive_total_pools{envId=~\"[[envId]]\"})",
+          "format": "table",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Status",
+          "refId": "A"
+        }
+      ],
+      "title": "Logical Archives Table",
+      "transform": "table",
+      "type": "table"
+    },
+    {
+      "columns": [],
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": false,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 6,
+        "w": 9,
+        "x": 15,
+        "y": 74
+      },
+      "id": 130,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "frameIndex": 0,
+        "showHeader": true
+      },
+      "pluginVersion": "10.3.1",
+      "scroll": true,
+      "showHeader": true,
+      "sort": {
+        "col": 0,
+        "desc": true
+      },
+      "styles": [
+        {
+          "alias": "Time",
+          "align": "auto",
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "pattern": "Time",
+          "type": "date"
+        },
+        {
+          "alias": "",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 2,
+          "pattern": "/.*/",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(max by (envId, componentId, componentName, componentClass) (otac_original_archives_count{envId=~\"[[envId]]\"})) or vector(0)",
+          "format": "time_series",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Original Total",
+          "refId": "A"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(max by (envId, componentId, componentName, componentClass) (otac_original_archives_count{envId=~\"[[envId]]\"})) or vector(0)",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Original Active",
+          "refId": "B"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "count(ALERTS{alertname=~\"otac_archive_no_pools\",envId=~\"[[envId]]\",componentClass=~\"otac_archive_original\",severity=\"warning\"} unless ignoring (severity) ALERTS{alertname=~\"otac_archive_no_pools\",envId=~\"[[envId]]\",componentClass=~\"otac_archive_original\",severity=\"error\"} or ALERTS{alertname=~\"otac_archive_no_pools\",envId=~\"[[envId]]\",componentClass=~\"otac_archive_original\",severity=\"error\"}) or vector(0)",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Original Errors",
+          "refId": "C"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(max by (envId, componentId, componentName, componentClass) (otac_replicated_archives_count{envId=~\"[[envId]]\"})) or vector(0)",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Replicated Total",
+          "refId": "D"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(max by (envId, componentId, componentName, componentClass) (otac_replicated_archives_count{envId=~\"[[envId]]\"})) or vector(0)",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Replicated Active",
+          "refId": "E"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "count(ALERTS{alertname=~\"otac_archive_no_pools\",envId=~\"[[envId]]\",componentClass=~\"otac_archive_replicated\",severity=\"warning\"} unless ignoring (severity) ALERTS{alertname=~\"otac_archive_no_pools\",envId=~\"[[envId]]\",componentClass=~\"otac_archive_replicated\",severity=\"error\"} or ALERTS{alertname=~\"otac_archive_no_pools\",envId=~\"[[envId]]\",componentClass=~\"otac_archive_replicated\",severity=\"error\"}) or vector(0)",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Replicated Errors",
+          "refId": "F"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(max by (envId, componentId, componentName, componentClass) (otac_external_archives_count{envId=~\"[[envId]]\"})) or vector(0)",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "External Total",
+          "refId": "G"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "sum(max by (envId, componentId, componentName, componentClass) (otac_external_archives_count{envId=~\"[[envId]]\"})) or vector(0)",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "External Active",
+          "refId": "H"
+        },
+        {
+          "datasource": "Prometheus",
+          "expr": "count(ALERTS{alertname=~\"otac_archive_no_pools\",envId=~\"[[envId]]\",componentClass=~\"otac_archive_external\",severity=\"warning\"} unless ignoring (severity) ALERTS{alertname=~\"otac_archive_no_pools\",envId=~\"[[envId]]\",componentClass=~\"otac_archive_external\",severity=\"error\"} or ALERTS{alertname=~\"otac_archive_no_pools\",envId=~\"[[envId]]\",componentClass=~\"otac_archive_external\",severity=\"error\"}) or vector(0)",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "External Errors",
+          "refId": "I"
+        }
+      ],
+      "title": "Logical Archives",
+      "transform": "table",
+      "type": "table"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 8,
+        "x": 0,
+        "y": 80
+      },
+      "id": 151,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "10.3.1",
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "exemplar": true,
+          "expr": "sum by (systemId, componentId, componentName, componentClass) (otac_dp_queue_idx{envId=~\"[[envId]]\"})",
+          "format": "table",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Index",
+          "queryType": "randomWalk",
+          "refId": "A"
+        }
+      ],
+      "title": "Document Pipelines Queues Index",
+      "type": "table"
+    }
+  ],
+  "refresh": "5s",
+  "schemaVersion": 39,
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "allValue": ".+",
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": {
+          "type": "grafana-postgresql-datasource",
+          "uid": "02"
+        },
+        "definition": "select id as __value, name as __text from environment",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Environment",
+        "multi": true,
+        "name": "envId",
+        "options": [],
+        "query": "select id as __value, name as __text from environment",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "auto": false,
+        "auto_count": 30,
+        "auto_min": "10s",
+        "current": {
+          "selected": false,
+          "text": "10m",
+          "value": "10m"
+        },
+        "hide": 0,
+        "name": "barInterval",
+        "options": [
+          {
+            "selected": false,
+            "text": "1m",
+            "value": "1m"
+          },
+          {
+            "selected": true,
+            "text": "10m",
+            "value": "10m"
+          },
+          {
+            "selected": false,
+            "text": "30m",
+            "value": "30m"
+          },
+          {
+            "selected": false,
+            "text": "1h",
+            "value": "1h"
+          },
+          {
+            "selected": false,
+            "text": "6h",
+            "value": "6h"
+          },
+          {
+            "selected": false,
+            "text": "12h",
+            "value": "12h"
+          },
+          {
+            "selected": false,
+            "text": "1d",
+            "value": "1d"
+          },
+          {
+            "selected": false,
+            "text": "7d",
+            "value": "7d"
+          },
+          {
+            "selected": false,
+            "text": "14d",
+            "value": "14d"
+          },
+          {
+            "selected": false,
+            "text": "30d",
+            "value": "30d"
+          }
+        ],
+        "query": "1m,10m,30m,1h,6h,12h,1d,7d,14d,30d",
+        "refresh": 2,
+        "skipUrlSync": false,
+        "type": "interval"
+      },
+      {
+        "auto": false,
+        "auto_count": 30,
+        "auto_min": "10s",
+        "current": {
+          "selected": false,
+          "text": "1h",
+          "value": "1h"
+        },
+        "hide": 0,
+        "name": "overviewChartBarInterval",
+        "options": [
+          {
+            "selected": false,
+            "text": "1m",
+            "value": "1m"
+          },
+          {
+            "selected": false,
+            "text": "10m",
+            "value": "10m"
+          },
+          {
+            "selected": false,
+            "text": "30m",
+            "value": "30m"
+          },
+          {
+            "selected": true,
+            "text": "1h",
+            "value": "1h"
+          },
+          {
+            "selected": false,
+            "text": "6h",
+            "value": "6h"
+          },
+          {
+            "selected": false,
+            "text": "12h",
+            "value": "12h"
+          },
+          {
+            "selected": false,
+            "text": "1d",
+            "value": "1d"
+          },
+          {
+            "selected": false,
+            "text": "7d",
+            "value": "7d"
+          },
+          {
+            "selected": false,
+            "text": "14d",
+            "value": "14d"
+          },
+          {
+            "selected": false,
+            "text": "30d",
+            "value": "30d"
+          }
+        ],
+        "query": "1m,10m,30m,1h,6h,12h,1d,7d,14d,30d",
+        "queryValue": "",
+        "refresh": 2,
+        "skipUrlSync": false,
+        "type": "interval"
+      },
+      {
+        "allValue": ".+",
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": {
+          "type": "grafana-postgresql-datasource",
+          "uid": "02"
+        },
+        "definition": "select id as __value, name as __text from system",
+        "hide": 0,
+        "includeAll": true,
+        "label": "System",
+        "multi": true,
+        "name": "systemId",
+        "options": [],
+        "query": "select id as __value, name as __text from system",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "PD-120-27-OTCS-1621"
+          ],
+          "value": [
+            "412239f3-fab1-4541-a453-9a819d5f8412"
+          ]
+        },
+        "datasource": {
+          "type": "grafana-postgresql-datasource",
+          "uid": "02"
+        },
+        "definition": "select id as __value, name as __text from system where app_type='OTCS'",
+        "hide": 0,
+        "includeAll": false,
+        "label": "OTCS",
+        "multi": true,
+        "name": "otcsId",
+        "options": [],
+        "query": "select id as __value, name as __text from system where app_type='OTCS'",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "test-otac-without-log4j",
+          "value": "95834de4-0edc-4485-8684-9d6bcdd6cc8f"
+        },
+        "datasource": {
+          "type": "grafana-postgresql-datasource",
+          "uid": "02"
+        },
+        "definition": "select id as __value, name as __text from system where app_type='OTAC'",
+        "hide": 0,
+        "includeAll": false,
+        "label": "OTAC",
+        "multi": true,
+        "name": "otacId",
+        "options": [],
+        "query": "select id as __value, name as __text from system where app_type='OTAC'",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "current": {},
+        "definition": "",
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "query0",
+        "options": [],
+        "query": "",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "auto": false,
+        "auto_count": 30,
+        "auto_min": "10s",
+        "current": {
+          "selected": false,
+          "text": "30m",
+          "value": "30m"
+        },
+        "hide": 0,
+        "name": "barIntervalLarge",
+        "options": [
+          {
+            "selected": false,
+            "text": "1m",
+            "value": "1m"
+          },
+          {
+            "selected": false,
+            "text": "10m",
+            "value": "10m"
+          },
+          {
+            "selected": true,
+            "text": "30m",
+            "value": "30m"
+          },
+          {
+            "selected": false,
+            "text": "1h",
+            "value": "1h"
+          },
+          {
+            "selected": false,
+            "text": "6h",
+            "value": "6h"
+          },
+          {
+            "selected": false,
+            "text": "12h",
+            "value": "12h"
+          },
+          {
+            "selected": false,
+            "text": "1d",
+            "value": "1d"
+          },
+          {
+            "selected": false,
+            "text": "7d",
+            "value": "7d"
+          },
+          {
+            "selected": false,
+            "text": "14d",
+            "value": "14d"
+          },
+          {
+            "selected": false,
+            "text": "30d",
+            "value": "30d"
+          }
+        ],
+        "query": "1m,10m,30m,1h,6h,12h,1d,7d,14d,30d",
+        "queryValue": "",
+        "refresh": 2,
+        "skipUrlSync": false,
+        "type": "interval"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-12h",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ],
+    "time_options": [
+      "5m",
+      "15m",
+      "1h",
+      "6h",
+      "12h",
+      "24h",
+      "2d",
+      "7d",
+      "30d"
+    ]
+  },
+  "timezone": "",
+  "title": "Environment Details",
+  "uid": "hEdVCNnWk",
+  "version": 1,
+  "weekStart": ""
+}

@@ -1,0 +1,15 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://database:5432/postgres
+    username: postgres
+    password: liberty09!
+
+prometheus:
+  base-uri: http://prometheus:9090
+
+alertmanager:
+  base-uri: http://alertmanager:9093

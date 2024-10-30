@@ -1,0 +1,48 @@
+# global config
+global:
+  scrape_interval:     5s # Set the scrape interval to every 5 seconds. Default is every 1 minute.
+  evaluation_interval: 5s # Evaluate rules every 5 seconds. The default is every 1 minute.
+
+# A scrape configuration containing exactly one endpoint to scrape:
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['fuse-prometheus:9090']
+  - job_name: 'fuse-spring-boot'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['fuse-server:2100']
+  - job_name: 'fuse-metrics-5'
+    metrics_path: '/api/metrics/5'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['fuse-server:2100']
+  - job_name: 'fuse-metrics-30'
+    metrics_path: '/api/metrics/30'
+    scrape_interval: 30s
+    static_configs:
+      - targets: ['fuse-server:2100']
+  - job_name: 'fuse-metrics-60'
+    metrics_path: '/api/metrics/60'
+    scrape_interval: 60s
+    static_configs:
+      - targets: ['fuse-server:2100']
+  - job_name: 'fuse-metrics-120'
+    metrics_path: '/api/metrics/120'
+    scrape_interval: 120s
+    static_configs:
+      - targets: ['fuse-server:2100']
+  - job_name: 'hyperlens'
+    metrics_path: '/metrics'
+    scrape_interval: 15s
+    static_configs:
+      - targets: ['taskmanager:12345']
+
+rule_files:
+  - './rules/*.yml'
+
+alerting:
+  alertmanagers:
+    - scheme: http
+      static_configs:
+        - targets: ['fuse-alertmanager:9093']

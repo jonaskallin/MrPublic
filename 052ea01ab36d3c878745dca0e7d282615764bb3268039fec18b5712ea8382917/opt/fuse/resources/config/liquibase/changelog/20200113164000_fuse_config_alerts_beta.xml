@@ -1,0 +1,60 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="fuse.team" id="fuse-config-alerts-data" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+        <sql>
+            INSERT INTO fuse_config (component, type, value) VALUES
+            -- based on alerts specification, check https://artemis.vilt-group.com/engineering/fuse/fuse-server/issues/106
+            ('FUSE_ALERTS', 'default_admin_server_password.warning', '{"threshold":1,"forSeconds":10,"editable":false}')
+            ,('FUSE_ALERTS', 'default_admin_user_password.warning', '{"threshold":1,"forSeconds":10,"editable":false}')
+            ,('FUSE_ALERTS', 'dump_files.warning', '{"threshold":1,"editable":false}')
+            --- storage provider
+            ,('FUSE_ALERTS', 'storage_provider_extshared_free_space.error', '{"threshold":524288000,"forSeconds":60,"editable":false}')
+            ,('FUSE_ALERTS', 'storage_provider_extshared_free_space.warning', '{"threshold":1048576000  ,"forSeconds":60,"editable":false}')
+            ,('FUSE_ALERTS', 'storage_provider_extshared_write_performance.error', '{"threshold":10485760,"forSeconds":60,"editable":false}')
+            ,('FUSE_ALERTS', 'storage_provider_extshared_read_performance.error', '{"threshold":20971520,"forSeconds":60,"editable":false}')
+            ,('FUSE_ALERTS', 'storage_provider_entreprisearchive_write_performance.error', '{"threshold":3145728,"forSeconds":60,"editable":false}')
+            ,('FUSE_ALERTS', 'storage_provider_entreprisearchive_read_performance.error', '{"threshold":6291456,"forSeconds":60,"editable":false}')
+            ,('FUSE_ALERTS', 'storage_provider_rdbms_write_performance.error', '{"threshold":5242880,"forSeconds":60,"editable":false}')
+            ,('FUSE_ALERTS', 'storage_provider_rdbms_read_performance.error', '{"threshold":10485760,"forSeconds":60,"editable":false}')
+            ,('FUSE_ALERTS', 'storage_provider_extshared_write_performance.warning', '{"threshold":52428800,"forSeconds":60,"editable":false}')
+            ,('FUSE_ALERTS', 'storage_provider_extshared_read_performance.warning', '{"threshold":104857600,"forSeconds":60,"editable":false}')
+            ,('FUSE_ALERTS', 'storage_provider_entreprisearchive_write_performance.warning', '{"threshold":10485760,"forSeconds":60,"editable":false}')
+            ,('FUSE_ALERTS', 'storage_provider_entreprisearchive_read_performance.warning', '{"threshold":20971520,"forSeconds":60,"editable":false}')
+            ,('FUSE_ALERTS', 'storage_provider_rdbms_write_performance.warning', '{"threshold":20971520,"forSeconds":60,"editable":false}')
+            ,('FUSE_ALERTS', 'storage_provider_rdbms_read_performance.warning', '{"threshold":41943040,"forSeconds":60,"editable":false}')
+            -- distributed agents
+            ,('FUSE_ALERTS', 'da_agent_status_paused.warning', '{"threshold":1,"forSeconds":300,"editable":false}')
+            ,('FUSE_ALERTS', 'da_agent_status_stopped.warning', '{"threshold":1,"forSeconds":300,"editable":false}')
+            ,('FUSE_ALERTS', 'da_agent_status_offline.error', '{"threshold":1,"forSeconds":300,"editable":false}')
+            ,('FUSE_ALERTS', 'da_worker_status_paused.warning', '{"threshold":1,"forSeconds":300,"editable":false}')
+            ,('FUSE_ALERTS', 'da_worker_status_stopped.warning', '{"threshold":1,"forSeconds":300,"editable":false}')
+            ,('FUSE_ALERTS', 'da_worker_status_offline.error', '{"threshold":1,"forSeconds":300,"editable":false}')
+            ,('FUSE_ALERTS', 'da_agent_stopped.error', '{"threshold":1,"forSeconds":30,"editable":false}')
+            ,('FUSE_ALERTS', 'da_worker_stopped.error', '{"threshold":1,"forSeconds":30,"editable":false}')
+            ,('FUSE_ALERTS', 'da_primary_agent_undefined.warning', '{"threshold":1,"forSeconds":300,"editable":false}')
+            ,('FUSE_ALERTS', 'da_total_task_error.warning', '{"threshold":1,"forSeconds":300,"editable":false}')
+            -- system object volumes
+            ,('FUSE_ALERTS', 'sov_processes_status_unknown.error', '{"threshold":1,"forSeconds":60,"editable":false}')
+            ,('FUSE_ALERTS', 'sov_processes_status_error.error', '{"threshold":1,"forSeconds":60,"editable":false}')
+            ,('FUSE_ALERTS', 'sov_processes_status_admin_server_error.error', '{"threshold":1,"forSeconds":60,"editable":false}')
+            ,('FUSE_ALERTS', 'sov_processes_status_not_exist.error', '{"threshold":1,"forSeconds":60,"editable":false}')
+            ,('FUSE_ALERTS', 'sov_processes_status_error_11.error', '{"threshold":1,"forSeconds":60,"editable":false}')
+            ,('FUSE_ALERTS', 'sov_admserv_active.error', '{"threshold":0,"forSeconds":30,"editable":false}')
+            ,('FUSE_ALERTS', 'sov_admserv_safe_mode.warning', '{"threshold":1,"forSeconds":30,"editable":false}')
+            ,('FUSE_ALERTS', 'sov_partition_unavailable.error', '{"threshold":0,"forSeconds":30,"editable":false}')
+            ,('FUSE_ALERTS', 'sov_partition_full.error', '{"threshold":1,"forSeconds":5,"editable":false}')
+            ,('FUSE_ALERTS', 'sov_partition_almost_full.warning', '{"threshold":0.9,"forSeconds":300,"editable":false}'),
+            -- agents
+            ('FUSE_ALERTS', 'agent_nextstart_failed.warning', '{"threshold":1,"forSeconds":300,"editable":false}'),
+            -- processes
+            ('FUSE_ALERTS', 'verify_agent_multiple_instances.error', '{"threshold":2,"editable":false}'),
+            -- queue tables
+            ('FUSE_ALERTS', 'queuetables_notify_events.warning', '{"threshold":10000,"forSeconds":300,"editable":false}')
+            ;
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

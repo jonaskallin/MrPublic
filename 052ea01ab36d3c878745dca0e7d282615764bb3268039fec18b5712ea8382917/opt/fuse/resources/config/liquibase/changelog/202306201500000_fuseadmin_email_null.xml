@@ -1,0 +1,16 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="joao.guimaraes" id="update-fuse-admin-email-to-null" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+        <sql>
+            UPDATE fuse_user
+            SET email = NULL
+            WHERE id  = 'd0e7475e-faed-11e9-8f0b-362b9e155667'
+            AND email = 'fuseadmin@fuse';
+        </sql>
+
+    </changeSet>
+
+</databaseChangeLog>

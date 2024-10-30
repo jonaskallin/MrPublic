@@ -1,0 +1,19 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="fuse.team" id="persistent_logins" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+        <sql>
+            CREATE TABLE persistent_logins (
+                username VARCHAR(64) NOT NULL,
+                series VARCHAR(64) NOT NULL,
+                token VARCHAR(64) NOT NULL,
+                last_used TIMESTAMP NOT NULL,
+                PRIMARY KEY (series));
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>
+
+

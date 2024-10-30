@@ -1,0 +1,115 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="fuse.team" id="update-alerts-config" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+
+        <sql>
+            UPDATE fuse_config
+            SET value = '{"threshold":1,"forSeconds":600,"enabled":true,"sendMail":true}'
+            WHERE component='FUSE_ALERTS' AND type='sov_processes_status_idle.warning';
+
+            UPDATE fuse_config
+            SET value = '{"threshold":1,"forSeconds":600,"enabled":true,"sendMail":true}'
+            WHERE component='FUSE_ALERTS' AND type='sov_processes_status_unknown.error';
+
+            UPDATE fuse_config
+            SET value = '{"threshold":1,"forSeconds":600,"enabled":true,"sendMail":true}'
+            WHERE component='FUSE_ALERTS' AND type='sov_processes_status_error.error';
+
+            UPDATE fuse_config
+            SET value = '{"threshold":1,"forSeconds":600,"enabled":true,"sendMail":true}'
+            WHERE component='FUSE_ALERTS' AND type='sov_processes_status_admin_server_error.error';
+
+            UPDATE fuse_config
+            SET value = '{"threshold":1,"forSeconds":600,"enabled":true,"sendMail":true}'
+            WHERE component='FUSE_ALERTS' AND type='sov_processes_status_not_exist.error';
+
+            UPDATE fuse_config
+            SET value = '{"threshold":1,"forSeconds":600,"enabled":true,"sendMail":true}'
+            WHERE component='FUSE_ALERTS' AND type='sov_processes_status_error_11.error';
+
+            UPDATE fuse_config
+            SET value = '{"threshold":1048576,"forSeconds":360,"enabled":true,"sendMail":true}'
+            WHERE component='FUSE_ALERTS' AND type='storage_provider_entreprisearchive_read_performance.error';
+
+            UPDATE fuse_config
+            SET value = '{"threshold":10485760,"forSeconds":1200,"enabled":true,"sendMail":true}'
+            WHERE component='FUSE_ALERTS' AND type='storage_provider_entreprisearchive_read_performance.warning';
+
+            UPDATE fuse_config
+            SET value = '{"threshold":1048576,"forSeconds":360,"enabled":true,"sendMail":true}'
+            WHERE component='FUSE_ALERTS' AND type='storage_provider_entreprisearchive_write_performance.error';
+
+            UPDATE fuse_config
+            SET value = '{"threshold":5242880,"forSeconds":1200,"enabled":true,"sendMail":true}'
+            WHERE component='FUSE_ALERTS' AND type='storage_provider_entreprisearchive_write_performance.warning';
+
+            UPDATE fuse_config
+            SET value = '{"threshold":53687091.2,"forSeconds":30,"enabled":true,"sendMail":true}'
+            WHERE component='FUSE_ALERTS' AND type='storage_provider_extshared_free_space.error';
+
+            UPDATE fuse_config
+            SET value = '{"threshold":1073741824,"forSeconds":1200,"enabled":true,"sendMail":true}'
+            WHERE component='FUSE_ALERTS' AND type='storage_provider_extshared_free_space.warning';
+
+            UPDATE fuse_config
+            SET value = '{"threshold":1048576,"forSeconds":360,"enabled":true,"sendMail":true}'
+            WHERE component='FUSE_ALERTS' AND type='storage_provider_extshared_read_performance.error';
+
+            UPDATE fuse_config
+            SET value = '{"threshold":15728640,"forSeconds":1200,"enabled":true,"sendMail":true}'
+            WHERE component='FUSE_ALERTS' AND type='storage_provider_extshared_read_performance.warning';
+
+            UPDATE fuse_config
+            SET value = '{"threshold":1048576,"forSeconds":360,"enabled":true,"sendMail":true}'
+            WHERE component='FUSE_ALERTS' AND type='storage_provider_extshared_write_performance.error';
+
+            UPDATE fuse_config
+            SET value = '{"threshold":20971520,"forSeconds":1200,"enabled":true,"sendMail":true}'
+            WHERE component='FUSE_ALERTS' AND type='storage_provider_extshared_write_performance.warning';
+
+            UPDATE fuse_config
+            SET value = '{"threshold":1048576,"forSeconds":360,"enabled":true,"sendMail":true}'
+            WHERE component='FUSE_ALERTS' AND type='storage_provider_rdbms_read_performance.error';
+
+            UPDATE fuse_config
+            SET value = '{"threshold":1572864,"forSeconds":1200,"enabled":true,"sendMail":true}'
+            WHERE component='FUSE_ALERTS' AND type='storage_provider_rdbms_read_performance.warning';
+
+            UPDATE fuse_config
+            SET value = '{"threshold":524288,"forSeconds":360,"enabled":true,"sendMail":true}'
+            WHERE component='FUSE_ALERTS' AND type='storage_provider_rdbms_write_performance.error';
+
+            UPDATE fuse_config
+            SET value = '{"threshold":1048576,"forSeconds":1200,"enabled":true,"sendMail":true}'
+            WHERE component='FUSE_ALERTS' AND type='storage_provider_rdbms_write_performance.warning';
+
+            UPDATE fuse_config
+            SET value = '{"threshold":4,"forSeconds":600,"enabled":true,"sendMail":true}'
+            WHERE component='FUSE_ALERTS' AND type='database_query_performance.warning';
+
+        </sql>
+    </changeSet>
+
+    <changeSet author="fuse.team" id="update-log-and-default-password-alerts-config" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+        <sql>
+            UPDATE fuse_config
+            SET value = '{"threshold":2147483648,"forSeconds":90,"enabled":true,"sendMail":true}'
+            WHERE component='FUSE_ALERTS' AND type='log_files_size_high.warning';
+
+            UPDATE fuse_config
+            SET value = '{"threshold":1,"forSeconds":1800,"enabled":true,"sendMail":true}'
+            WHERE component='FUSE_ALERTS' AND type='default_admin_server_password.warning';
+
+            UPDATE fuse_config
+            SET value = '{"threshold":1,"forSeconds":1800,"enabled":true,"sendMail":true}'
+            WHERE component='FUSE_ALERTS' AND type='default_admin_user_password.warning';
+
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>
+
+

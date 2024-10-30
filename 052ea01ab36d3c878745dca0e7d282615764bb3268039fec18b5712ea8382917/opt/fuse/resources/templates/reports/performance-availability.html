@@ -1,0 +1,188 @@
+<div th:fragment="performance-availability (indexN, charts, systemType)">
+  <h5>[[${indexN}]] | Performance &amp; Availability Analysis</h5>
+  <p>
+    This section contains detailed information regarding system responsiveness, availability and user activity.
+  </p>
+
+  <h5>[[${indexN}]].1 | Availability Over Time</h5>
+  <p>
+    The following chart displays, grouped by day and environment, the average environment percentage of time its systems were available for users/systems.
+  </p>
+  <img th:src="@{'data:image/jpeg;base64,'+${charts.getCharts().get('Availability by Environment')}}" class="chart" alt=""/>
+
+  <h5>[[${indexN}]].2 | Performance Over Time</h5>
+  <p>
+    The following chart displays, grouped by day and environment, the average performance based on a system performance calculation formula using specific health and status metrics.
+  </p>
+  <img th:src="@{'data:image/jpeg;base64,'+${charts.getCharts().get('Performance by Environment')}}" class="chart" alt=""/>
+
+  <th:block th:if="${systemType == 'OTCS'}">
+    <h5>[[${indexN}]].2.1 | Threads Usage</h5>
+    <p>
+      The following chart presents the average user-specific thread usage, grouped by day and environment.
+      The day grouping includes data for each day of the week, while the environment grouping includes data for each environment where the
+      thread usage metric was collected.
+    </p>
+    <img th:src="@{'data:image/jpeg;base64,'+${charts.getCharts().get('Threads Usage by Environment')}}" class="chart" alt=""/>
+
+    <th:block th:with="ThreadCharts = ${charts.getChartsBySys().get('Threads Usage by System')}">
+      <br>
+      <p>
+        The following chart(s) presents the thread usage metrics for each system in the environment.
+        It displays the usage patterns of threads across the different systems, allowing to understand the performance of each system performance in terms of threads usage.
+      </p>
+      <div class="no-data" th:if="${#strings.toString(ThreadCharts) == '{}'}">
+        <span>No data available</span>
+      </div>
+      <div th:else th:each="element, index : ${ThreadCharts}" >
+        <h5>[[${indexN}]].2.1.[[${index.count}]] | Threads Usage for the <b>[[ ${data.systems[element.key].getName()} ]] </b> system</h5>
+
+        <img th:src="@{'data:image/jpeg;base64,'+ ${element.value}}" class="chart-small-height" alt=""/>
+      </div>
+    </th:block>
+
+    <h5>[[${indexN}]].2.2 | Avg. Queue Time</h5>
+    <br>
+    <p>
+      The following chart presents the average thread request queue time before being processed, grouped by day and environment.
+      The day grouping includes data for each day of the week, while the environment grouping includes data for each environment where the
+      thread queue time metric was collected.
+    </p>
+    <img th:src="@{'data:image/jpeg;base64,'+${charts.getCharts().get('Avg. Queue Time by Environment')}}" class="chart" alt=""/>
+    <div class="info-balloon">
+      <img src="info.png" alt="info" />
+      <p>Whenever a request is made to OpenText Content Suite it is queued while no thread is available to serve it.</p>
+    </div>
+
+    <th:block th:with="QueueCharts = ${charts.getChartsBySys().get('Avg. Queue Time by System')}">
+      <br>
+      <p>
+        The following chart(s) presents the thread request queue time before being processed for each system in the environment.
+        It displays the queue time patterns of threads across the different systems, allowing to understand the performance of each system performance in terms of thread queueing.
+      </p>
+      <div class="no-data" th:if="${#strings.toString(QueueCharts) == '{}'}">
+        <span>No data available</span>
+      </div>
+      <div th:else th:each="element, index : ${QueueCharts}" >
+        <h5>[[${indexN}]].2.2.[[${index.count}]] | Avg. Queue Time for the <b>[[ ${data.systems[element.key].getName()} ]] </b> system</h5>
+
+        <img th:src="@{'data:image/jpeg;base64,'+ ${element.value}}" class="chart-small-height" alt=""/>
+      </div>
+    </th:block>
+
+    <h5>[[${indexN}]].2.3 | Avg. Queue Tables</h5>
+    <p>
+      The following charts display, grouped by queue table, the average queue table objects pending to be processed during this report period.
+    </p>
+
+    <th:block th:with="QueueTables = ${charts.getChartsByLabel().get('Avg. Queue Tables')}">
+      <div class="no-data" th:if="${#strings.toString(QueueTables) == '{}'}">
+        <span>No data available</span>
+      </div>
+      <div th:else th:each="element, index : ${QueueTables}" >
+        <h5>[[${indexN}]].2.3.[[${index.count}]] | Avg. Queued Objects for <b>[[ ${element.key} ]] </b></h5>
+
+        <img th:src="@{'data:image/jpeg;base64,'+ ${element.value}}" class="chart-small-height" alt=""/>
+      </div>
+    </th:block>
+
+    <h5>[[${indexN}]].2.4 | User Activity</h5>
+    <p>
+      The following chart displays, grouped by day and environment, the average user sessions.
+    </p>
+    <img th:src="@{'data:image/jpeg;base64,'+${charts.getCharts().get('Active Sessions')}}" class="chart" alt=""/>
+
+    <h5>[[${indexN}]].2.5 | Requests Over Time</h5>
+    <p>
+      The following chart displays, grouped by day and request status, the average requests to each environment.
+    </p>
+    <div th:each="element, index : ${charts.getChartsByEnv().get('Requests')}">
+      <h5>[[${indexN}]].2.5.[[${index.count}]] | Requests for <b>[[ ${data.environments[element.key].getName()} ]] </b> Environment</h5>
+      <img th:src="@{'data:image/jpeg;base64,'+ ${element.value}}" class="chart" alt=""/>
+    </div>
+
+    <h5>[[${indexN}]].2.6 | Longest Requests</h5>
+    <p>
+      The following chart displays, grouped by request, the top 10 longest execution requests.
+    </p>
+    <img th:src="@{'data:image/jpeg;base64,'+${charts.getCharts().get('Longest Requests')}}" class="chart" alt=""/>
+  </th:block>
+
+  <th:block th:if="${systemType == 'OTAC'}">
+    <th:block th:with="DataVolumeChart = ${charts.getChartsBySys().get('Data Volume')}">
+      <h5>[[${indexN}]].3 | Data Volume</h5>
+      <p>
+        The data volume metrics indicate the amount of data read and written, on any available storage device, for the selected reporting period.
+      </p>
+      <div class="no-data" th:if="${#strings.toString(DataVolumeChart) == '{}'}">
+        <span>No data available</span>
+      </div>
+      <div th:else th:each="element, index : ${DataVolumeChart}" th:with="metricsOTAC = ${charts.getMetricsOTAC.get(element.key)}">
+        <h5>[[${indexN}]].3.[[${index.count}]] | Data Volume for the <b>[[ ${data.systems[element.key].getName()} ]] </b> system</h5>
+
+        <div class="info-metrics" th:if="${metricsOTAC} != 0">
+          <div th:with="dataVolumeRead = ${metricsOTAC.get('Total Read Data Volume')}">
+            <span>[[${#numbers.formatDecimal(dataVolumeRead, 0, 0)}]]<span>MB</span></span>
+            <span>Total Read Data Volume</span>
+          </div>
+          <div th:with="dataVolumeWrite = ${metricsOTAC.get('Total Write Data Volume')}">
+            <span>[[${#numbers.formatDecimal(dataVolumeWrite, 0, 0)}]]<span>MB</span></span>
+            <span>Total Write Data Volume</span>
+          </div>
+        </div>
+
+        <img th:src="@{'data:image/jpeg;base64,'+ ${element.value}}" class="chart" alt=""/>
+      </div>
+    </th:block>
+    <th:block th:with="PerformanceChart = ${charts.getChartsBySys().get('Performance')}">
+      <h5>[[${indexN}]].3 | Performance</h5>
+      <p>
+        The performance metrics indicate the average read and write performance (MB/s), on any available storage device, for the selected reporting period.
+      </p>
+      <div class="no-data" th:if="${#strings.toString(PerformanceChart) == '{}'}">
+        <span>No data available</span>
+      </div>
+      <div th:else th:each="element, index : ${PerformanceChart}" th:with="metricsOTAC = ${charts.getMetricsOTAC.get(element.key)}">
+        <h5>[[${indexN}]].4.[[${index.count}]] | Performance for the <b>[[ ${data.systems[element.key].getName()} ]] </b> system</h5>
+
+        <div class="info-metrics" th:if="${metricsOTAC} != 0">
+          <div th:with="performanceRead = ${metricsOTAC.get('Avg. Read Throughput')}">
+            <span>[[${#numbers.formatDecimal(performanceRead, 0, 0)}]]<span>MB/s</span></span>
+            <span>Avg. Read Throughput</span>
+          </div>
+          <div th:with="performanceWrite = ${metricsOTAC.get('Avg. Write Throughput')}">
+            <span>[[${#numbers.formatDecimal(performanceWrite, 0, 0)}]]<span>MB/s</span></span>
+            <span>Avg. Write Throughput</span>
+          </div>
+        </div>
+
+        <img th:src="@{'data:image/jpeg;base64,'+ ${element.value}}" class="doubleBarChart" alt=""/>
+      </div>
+    </th:block>
+    <th:block th:with="DataUsageChart = ${charts.getChartsBySys().get('Component')}">
+      <h5>[[${indexN}]].5 | Data Usage</h5>
+      <p>
+        The data usage metrics indicate the amount of read and written components (documents), on any available storage device, for the selected reporting period.
+      </p>
+      <div class="no-data" th:if="${#strings.toString(DataUsageChart) == '{}'}">
+        <span>No data available</span>
+      </div>
+      <div th:else th:each="element, index : ${DataUsageChart}" th:with="metricsOTAC = ${charts.getMetricsOTAC.get(element.key)}">
+        <h5>[[${indexN}]].5.[[${index.count}]] | Data Usage for the <b>[[ ${data.systems[element.key].getName()} ]] </b> system</h5>
+
+        <div class="info-metrics" th:if="${metricsOTAC} != 0">
+          <div th:with="DataUsageRead = ${metricsOTAC.get('Total Read Components')}">
+            <span>[[${#numbers.formatDecimal(DataUsageRead, 0, 0)}]]<span>Components</span></span>
+            <span>Total Read Components</span>
+          </div>
+          <div th:with="DataUsageWrite = ${metricsOTAC.get('Total Write Components')}">
+            <span>[[${#numbers.formatDecimal(DataUsageWrite, 0, 0)}]]<span>Components</span></span>
+            <span>Total Write Components</span>
+          </div>
+        </div>
+
+        <img th:src="@{'data:image/jpeg;base64,'+ ${element.value}}" class="chart" alt=""/>
+      </div>
+    </th:block>
+  </th:block>
+</div>

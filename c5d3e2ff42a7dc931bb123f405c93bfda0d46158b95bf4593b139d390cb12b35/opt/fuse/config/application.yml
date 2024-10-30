@@ -1,0 +1,29 @@
+server:
+  port: 2100
+
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://fuse-database:5432/postgres
+
+prometheus:
+  base-uri: http://fuse-prometheus:9090
+  http-client:
+    pool:
+      max-size: 32
+      max-per-route: 32
+    request:
+      connection-request-timeout: 5s
+      connect-timeout: 5s
+      socket-timeout: 60s
+
+alertmanager:
+  base-uri: http://fuse-alertmanager:9093
+
+logging:
+  level:
+    root: ERROR
+    "io.vilt.fuse": INFO
+    "org.springframework.web": INFO
+    "liquibase": WARN
+    "liquibase.lockservice": INFO

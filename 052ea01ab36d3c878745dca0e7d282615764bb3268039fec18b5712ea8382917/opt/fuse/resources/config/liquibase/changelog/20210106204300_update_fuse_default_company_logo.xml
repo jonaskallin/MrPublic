@@ -1,0 +1,24 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="fuse.team" id="update-default-company-logo" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+
+        <sql>
+            delete from fuse_config
+            where type = 'COMPANY_LOGO';
+        </sql>
+
+        <insert tableName="fuse_config">
+            <column name="component" value="FUSE_CORE"/>
+            <column name="type" value="COMPANY_LOGO"/>
+            <column name="value" value="image/png"/>
+            <column name="blob" valueBlobFile="imgs/logo-fuse.png"/>
+        </insert>
+
+    </changeSet>
+
+</databaseChangeLog>
+
+

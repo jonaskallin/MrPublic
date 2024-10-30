@@ -1,0 +1,63 @@
+<div th:fragment="host-resources (indexN, charts)">
+  <h5>[[${indexN}]] | Host Resources Usage Analysis</h5>
+  <p>
+    This section displays the most critical host resource usage, such as CPU, memory and disk usage, required for optimal application performance.
+  </p>
+  <h5>[[${indexN}]].1 | Avg. CPU </h5>
+  <p>
+    The following chart displays, grouped by day and environment, the average CPU usage in each environment system(s).
+  </p>
+  <img th:src="@{'data:image/jpeg;base64,'+${charts.getCharts().get('Avg. CPU')}}" class="chart" alt=""/>
+
+  <th:block th:with="CpuCharts = ${charts.getChartsBySys().get('CPU by System')}">
+    <br>
+    <p>
+      The following chart(s) presents the CPU usage metrics for each system in the environment. It displays the usage patterns of the CPU across the different systems, allowing to understand the performance of each system in terms of CPU usage.
+    </p>
+    <div class="no-data" th:if="${#strings.toString(CpuCharts) == '{}'}">
+      <span>No data available</span>
+    </div>
+    <div th:else th:each="element, index : ${CpuCharts}" >
+      <h5>[[${indexN}]].1.[[${index.count}]] | CPU Usage for the <b>[[ ${data.systems[element.key].getName()} ]] </b> system</h5>
+
+      <img th:src="@{'data:image/jpeg;base64,'+ ${element.value}}" class="chart-small-height" alt=""/>
+    </div>
+  </th:block>
+
+  <h5>[[${indexN}]].2 | Avg. Memory Usage</h5>
+  <p>
+    The following chart displays, grouped by day and environment, the average memory usage in each environment system(s).
+  </p>
+  <img th:src="@{'data:image/jpeg;base64,'+${charts.getCharts()['Avg. Memory Usage']}}" class="chart" alt=""/>
+
+  <th:block th:with="MemoryCharts = ${charts.getChartsBySys().get('Memory Usage by System')}">
+    <br>
+    <p>
+      The following chart(s) presents the memory usage metrics for each system in the environment. It displays the usage patterns of memory across the different systems, allowing to understand the performance of each system in terms of memory usage.
+    </p>
+    <div class="no-data" th:if="${#strings.toString(MemoryCharts) == '{}'}">
+      <span>No data available</span>
+    </div>
+    <div th:else th:each="element, index : ${MemoryCharts}" >
+      <h5>[[${indexN}]].2.[[${index.count}]] | Memory Usage for the <b>[[ ${data.systems[element.key].getName()} ]] </b> system</h5>
+
+      <img th:src="@{'data:image/jpeg;base64,'+ ${element.value}}" class="chart-small-height" alt=""/>
+    </div>
+  </th:block>
+
+  <h5 class="next-page">[[${indexN}]].3 | Disk Usage</h5>
+  <p>
+    The following chart(s) displays the Disk Usage for each system.
+  </p>
+  <th:block th:with="DiskCharts = ${charts.getChartsBySys().get('Disk Usage')}">
+    <div class="no-data" th:if="${#strings.toString(DiskCharts) == '{}'}">
+      <span>No data available</span>
+    </div>
+    <div th:else th:each="element, index : ${DiskCharts}" >
+      <h5>[[${indexN}]].3.[[${index.count}]] | Disk Usage for the <b>[[ ${data.systems[element.key].getName()} ]] </b> system</h5>
+
+      <img th:src="@{'data:image/jpeg;base64,'+ ${element.value}}" class="chart-small-height" alt=""/>
+    </div>
+  </th:block>
+
+</div>

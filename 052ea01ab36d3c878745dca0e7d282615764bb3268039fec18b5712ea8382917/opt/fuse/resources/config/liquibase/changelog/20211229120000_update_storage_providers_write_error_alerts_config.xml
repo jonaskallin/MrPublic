@@ -1,0 +1,20 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="fuse.team" id="update-storage-providers-write-error-alerts-config" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+        <sql>
+            UPDATE fuse_config
+            SET value = '{"enabled":true,"sendMail":true,"threshold":0,"forSeconds":5,"sendServiceNow":true}'
+            WHERE component='FUSE_ALERTS' AND type='storage_provider_entreprisearchive_cant_write.error';
+
+            UPDATE fuse_config
+            SET value = '{"enabled":true,"sendMail":true,"threshold":0,"forSeconds":5,"sendServiceNow":true}'
+            WHERE component='FUSE_ALERTS' AND type='storage_provider_extshared_cant_write.error';
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>
+
+

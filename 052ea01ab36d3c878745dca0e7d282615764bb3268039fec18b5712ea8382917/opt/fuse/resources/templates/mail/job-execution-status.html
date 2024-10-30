@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta http-equiv="Content-Type" content="text/html charset=UTF-8" />
+  <style>
+      @import url('https://fonts.googleapis.com/css?family=Montserrat');
+    </style>
+  <style>
+     /* Remove space around the email design. */
+     html,
+     body {
+         margin: 0 auto !important;
+         padding: 0 !important;
+         height: 100% !important;
+         width: 100% !important;
+     }
+     /* Stop Outlook resizing small text. */
+     * {
+       -ms-text-size-adjust: 100%;
+     }
+     /* Stop Outlook from adding extra spacing to tables. */
+     table,
+     td {
+       mso-table-lspace: 0pt !important;
+       mso-table-rspace: 0pt !important;
+     }
+     /* Use a better rendering method when resizing images in Outlook IE. */
+     img {
+       -ms-interpolation-mode:bicubic;
+     }
+      a {color: #bebf11;}
+      .message h1 a {color: white;}
+      h4 {color: #ffffff; margin-top: 10px; margin-bottom: 3px;}
+      .details p {margin-top: 0; margin-bottom: 10px;}
+      .details td {border-bottom: 2px solid #212234;}
+      .details tr:last-child td {border-bottom: 0;}
+      .FINISHED { border-top-color: #8cc63f !important; }
+      .FAILED, .CANCELED, .ERROR, .UNKNOWN { border-top-color: #ed4f38 !important; }
+      .SKIPPED { border-top-color: #f9e912 !important; }
+    </style>
+</head>
+<body width="100%" style="margin: 0; padding: 0 !important; mso-line-height-rule: exactly; background: #1e1e2f;font-family: 'Montserrat', Arial;">
+<div style="width:100%; background: #1e1e2f;font-family: 'Montserrat', Arial; text-align: center;">
+
+  <table style="width:100%;">
+  <tr style="width:100%;">
+  <td width="700">
+
+  <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="width:100%;max-width:700px;padding: 50px;text-align: center;margin: auto; background: #1e1e2f; font-family: 'Montserrat', Arial;">
+    <tbody style="width:100%;">
+    <tr style="width:100%;">
+      <td style="width:100%;">
+        <div class="logo" style="margin-bottom: 1.5em;">
+          <a th:href="${fuseUrl}" target="_blank" style="text-decoration: none;">
+            <img src="https://www.vilt-group.com/public/signature/fuse/logo.png" width="100px" style="width: 100px;" alt="fuse management central">
+          </a>
+        </div>
+        <!-- COLORS FOR BORDER error - #ed4f38 | warning - #f9e912 | success - #8cc63f -->
+        <table style="width: 100%; background: #26293d;
+                      -webkit-border-radius: 20px; -moz-border-radius: 20px; border-radius: 20px;
+                      padding: 3.5em 1.5em; text-align: center;
+                      font-size: 12px; color: #bdbdbd;" th:styleappend="${'border-top: 3px solid #ed4f38;' + (jobExecution.status == 'FINISHED' ? 'border-top-color: #8cc63f !important;' : '') + (jobExecution.status == 'SKIPPED' ? 'border-top-color: #f9e912 !important;' : '')}" th:class="${jobExecution.status}">
+          <tbody style="width:100%;">
+          <tr style="width: 100%;">
+            <td style="width: 100%;">
+              <div class="message" style="margin-bottom: 35px;">
+                <img th:src="${'https://www.vilt-group.com/public/signature/fuse/scheduled_operations.png'}" width="80px" style="margin: 0 auto; width: 80px;" alt="Operation">
+                <h1 style="font-size: 1.5em;margin-bottom: 35px; margin-top: 35px;font-family: 'Montserrat', Arial;">
+                  Operation <span th:text="${jobExecution.name}"></span> completed
+                </h1>
+                <div>
+                  <p style="color: #bdbdbd;font-family: 'Montserrat', Arial;">Global Operation Status -
+                    <span style="color: #8cc63f;" th:if="${jobExecution.status == T(io.vilt.fuse.entities.JobStatusType).FINISHED}">Finished</span>
+                    <span style="color: #ed4f38;" th:if="${jobExecution.status == T(io.vilt.fuse.entities.JobStatusType).FAILED}">Failed</span>
+                    <span style="color: #ed4f38;" th:if="${jobExecution.status == T(io.vilt.fuse.entities.JobStatusType).CANCELED}">Failed</span>
+                    <span style="color: #ed4f38;" th:if="${jobExecution.status == T(io.vilt.fuse.entities.JobStatusType).ERROR}">Failed</span>
+                    <span style="color: #ed4f38;" th:if="${jobExecution.status == T(io.vilt.fuse.entities.JobStatusType).UNKNOWN}">Failed</span>
+                    <span style="color: #f9e912;" th:if="${jobExecution.status == T(io.vilt.fuse.entities.JobStatusType).SKIPPED}">Skipped</span>
+                  </p>
+                </div>
+
+              </div>
+            </td>
+          <tr style="width: 100%;">
+            <td style="width: 100%;">
+              <table class="details" style="text-align: left; width: 100%;">
+                <tbody style="width: 100%;">
+                <tr style="width: 100%;">
+                  <td style="width:100%;border-bottom: 2px solid #212234;">
+                    <div style="width: 100%; float:left;" th:with="jobStatusUrl = ${fuseUrl + '/#/scheduled-operations?tab=operations&id=' + jobExecution.id}">
+                      <h4 style="color: #ffffff; margin-top: 10px; margin-bottom: 3px;font-family: 'Montserrat', Arial;">Operation ID</h4>
+                      <a style="color: #bebf11;" th:href="${jobStatusUrl}" target="_blank">
+                        <p style="margin-top: 0; margin-bottom: 10px;font-family: 'Montserrat', Arial;" th:text="${jobExecution.id}"></p>
+                      </a>
+                    </div>
+                  </td>
+                </tr>
+                <tr style="width: 100%;">
+                  <td style="width:100%;border-bottom: 2px solid #212234;">
+                    <div style="width: 50%; float:left;">
+                      <h4 style="color: #ffffff; margin-top: 10px; margin-bottom: 3px;font-family: 'Montserrat', Arial;">Start Time</h4>
+                      <p th:text="${T(io.vilt.fuse.utils.ExtensionsKt).instantToIntegrationChannelsTimezoneDateFormat(jobExecution.startTime, timeZone)}" style="margin-top: 0; margin-bottom: 10px; color: #bdbdbd;font-family: 'Montserrat', Arial;">June 5, 2019 at 9:48PM UTC</p>
+                    </div>
+                    <div style="width: 50%; float:left;" th:if="${jobExecution.endTime != null}">
+                      <h4 style="color: #ffffff; margin-top: 10px; margin-bottom: 3px;font-family: 'Montserrat', Arial;">End Time</h4>
+                      <p th:text="${T(io.vilt.fuse.utils.ExtensionsKt).instantToIntegrationChannelsTimezoneDateFormat(jobExecution.endTime, timeZone)}" style="margin-top: 0; margin-bottom: 10px; color: #bdbdbd;font-family: 'Montserrat', Arial;">June 5, 2019 at 9:48PM UTC</p>
+                    </div>
+                  </td>
+                </tr>
+                <tr style="width: 100%;" th:each="entry: ${jobExecution.entries}">
+                  <td style="width: 100%;">
+                    <div th:each="env: ${entry.environments}" th:with="
+                      environment = ${environments[env.environmentId]},
+                      environmentUrl = ${fuseUrl + '/#/environments/' + env.environmentId + '/detail'}
+                    ">
+                      <p style="margin-top: 0; margin-bottom: 10px;font-family: 'Montserrat', Arial;">
+                        <img src="https://www.vilt-group.com/public/signature/fuse/environment.png" width="20px" style="width: 20px; margin-top: -5px; position: relative; top: 5px;"/>
+                        <a style="color: #bebf11;" th:href="${environmentUrl}" th:text="${environment.name}">PROD</a>
+                      </p>
+                    </div>
+                    <div th:each="sys: ${entry.systems}" th:with="
+                      system = ${systems[sys.systemId]},
+                      systemUrl = ${fuseUrl + '/#/systems/' + sys.systemId + '/detail'},
+                      environmentUrl = ${fuseUrl + '/#/environments/' + system.environment.id + '/detail'}
+                    ">
+                      <p style="margin-top: 0; margin-bottom: 10px;font-family: 'Montserrat', Arial;">
+                        <img th:if="${system.environment != null}" src="https://www.vilt-group.com/public/signature/fuse/environment.png" width="20px" style="width: 20px; margin-top: -5px; position: relative; top: 5px;"/>
+                        <a style="color: #bebf11;" th:if="${system.environment != null}" th:href="${environmentUrl}" th:text="${system.environment.name}">PROD</a>
+                        <img th:if="${system != null}" src="https://www.vilt-group.com/public/signature/fuse/system.png" width="20px" style="width: 20px; margin-top: -5px; position: relative; top: 5px;"/>
+                        <a style="color: #bebf11;" th:if="${system != null}" th:href="${systemUrl}" th:text="${system.name}">otcs-docker</a>
+                      </p>
+                    </div>
+                    <p style="margin-top: 0; margin-bottom: 10px; color: #bdbdbd;font-family: 'Montserrat', Arial;" th:if="${entry.status == T(io.vilt.fuse.entities.JobStatusType).FINISHED}">Operation Status - <span style="color: #8cc63f;">Finished</span></p>
+                    <p style="margin-top: 0; margin-bottom: 10px; color: #bdbdbd;font-family: 'Montserrat', Arial;" th:if="${entry.status == T(io.vilt.fuse.entities.JobStatusType).FAILED}">Operation Status - <span style="color: #ed4f38;">Failed</span></p>
+                    <p style="margin-top: 0; margin-bottom: 10px; color: #bdbdbd;font-family: 'Montserrat', Arial;" th:if="${entry.status == T(io.vilt.fuse.entities.JobStatusType).CANCELED}">Operation Status - <span style="color: #ed4f38;">Failed</span></p>
+                    <p style="margin-top: 0; margin-bottom: 10px; color: #bdbdbd;font-family: 'Montserrat', Arial;" th:if="${entry.status == T(io.vilt.fuse.entities.JobStatusType).ERROR}">Operation Status - <span style="color: #ed4f38;">Failed</span></p>
+                    <p style="margin-top: 0; margin-bottom: 10px; color: #bdbdbd;font-family: 'Montserrat', Arial;" th:if="${entry.status == T(io.vilt.fuse.entities.JobStatusType).UNKNOWN}">Operation Status - <span style="color: #ed4f38;">Failed</span></p>
+                    <p style="margin-top: 0; margin-bottom: 10px; color: #bdbdbd;font-family: 'Montserrat', Arial;" th:if="${entry.status == T(io.vilt.fuse.entities.JobStatusType).SKIPPED}">Operation Status - <span style="color: #f9e912;">Skipped</span></p>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  </td>
+  </tr>
+  </table>
+
+</div>
+</body>
+</html>

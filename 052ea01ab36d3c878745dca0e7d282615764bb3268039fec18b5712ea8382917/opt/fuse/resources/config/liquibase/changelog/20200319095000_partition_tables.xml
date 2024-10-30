@@ -1,0 +1,139 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="fuse.team" id="create-generate-partitions-function" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+        <createProcedure><![CDATA[
+            create or replace function generate_partitions(tablename text, prevcount int, nextcount int) returns text as $$
+
+            declare startdate date := current_date - make_interval(days := prevcount);
+            declare enddate date := current_date + make_interval(days := nextcount);
+            declare p record;
+
+            begin
+                -- delete partitions that are no longer needed
+                for p in
+                    -- parse date from partition table name
+                    select to_date(substring(i.inhrelid::regclass::text from '\_(\d{4}\_\d{2}\_\d{2})'), 'YYYY_MM_DD') as partitiondate
+                    from pg_inherits i
+                    where i.inhparent = tablename::regclass
+                loop
+                    if p.partitiondate < startdate or p.partitiondate > enddate then
+                        execute 'drop table ' || tablename || '_' || to_char(p.partitiondate, 'YYYY_MM_DD');
+                    end if;
+                end loop;
+
+                -- create all necessary partitions
+                loop
+                    execute 'create unlogged table if not exists ' || tablename || '_' || to_char(startdate, 'YYYY_MM_DD')
+                        || ' partition of ' || tablename || ' for values from (''' || to_char(startdate, 'YYYY-MM-DD') || ''')'
+                        || ' to (''' || to_char(startdate + make_interval(days := 1), 'YYYY-MM-DD') || ''')';
+
+                    startdate := startdate + make_interval(days := 1);
+                    exit when startdate = enddate;
+                end loop;
+
+                -- return current partition name
+                return tablename || '_' || to_char(current_date, 'YYYY_MM_DD');
+            end;
+            $$ language plpgsql strict;
+        ]]></createProcedure>
+    </changeSet>
+
+    <changeSet runInTransaction="false" author="fuse.team" id="partition-metrics-info" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+        <sql>
+            DROP INDEX idx_metrics_info_timestamp_system_id;
+            DROP INDEX idx_metrics_info_timestamp;
+            ALTER TABLE metrics_info DROP CONSTRAINT pk_metrics_info;
+            ALTER TABLE metrics_info RENAME TO metrics_info_bk;
+
+            CREATE TABLE metrics_info (
+                system_type varchar(100) NOT NULL,
+                system_id uuid NOT NULL,
+                metrics_type varchar(100) NOT NULL,
+                data json NULL,
+                labels json NULL,
+                rate_seconds int8 NULL,
+                remote_timestamp timestamp NULL,
+                timestamp timestamp NOT NULL,
+                pull bool NOT NULL DEFAULT false,
+                failed bool NOT NULL DEFAULT false,
+                expiration_timestamp timestamp NULL,
+                data_digest varchar(64) NULL,
+                partition date NOT null,
+                CONSTRAINT pk_metrics_info PRIMARY KEY (system_type, system_id, metrics_type, partition, timestamp)
+            ) PARTITION BY RANGE (partition);
+
+            SELECT generate_partitions('metrics_info', (SELECT current_date - min(timestamp)::date FROM metrics_info_bk), 5);
+
+            INSERT INTO metrics_info SELECT * FROM metrics_info_bk;
+
+            CREATE INDEX idx_metrics_info_timestamp ON metrics_info (timestamp DESC, expiration_timestamp DESC);
+            CREATE INDEX idx_metrics_info_timestamp_system_id ON metrics_info (system_id, timestamp DESC, expiration_timestamp DESC);
+
+            DROP TABLE metrics_info_bk;
+        </sql>
+    </changeSet>
+
+    <changeSet runInTransaction="false" author="fuse.team" id="partition-event" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+        <sql>
+            DROP INDEX idx_event_timestamp;
+            ALTER TABLE event DROP CONSTRAINT event_pk;
+            ALTER TABLE event RENAME TO event_bk;
+
+            CREATE TABLE event (
+                id uuid NOT NULL,
+                environment_id uuid NULL,
+                system_id uuid NULL,
+                job_id uuid NULL,
+                name varchar(255) NULL,
+                summary varchar(400) NULL,
+                component_type varchar(255) NULL,
+                type varchar(255) NULL,
+                severity varchar(255) NULL,
+                data json NULL,
+                timestamp timestamp NOT NULL,
+                username varchar(255) NULL,
+                CONSTRAINT event_pk PRIMARY KEY (id, timestamp)
+            ) PARTITION BY RANGE (timestamp);
+
+            SELECT generate_partitions('event', (SELECT current_date - min(timestamp)::date FROM event_bk), 5);
+
+            INSERT INTO event SELECT * FROM event_bk;
+
+            CREATE INDEX idx_event_timestamp ON event (timestamp DESC);
+
+            DROP TABLE event_bk;
+        </sql>
+    </changeSet>
+
+    <changeSet author="fuse.team" id="create-manage-metrics-info-function" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+        <createProcedure><![CDATA[
+            create or replace function manage_metrics_info(prevcount int, nextcount int) returns void as $$
+
+            declare currpartname text;
+
+            begin
+                select generate_partitions('metrics_info', prevcount, nextcount) into currpartname;
+                drop index if exists idx_metrics_info_data_digest_timestamp;
+                execute 'CREATE INDEX idx_metrics_info_data_digest_timestamp ON ' || currpartname || '(data_digest, timestamp, expiration_timestamp);';
+            end;
+            $$ language plpgsql strict;
+        ]]></createProcedure>
+    </changeSet>
+
+    <changeSet author="fuse.team" id="create-manage-event-function" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+        <createProcedure><![CDATA[
+            create or replace function manage_event(prevcount int, nextcount int) returns void as $$
+
+            declare currpartname text;
+
+            begin
+                select generate_partitions('event', prevcount, nextcount) into currpartname;
+            end;
+            $$ language plpgsql strict;
+        ]]></createProcedure>
+    </changeSet>
+
+</databaseChangeLog>

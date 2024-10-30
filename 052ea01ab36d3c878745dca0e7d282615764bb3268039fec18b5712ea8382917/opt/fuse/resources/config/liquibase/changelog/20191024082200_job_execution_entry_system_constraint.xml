@@ -1,0 +1,24 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="fuse.team" id="job-execution-entry-system-constraint" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+        <validCheckSum>8:57fc69aaae754dd5a43f5d770c14bbce</validCheckSum>
+        <addForeignKeyConstraint baseTableName="job_execution_system_entry"
+                                 baseColumnNames="system_id"
+                                 constraintName="job_execution_system_entry_system_FX"
+                                 referencedTableName="system"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet author="fuse.team" id="job-execution-entry-delete-dummy-data" context="dev or qa" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+        <sql>
+            delete from job_execution_system_entry
+            where system_id not in (select sys.id as system_id from system sys);
+
+            delete from job_execution
+            where id not in (select job_execution_id as id from job_execution_system_entry);
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

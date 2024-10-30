@@ -1,0 +1,21 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="fuse.team" id="add-protected-column" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+        <addColumn tableName="system_tag">
+            <column name="protected"  type="boolean" defaultValueBoolean="false">
+                <constraints nullable="false" />
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="fuse.team" id="add-admin-tag" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+        <sql>
+            insert into system_tag (id, name, protected)
+            values ('d0e73c50-faed-11e9-8f0b-262b9e155667', 'Admin Server', true)
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

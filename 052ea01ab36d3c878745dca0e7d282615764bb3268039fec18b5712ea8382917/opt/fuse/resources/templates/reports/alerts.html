@@ -1,0 +1,47 @@
+<div th:fragment="alerts (indexN, charts)">
+  <h5>[[${indexN}]] | Alerts</h5>
+  <p>
+    This section contains a summary of all triggered, active and resolved alerts, for this report period.
+  </p>
+  <p>Alerts are classified into two categories:</p>
+  <ul class="overview-ul">
+    <li>
+      <b class="danger">Error</b>:
+      Indicate a severe incident within your environment or system, such as a complete outage or unavailability of a system or any of its components. These alert types have the highest severity level.
+    </li>
+    <li>
+      <b class="warning">Warning</b>:
+      Indicates an incident that might impact your environment or system performance, such as almost reaching your system threads usage. These alert types should be carefully analyzed to avoid escalation to an error alert.
+    </li>
+  </ul>
+
+  <h5>[[${indexN}]].1 | Total Alerts by Severity</h5>
+  <p>
+    The following chart displays the total number of triggered alerts for the report period, grouped by environment and severity.
+  </p>
+  <img th:src="@{'data:image/jpeg;base64,'+${charts.getCharts().get('Alerts by Environment and Severity')}}" class="chart" alt=""/>
+
+  <h5>[[${indexN}]].2 | Total Alerts by Component and Severity</h5>
+  <p>
+    The following chart displays the total number of triggered alerts for the report period, grouped by system component and severity.
+  </p>
+  <img th:src="@{'data:image/jpeg;base64,'+${charts.getCharts().get('Alerts by Component and Severity')}}" class="chart" alt=""/>
+
+  <h5>[[${indexN}]].3 | Total Alerts by Component</h5>
+  <p>
+    The following chart displays the total number of triggered alerts for the report period, grouped by system component.
+  </p>
+  <img th:src="@{'data:image/jpeg;base64,'+${charts.getCharts().get('Alerts by Component')}}" class="chart" alt=""/>
+
+  <h5>[[${indexN}]].4 | MTTR (Mean Time to Recovery) per Component</h5>
+  <p>
+    The following chart displays the average time that an alert, triggered by a component failure or abnormal status, has taken to recover to its normal state during this report period.
+  </p>
+  <img th:src="@{'data:image/jpeg;base64,'+${charts.getCharts().get('MTTR')}}" class="chart" alt=""/>
+
+  <h5>[[${indexN}]].5 | Total Alerts by Environment Over Time</h5>
+  <p>
+    The following chart displays the total number of active alerts for the report period, grouped by severity and time-interval.
+  </p>
+  <img th:src="@{'data:image/jpeg;base64,'+${charts.getCharts().get('Alerts by Environment Over Time')}}" class="horizontalBarChart" alt="Alerts by Environment Over Time"/>
+</div>

@@ -1,0 +1,20 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="fuse.team" id="last-metrics-info-prom-data" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS" runInTransaction="false">
+        <addColumn tableName="last_metrics_info">
+            <column name="environment_id" type="uuid" />
+            <column name="prom_data" type="json" />
+        </addColumn>
+
+        <customChange class="io.vilt.fuse.liquibase.ConvertDataToPromDataTaskChange" />
+
+        <dropColumn tableName="last_metrics_info">
+            <column name="labels" />
+            <column name="data" />
+        </dropColumn>
+    </changeSet>
+
+</databaseChangeLog>

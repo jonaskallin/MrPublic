@@ -1,0 +1,22 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="fuse.team" id="system-add-clusterId" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+        <validCheckSum>8:d385d3d3fe4147079ba3843dd00a14fd</validCheckSum>
+        <addColumn tableName="system">
+            <column name="cluster_id" type="uuid"/>
+        </addColumn>
+
+    </changeSet>
+
+    <changeSet author="fuse.team" id="system-update-clusterId-column" context="dev" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+        <sql>
+            UPDATE system
+            SET cluster_id = '94606815-66A3-9C48-8581-48041D850BCD';
+        </sql>
+
+    </changeSet>
+
+</databaseChangeLog>

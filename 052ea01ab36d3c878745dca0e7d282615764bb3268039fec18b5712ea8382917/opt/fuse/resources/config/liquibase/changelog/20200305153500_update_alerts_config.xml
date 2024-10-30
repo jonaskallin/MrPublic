@@ -1,0 +1,18 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="fuse.team" id="update-alerts-config" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+        <sql>
+            UPDATE fuse_config
+            SET value = '{"threshold":52428800,"forSeconds":60}'
+            WHERE type = 'storage_provider_rdbms_read_performance.warning';
+
+            UPDATE fuse_config
+            SET value = '{"threshold":1073741824,"forSeconds":60}'
+            WHERE type = 'storage_provider_extshared_free_space.warning';
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

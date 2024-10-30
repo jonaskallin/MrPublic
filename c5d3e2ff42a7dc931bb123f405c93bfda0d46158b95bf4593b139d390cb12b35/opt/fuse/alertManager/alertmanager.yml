@@ -1,0 +1,43 @@
+route:
+  receiver: no-op
+  routes:
+    - receiver: no-op
+      group_by: ['systemId','envId','alertname','severity']
+      group_interval: 5m
+      repeat_interval: 30d
+      matchers: ['alertname=~"^[^_].*$"']
+      routes:
+        - receiver: fuse
+          group_wait: 10s
+          group_interval: 5m
+          matchers: ['ruleGroup="fuse-alerts-5s"']
+        - receiver: fuse
+          group_wait: 1m
+          group_interval: 5m
+          matchers: [ 'ruleGroup="fuse-alerts-30s"' ]
+        - receiver: fuse
+          group_wait: 2m
+          group_interval: 5m
+          matchers: [ 'ruleGroup="fuse-alerts-1m"' ]
+        - receiver: fuse
+          group_wait: 4m
+          group_interval: 5m
+          matchers: [ 'ruleGroup="fuse-alerts-2m"' ]
+
+inhibit_rules:
+  - source_matchers: ['alertname="heartbeat_missing"']
+    target_matchers: ['alertname=~"^[^_].*$"']
+    equal: ['systemId','envId']
+  - source_matchers: ['severity="error"']
+    target_matchers: ['severity="warning"']
+    equal: ['componentId','systemId','envId','alertname']
+  - source_matchers: ['alertname="stale_metric"']
+    target_matchers: ['alertname=~"^[^_].*$"']
+    equal: ['systemId','envId','metricsEntity']
+
+receivers:
+  - name: no-op
+      # Deliberately left empty to not deliver anywhere.
+  - name: fuse
+    webhook_configs:
+    - url: 'http://fuse-server:2100/api/alert'

@@ -1,0 +1,23 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="fuse.team" id="remove-csidemode-field" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+        <dropColumn tableName="system" columnName="cside_mode_enabled" />
+    </changeSet>
+    <changeSet author="fuse.team" id="delete-pull-metrics-quartz" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+        <sql>
+            delete from qrtz_cron_triggers
+            where trigger_name in (
+                select trigger_name  from qrtz_triggers
+                where job_name like 'io.vilt.fuse.services.MetricsPullJob%'
+            );
+
+            delete from qrtz_triggers
+            where job_name like 'io.vilt.fuse.services.MetricsPullJob%';
+
+            delete from qrtz_job_details
+            where job_class_name = 'io.vilt.fuse.services.MetricsPullJob';
+        </sql>
+    </changeSet>
+</databaseChangeLog>

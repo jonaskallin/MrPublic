@@ -1,0 +1,48 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="fuse.team" id="last-metrics-info" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+        <createTable tableName="last_metrics_info">
+            <column name="system_type" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="system_id" type="uuid">
+                <constraints nullable="false"/>
+            </column>
+            <column name="metrics_type" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="data" type="json">
+                <constraints nullable="false"/>
+            </column>
+            <column name="labels" type="json" />
+            <column name="rate_seconds" type="bigint" />
+            <column name="remote_timestamp" type="timestamp" />
+            <column name="timestamp" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pull" type="boolean" defaultValueBoolean="false">
+                <constraints nullable="false" />
+            </column>
+            <column name="failed" type="boolean" defaultValueBoolean="false">
+                <constraints nullable="false" />
+            </column>
+            <column name="expiration_timestamp" type="timestamp"/>
+            <column name="data_digest" type="varchar(64)"/>
+            <column name="partition" type="date">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey columnNames="system_type, system_id, metrics_type" constraintName="pk_last_metrics_info" tableName="last_metrics_info"/>
+    </changeSet>
+
+    <changeSet author="fuse.team" id="last_metrics_info-timestamps-index" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+        <createIndex tableName="last_metrics_info" indexName="idx_last_metrics_info_timestamp">
+            <column name="timestamp" descending="true" />
+            <column name="expiration_timestamp" descending="true" />
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

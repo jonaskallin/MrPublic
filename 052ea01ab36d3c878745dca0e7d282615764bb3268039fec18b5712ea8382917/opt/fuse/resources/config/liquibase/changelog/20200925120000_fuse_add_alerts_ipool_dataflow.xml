@@ -1,0 +1,15 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="fuse.team" id="fuse-add-alerts-ipool-dataflow" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+        <sql>
+            INSERT INTO fuse_config (component, type, value) VALUES
+            ('FUSE_ALERTS', 'sov_ipool_idle.error', '{"threshold":0, "forSeconds":30, "enabled":true, "sendMail": true}'),
+            ('FUSE_ALERTS', 'sov_dataflow_idle.error', '{"threshold":0, "forSeconds":30, "enabled":true, "sendMail": true}')
+            ;
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

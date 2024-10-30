@@ -1,0 +1,31 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="fuse.team" id="event-table" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+        <createTable tableName="event">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" primaryKeyName="event_PK" />
+            </column>
+            <column name="environment_id" type="uuid" />
+            <column name="system_id" type="uuid" />
+            <column name="job_id" type="uuid" />
+            <column name="name" type="varchar(255)" />
+            <column name="summary" type="varchar(400)" />
+            <column name="component_type" type="varchar(255)" />
+            <column name="type" type="varchar(255)" />
+            <column name="severity" type="varchar(255)" />
+            <column name="data" type="json" />
+            <column name="timestamp" type="timestamp">
+                <constraints nullable="false" />
+            </column>
+            <column name="username" type="varchar(255)" />
+        </createTable>
+
+        <createIndex tableName="event" indexName="idx_event_timestamp">
+            <column name="timestamp" descending="true" />
+        </createIndex>
+
+    </changeSet>
+</databaseChangeLog>

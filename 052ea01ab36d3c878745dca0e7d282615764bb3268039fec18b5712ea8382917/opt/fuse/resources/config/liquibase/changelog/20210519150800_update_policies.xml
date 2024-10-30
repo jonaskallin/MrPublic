@@ -1,0 +1,16 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="fuse.team" id="update-notifications-policy-config" objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+        <sql>
+            Update configuration_policy
+            set data = '{"systemconfigurations":[{"allowedValues":[],"enabled":true,"globalSetting":false,"group":"notify","groupLabelValue":"notify","id":"processes_loader_enabled_notify","idLabelKey":"processes_loader_enabled","keyword":"notify","mandatory":false,"requireRestart":true,"section":"loader","sectionUI":"loader","tabId":"processes","tooltip":false,"type":"processes","value":true,"valueType":"boolean"},{"allowedValues":[],"enabled":true,"globalSetting":false,"group":"notifications","id":"processes_options_EnableNotification","keyword":"EnableNotification","mandatory":false,"requireRestart":true,"section":"options","sectionUI":"general","tabId":"processes","tooltip":false,"type":"processes","value":true,"valueType":"boolean"}]}'
+            where data::text = '{"systemconfigurations":[{"allowedValues":[],"enabled":true,"globalSetting":false,"group":"notify","groupLabelValue":"notify","id":"processes_loader_enabled_notify","idLabelKey":"processes_loader_enabled","keyword":"notify","mandatory":false,"requireRestart":true,"section":"loader","sectionUI":"loader","tooltip":false,"type":"processes","value":true,"valueType":"boolean","tabId":"processes"}]}';
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>
+
+
